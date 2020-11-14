@@ -69,6 +69,7 @@ describe("Basic Pool Functionality", function () {
     // Enable entry and exit for tests
     await smartpool.setJoinExitEnabled(true);
     // await timeTraveler.snapshot();
+    console.log("Before Each case, the initial Pv2SmartPool address is :",smartpool.address);
   });
 
   // beforeEach(async() => {
@@ -90,40 +91,58 @@ describe("Basic Pool Functionality", function () {
     //   ).to.be.revertedWith("PV2SmartPool.init: _bPool cannot be 0x00....000");
     // });
 
-    // it("test for Tokens & ActualTokens", async () => {
-    //   const actualTokens = await smartpool.getTokens();
-    //   const tokenAddresses = tokens.map((token) => token.address);
+    it("test for Tokens & ActualTokens", async () => {
+      const actualTokens = await smartpool.getTokens();
+      const tokenAddresses = tokens.map((token) => token.address);
 
-    //   console.log("Tokens is as below: ");
-    //   console.log("----------------------------------------------------------------------")
+      console.log("Tokens is as below: ");
+      console.log("----------------------------------------------------------------------")
 
-    //   for (const token of tokens) {
-    //     console.log("token name is: ", await token.name());
-    //     console.log("token symbol is: ",await token.symbol());
-    //     console.log("token address is: ",token.address);
-    //   }
+      for (const token of tokens) {
+        console.log("token name is: ", await token.name());
+        console.log("token symbol is: ",await token.symbol());
+        console.log("token address is: ",token.address);
+      }
 
-    //   console.log("Actual Tokens is as below: ");
-    //   console.log("----------------------------------------------------------------------")
-    //   for (const token of actualTokens) {
-    //     console.log("actual token is: ", token.toString());
-    //   }
+      console.log("Actual Tokens is as below: ");
+      console.log("----------------------------------------------------------------------")
+      for (const token of actualTokens) {
+        console.log("actual token is: ", token.toString());
+      }
 
-    //   expect(actualTokens).eql(tokenAddresses);
-    // });
+      expect(actualTokens).eql(tokenAddresses);
+    });
 
 
 
 
 
     it("test for Pv2SmartPool", async () => {
-      smartpool = (await run("deploy-libraries-and-smartpool")) as Pv2SmartPool;
+
+      const actualTokens = await smartpool.getTokens();
+      console.log("Actual Tokens is as below: ");
+      console.log("----------------------------------------------------------------------")
+      for (const token of actualTokens) {
+        console.log("actual token is: ", token.toString());
+      }
+
+      const name = await smartpool.name();
+      console.log("Pv2SmartPool name is: ",name);
+      expect(name).to.eq(NAME);
+
+
+      const symbol = await smartpool.symbol();
+      console.log("Pv2SmartPool symbol is: ",symbol);
+      expect(symbol).to.eq(SYMBOL);
+
+      const initialSupply = await smartpool.totalSupply();
+      console.log("Pv2SmatPool initialSupply is： ",initialSupply.toString());
+      expect(initialSupply).to.eq(INITIAL_SUPPLY);
+
 
       console.log("Pv2SmartPool address is :",smartpool.address);
 
-      await expect(
-        smartpool.init(PLACE_HOLDER_ADDRESS, "TEST", "TEST", ethers.constants.Zero)
-      ).to.be.revertedWith("PV2SmartPool.init: _initialSupply can not zero");
+
     });
     // it("Token symbol should be correct", async () => {
     //   const name = await smartpool.name();
