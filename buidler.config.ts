@@ -50,7 +50,7 @@ interface ExtendedBuidlerConfig extends BuidlerConfig {
 }
 
 const config: ExtendedBuidlerConfig = {
-  defaultNetwork: "ropsten",
+  defaultNetwork: "localhost",
   solc: {
     version: "0.6.4",
     optimizer: {

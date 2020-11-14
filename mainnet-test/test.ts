@@ -32,7 +32,10 @@ describe("MAINNET TEST", function () {
   before(async () => {
     signers = await ethers.signers();
     account = await signers[0].getAddress();
+    console.log(account);
     account2 = await signers[1].getAddress();
+    console.log(account2);
+    
     pool = PCappedSmartPoolFactory.connect(poolAddress, signers[0]);
     poolAS = PCappedSmartPoolFactory.connect(poolAddress, signers[1]);
     bPool = IBPoolFactory.connect(await pool.getBPool(), signers[0]);

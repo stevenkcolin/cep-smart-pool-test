@@ -8,7 +8,8 @@
     "resolveJsonModule": true,
     "strictNullChecks": false,
   },
-  "include": ["./scripts", "./test", "./mainnet-test"],
+  // "include": ["./scripts", "./test", "./mainnet-test"],
+  "include": ["./mainnet-test"],
   "files": [
     "./buidler.config.ts",
     "node_modules/@nomiclabs/buidler-ethers/src/type-extensions.d.ts",
