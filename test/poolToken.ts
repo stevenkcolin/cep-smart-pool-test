@@ -36,45 +36,63 @@ describe("TestForPoolToken TM1111", function () {
   });
 
   describe("Test Token Metadata", async () => {
-    it("Should have 18 decimals", async () => {
+    // it("Should have 18 decimals", async () => {
+    //   const decimals = await pcToken.decimals();
+    //   expect(decimals).to.equal(18);
+    // });
+
+    it("Test001", async () => {
       const decimals = await pcToken.decimals();
-      expect(decimals).to.equal(18);
-    });
-    it("Token name should be correct", async () => {
-      const name = await pcToken.name();
-      expect(name).to.eq(NAME);
-    });
-    it("Symbol should be correct", async () => {
+      console.log("decimal is: ",decimals);
+      console.log("address is: ",pcToken.address);
+
       const symbol = await pcToken.symbol();
-      expect(symbol).to.eq(SYMBOL);
-    });
-    it("Initial supply should be zero", async () => {
-      const totalSupply = await pcToken.totalSupply();
-      expect(totalSupply).to.eq(0);
-    });
-    it("After minting total supply should go up by minted amount", async () => {
-      const mintAmount = constants.WeiPerEther.mul(2);
-      // Mint in two tx to check if that works
-      await pcToken.mint(account, mintAmount.div(2));
-      await pcToken.mint(account, mintAmount.div(2));
+      console.log("symbol is: ", symbol);
 
       const totalSupply = await pcToken.totalSupply();
-      expect(totalSupply).to.eq(mintAmount);
+      console.log("totalSupply is: ",totalSupply.toString());
+
+
+      expect(decimals).to.equal(18);
+
     });
-    it("Burning tokens should lower the total supply", async () => {
-      const mintAmount = constants.WeiPerEther.mul(2);
-      await pcToken.mint(account, mintAmount);
-      await pcToken.burn(account, mintAmount.div(2));
-      const totalSupply = await pcToken.totalSupply();
-      expect(totalSupply).to.eq(mintAmount.div(2));
-    });
-    it("Burning more than an address's balance should fail", async () => {
-      const mintAmount = constants.WeiPerEther;
-      await pcToken.mint(account, mintAmount);
-      await expect(pcToken.burn(account, constants.WeiPerEther.add(1))).to.be.revertedWith(
-        "ERR_INSUFFICIENT_BAL"
-      );
-    });
+
+
+    // it("Token name should be correct", async () => {
+    //   const name = await pcToken.name();
+    //   expect(name).to.eq(NAME);
+    // });
+    // it("Symbol should be correct", async () => {
+    //   const symbol = await pcToken.symbol();
+    //   expect(symbol).to.eq(SYMBOL);
+    // });
+    // it("Initial supply should be zero", async () => {
+    //   const totalSupply = await pcToken.totalSupply();
+    //   expect(totalSupply).to.eq(0);
+    // });
+    // it("After minting total supply should go up by minted amount", async () => {
+    //   const mintAmount = constants.WeiPerEther.mul(2);
+    //   // Mint in two tx to check if that works
+    //   await pcToken.mint(account, mintAmount.div(2));
+    //   await pcToken.mint(account, mintAmount.div(2));
+
+    //   const totalSupply = await pcToken.totalSupply();
+    //   expect(totalSupply).to.eq(mintAmount);
+    // });
+    // it("Burning tokens should lower the total supply", async () => {
+    //   const mintAmount = constants.WeiPerEther.mul(2);
+    //   await pcToken.mint(account, mintAmount);
+    //   await pcToken.burn(account, mintAmount.div(2));
+    //   const totalSupply = await pcToken.totalSupply();
+    //   expect(totalSupply).to.eq(mintAmount.div(2));
+    // });
+    // it("Burning more than an address's balance should fail", async () => {
+    //   const mintAmount = constants.WeiPerEther;
+    //   await pcToken.mint(account, mintAmount);
+    //   await expect(pcToken.burn(account, constants.WeiPerEther.add(1))).to.be.revertedWith(
+    //     "ERR_INSUFFICIENT_BAL"
+    //   );
+    // });
   });
 });
 
