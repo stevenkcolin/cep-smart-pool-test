@@ -1,4 +1,9 @@
-# test commit
+# 熟悉代码
+
+测试单一测试文件
+`npx buidler test ./test/poolToken.ts`
+
+
 # 20.11.13
 # Pie Smart Pools
 
