@@ -50,11 +50,9 @@ describe("TestForPoolToken TM1111", function () {
       console.log("symbol is: ", symbol);
 
       const totalSupply = await pcToken.totalSupply();
-      console.log("totalSupply is: ",totalSupply.toString());
-
+      console.log("initial totalSupply is: ",totalSupply.toString());
 
       expect(decimals).to.equal(18);
-
     });
 
 
@@ -70,22 +68,49 @@ describe("TestForPoolToken TM1111", function () {
     //   const totalSupply = await pcToken.totalSupply();
     //   expect(totalSupply).to.eq(0);
     // });
-    // it("After minting total supply should go up by minted amount", async () => {
-    //   const mintAmount = constants.WeiPerEther.mul(2);
-    //   // Mint in two tx to check if that works
-    //   await pcToken.mint(account, mintAmount.div(2));
-    //   await pcToken.mint(account, mintAmount.div(2));
+    it("After minting total supply should go up by minted amount", async () => {
+      const mintAmount = constants.WeiPerEther.mul(2);
+      console.log("mintAmount parameter is: ",mintAmount.toString());
+      // Mint in two tx to check if that works
+      await pcToken.mint(account, mintAmount.div(2));
+      await pcToken.mint(account, mintAmount.div(2));
 
-    //   const totalSupply = await pcToken.totalSupply();
-    //   expect(totalSupply).to.eq(mintAmount);
-    // });
-    // it("Burning tokens should lower the total supply", async () => {
-    //   const mintAmount = constants.WeiPerEther.mul(2);
-    //   await pcToken.mint(account, mintAmount);
-    //   await pcToken.burn(account, mintAmount.div(2));
-    //   const totalSupply = await pcToken.totalSupply();
-    //   expect(totalSupply).to.eq(mintAmount.div(2));
-    // });
+      const totalSupply = await pcToken.totalSupply();
+      console.log("after mint, the pcToken's totalSupply is: ",totalSupply.toString());
+      expect(totalSupply).to.eq(mintAmount);
+    });
+    it("Burning tokens should lower the total supply", async () => {
+      const mintAmount = constants.WeiPerEther.mul(2);
+      await pcToken.mint(account, mintAmount);
+
+      const totalSupply = await pcToken.totalSupply();
+      console.log("after minting, the totalSupply is: ",totalSupply.toString());
+      
+      const balance = await pcToken.balanceOf(account);
+      console.log("after minting, the balance of", account, " is: ",balance.toString());
+
+      await pcToken.burn(account, mintAmount.div(2));
+      const totalSupply2 = await pcToken.totalSupply();
+      console.log("after burning, the totalSupply is: ",totalSupply2.toString());
+      
+      expect(totalSupply2).to.eq(mintAmount.div(2));
+    });
+    it("Burning tokens should lower the total supply2", async () => {
+      const mintAmount = constants.WeiPerEther.mul(3);
+      await pcToken.mint(account, mintAmount);
+
+      const totalSupply = await pcToken.totalSupply();
+      console.log("after minting, the totalSupply is: ",totalSupply.toString());
+      
+      const balance = await pcToken.balanceOf(account);
+      console.log("after minting, the balance of", account, " is: ",balance.toString());
+
+      await pcToken.burn(account, mintAmount.div(2));
+      const totalSupply2 = await pcToken.totalSupply();
+      console.log("after burning, the totalSupply is: ",totalSupply2.toString());
+      
+      expect(totalSupply2).to.eq(mintAmount.div(2));
+    });
     // it("Burning more than an address's balance should fail", async () => {
     //   const mintAmount = constants.WeiPerEther;
     //   await pcToken.mint(account, mintAmount);
