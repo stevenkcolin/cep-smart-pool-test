@@ -80,67 +80,97 @@ describe("Basic Pool Functionality", function () {
   // });
 
   describe("init", async () => {
-    it("Initialising with invalid bPool address should fail", async () => {
-      smartpool = (await run("deploy-libraries-and-smartpool")) as Pv2SmartPool;
-      await expect(
-        smartpool.init(ethers.constants.AddressZero, "TEST", "TEST", ethers.constants.WeiPerEther)
-      ).to.be.revertedWith("PV2SmartPool.init: _bPool cannot be 0x00....000");
-    });
-    it("Initialising with zero supply should fail", async () => {
-      smartpool = (await run("deploy-libraries-and-smartpool")) as Pv2SmartPool;
-      await expect(
-        smartpool.init(PLACE_HOLDER_ADDRESS, "TEST", "TEST", ethers.constants.Zero)
-      ).to.be.revertedWith("PV2SmartPool.init: _initialSupply can not zero");
-    });
-    it("Token symbol should be correct", async () => {
-      const name = await smartpool.name();
-      expect(name).to.eq(NAME);
-    });
-    it("Token name should be correct", async () => {
-      const symbol = await smartpool.symbol();
-      expect(symbol).to.eq(SYMBOL);
-    });
-    it("Initial supply should be correct", async () => {
-      const initialSupply = await smartpool.totalSupply();
-      expect(initialSupply).to.eq(INITIAL_SUPPLY);
-    });
-    it("Controller should be correctly set", async () => {
-      const controller = await smartpool.getController();
-      expect(controller).to.eq(account);
-    });
-    it("Public swap setter should be correctly set", async () => {
-      const publicSwapSetter = await smartpool.getPublicSwapSetter();
-      expect(publicSwapSetter).to.eq(account);
-    });
-    it("Token binder should be correctly set", async () => {
-      const tokenBinder = await smartpool.getTokenBinder();
-      expect(tokenBinder).to.eq(account);
-    });
-    it("bPool should be correctly set", async () => {
-      const bPool = await smartpool.getBPool();
-      expect(bPool).to.eq(pool.address);
-    });
+    // it("Initialising with invalid bPool address should fail", async () => {
+    //   smartpool = (await run("deploy-libraries-and-smartpool")) as Pv2SmartPool;
+    //   console.log("address is :",smartpool.address);
+
+
+    //   await expect(
+    //     smartpool.init(ethers.constants.AddressZero, "TEST", "TEST", ethers.constants.WeiPerEther)
+    //   ).to.be.revertedWith("PV2SmartPool.init: _bPool cannot be 0x00....000");
+    // });
+
     it("Tokens should be correctly set", async () => {
       const actualTokens = await smartpool.getTokens();
       const tokenAddresses = tokens.map((token) => token.address);
+
+      console.log("Tokens is as below: ");
+      console.log("----------------------------------------------------------------------")
+
+      for (const token of tokens) {
+        console.log("token name is: ", await token.name());
+        console.log("token symbol is: ",await token.symbol());
+        console.log("token address is: ",token.address);
+      }
+
+      console.log("Actual Tokens is as below: ");
+      console.log("----------------------------------------------------------------------")
+      for (const token of actualTokens) {
+        console.log("actual token is: ", token.toString());
+      }
+
       expect(actualTokens).eql(tokenAddresses);
     });
-    it("calcTokensForAmount should work", async () => {
-      const amountAndTokens = await smartpool.calcTokensForAmount(constants.WeiPerEther);
-      const tokenAddresses = tokens.map((token) => token.address);
-      const expectedAmounts = tokens.map(() => constants.WeiPerEther.div(2));
-      expect(amountAndTokens.tokens).to.eql(tokenAddresses);
-      expect(amountAndTokens.amounts).to.eql(expectedAmounts);
-    });
-    it("Calling init when already initialized should fail", async () => {
-      await expect(
-        smartpool.init(PLACE_HOLDER_ADDRESS, NAME, SYMBOL, constants.WeiPerEther)
-      ).to.be.revertedWith("PV2SmartPool.init: already initialised");
-    });
-    it("Smart pool should not hold any non balancer pool tokens after init", async () => {
-      const smartPoolBalances = await getTokenBalances(smartpool.address);
-      expectZero(smartPoolBalances);
-    });
+
+
+
+
+
+    // it("Initialising with zero supply should fail", async () => {
+    //   smartpool = (await run("deploy-libraries-and-smartpool")) as Pv2SmartPool;
+    //   await expect(
+    //     smartpool.init(PLACE_HOLDER_ADDRESS, "TEST", "TEST", ethers.constants.Zero)
+    //   ).to.be.revertedWith("PV2SmartPool.init: _initialSupply can not zero");
+    // });
+    // it("Token symbol should be correct", async () => {
+    //   const name = await smartpool.name();
+    //   expect(name).to.eq(NAME);
+    // });
+    // it("Token name should be correct", async () => {
+    //   const symbol = await smartpool.symbol();
+    //   expect(symbol).to.eq(SYMBOL);
+    // });
+    // it("Initial supply should be correct", async () => {
+    //   const initialSupply = await smartpool.totalSupply();
+    //   expect(initialSupply).to.eq(INITIAL_SUPPLY);
+    // });
+    // it("Controller should be correctly set", async () => {
+    //   const controller = await smartpool.getController();
+    //   expect(controller).to.eq(account);
+    // });
+    // it("Public swap setter should be correctly set", async () => {
+    //   const publicSwapSetter = await smartpool.getPublicSwapSetter();
+    //   expect(publicSwapSetter).to.eq(account);
+    // });
+    // it("Token binder should be correctly set", async () => {
+    //   const tokenBinder = await smartpool.getTokenBinder();
+    //   expect(tokenBinder).to.eq(account);
+    // });
+    // it("bPool should be correctly set", async () => {
+    //   const bPool = await smartpool.getBPool();
+    //   expect(bPool).to.eq(pool.address);
+    // });
+    // it("Tokens should be correctly set", async () => {
+    //   const actualTokens = await smartpool.getTokens();
+    //   const tokenAddresses = tokens.map((token) => token.address);
+    //   expect(actualTokens).eql(tokenAddresses);
+    // });
+    // it("calcTokensForAmount should work", async () => {
+    //   const amountAndTokens = await smartpool.calcTokensForAmount(constants.WeiPerEther);
+    //   const tokenAddresses = tokens.map((token) => token.address);
+    //   const expectedAmounts = tokens.map(() => constants.WeiPerEther.div(2));
+    //   expect(amountAndTokens.tokens).to.eql(tokenAddresses);
+    //   expect(amountAndTokens.amounts).to.eql(expectedAmounts);
+    // });
+    // it("Calling init when already initialized should fail", async () => {
+    //   await expect(
+    //     smartpool.init(PLACE_HOLDER_ADDRESS, NAME, SYMBOL, constants.WeiPerEther)
+    //   ).to.be.revertedWith("PV2SmartPool.init: already initialised");
+    // });
+    // it("Smart pool should not hold any non balancer pool tokens after init", async () => {
+    //   const smartPoolBalances = await getTokenBalances(smartpool.address);
+    //   expectZero(smartPoolBalances);
+    // });
   });
 
   // describe("Controller functions", async () => {
