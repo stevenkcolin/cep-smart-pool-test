@@ -42,6 +42,12 @@ To test a new implementation in testnet conditions. Set the implementation of a 
 npx buidler deploy-smart-pool-implementation-complete --impl-name PieDAO --network ropsten
 ```
 
+deploy on localhost
+
+```
+npx buidler deploy-smart-pool-implementation-complete --impl-name PieDAO --network localhost
+```
+
 ## Integration
 
 ### Adding and removing liquidity
