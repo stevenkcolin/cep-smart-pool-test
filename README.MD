@@ -48,9 +48,14 @@ deploy on localhost
 npx buidler deploy-smart-pool-implementation-complete --impl-name PieDAO --network localhost
 ```
 
-test single test scripts
+test single test scripts poolToken.ts
 ```
 npx buidler test ./test/poolToken.ts
+```
+
+test basic pool functions:
+```
+npx buidler test ./test/basicPoolFunctionality.ts
 ```
 
 ## Integration
