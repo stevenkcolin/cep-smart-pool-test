@@ -81,16 +81,8 @@ describe("Basic Pool Functionality", function () {
   // });
 
   describe("init", async () => {
-    // it("Initialising with invalid bPool address should fail", async () => {
-    //   smartpool = (await run("deploy-libraries-and-smartpool")) as Pv2SmartPool;
-    //   console.log("address is :",smartpool.address);
 
-
-    //   await expect(
-    //     smartpool.init(ethers.constants.AddressZero, "TEST", "TEST", ethers.constants.WeiPerEther)
-    //   ).to.be.revertedWith("PV2SmartPool.init: _bPool cannot be 0x00....000");
-    // });
-
+    // 第一个测试用例，测试smartpool里面的tokens集合。目前测试用的是7个代币
     it("test for Tokens & ActualTokens", async () => {
       const actualTokens = await smartpool.getTokens();
       const tokenAddresses = tokens.map((token) => token.address);
@@ -118,6 +110,10 @@ describe("Basic Pool Functionality", function () {
 
 
     it("test for Pv2SmartPool", async () => {
+      console.log("----------------------------------------------------------------------");
+      console.log("log for case test for Pv2SmartPool");
+      console.log("Pv2SmartPool address is :",smartpool.address);
+      console.log("account is: ",account);
 
       const actualTokens = await smartpool.getTokens();
       console.log("Actual Tokens is as below: ");
@@ -136,11 +132,14 @@ describe("Basic Pool Functionality", function () {
       expect(symbol).to.eq(SYMBOL);
 
       const initialSupply = await smartpool.totalSupply();
-      console.log("Pv2SmatPool initialSupply is： ",initialSupply.toString());
+      console.log("Pv2SmartPool initialSupply is： ",initialSupply.toString());
       expect(initialSupply).to.eq(INITIAL_SUPPLY);
 
+      const controller = await smartpool.getController();
+      console.log("Pv2SmartPool Controller is: ",controller.toString());
+      expect(controller).to.eq(account);
 
-      console.log("Pv2SmartPool address is :",smartpool.address);
+
 
 
     });
