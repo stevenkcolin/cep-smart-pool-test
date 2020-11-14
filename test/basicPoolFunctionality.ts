@@ -90,38 +90,41 @@ describe("Basic Pool Functionality", function () {
     //   ).to.be.revertedWith("PV2SmartPool.init: _bPool cannot be 0x00....000");
     // });
 
-    it("Tokens should be correctly set", async () => {
-      const actualTokens = await smartpool.getTokens();
-      const tokenAddresses = tokens.map((token) => token.address);
+    // it("test for Tokens & ActualTokens", async () => {
+    //   const actualTokens = await smartpool.getTokens();
+    //   const tokenAddresses = tokens.map((token) => token.address);
 
-      console.log("Tokens is as below: ");
-      console.log("----------------------------------------------------------------------")
+    //   console.log("Tokens is as below: ");
+    //   console.log("----------------------------------------------------------------------")
 
-      for (const token of tokens) {
-        console.log("token name is: ", await token.name());
-        console.log("token symbol is: ",await token.symbol());
-        console.log("token address is: ",token.address);
-      }
+    //   for (const token of tokens) {
+    //     console.log("token name is: ", await token.name());
+    //     console.log("token symbol is: ",await token.symbol());
+    //     console.log("token address is: ",token.address);
+    //   }
 
-      console.log("Actual Tokens is as below: ");
-      console.log("----------------------------------------------------------------------")
-      for (const token of actualTokens) {
-        console.log("actual token is: ", token.toString());
-      }
+    //   console.log("Actual Tokens is as below: ");
+    //   console.log("----------------------------------------------------------------------")
+    //   for (const token of actualTokens) {
+    //     console.log("actual token is: ", token.toString());
+    //   }
 
-      expect(actualTokens).eql(tokenAddresses);
-    });
-
-
-
-
-
-    // it("Initialising with zero supply should fail", async () => {
-    //   smartpool = (await run("deploy-libraries-and-smartpool")) as Pv2SmartPool;
-    //   await expect(
-    //     smartpool.init(PLACE_HOLDER_ADDRESS, "TEST", "TEST", ethers.constants.Zero)
-    //   ).to.be.revertedWith("PV2SmartPool.init: _initialSupply can not zero");
+    //   expect(actualTokens).eql(tokenAddresses);
     // });
+
+
+
+
+
+    it("test for Pv2SmartPool", async () => {
+      smartpool = (await run("deploy-libraries-and-smartpool")) as Pv2SmartPool;
+
+      console.log("Pv2SmartPool address is :",smartpool.address);
+
+      await expect(
+        smartpool.init(PLACE_HOLDER_ADDRESS, "TEST", "TEST", ethers.constants.Zero)
+      ).to.be.revertedWith("PV2SmartPool.init: _initialSupply can not zero");
+    });
     // it("Token symbol should be correct", async () => {
     //   const name = await smartpool.name();
     //   expect(name).to.eq(NAME);
