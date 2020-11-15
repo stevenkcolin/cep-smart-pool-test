@@ -158,10 +158,11 @@ describe("Basic Pool Functionality", function () {
       const SwapFee = await smartpool.getSwapFee();
       console.log("swapFee is： ",SwapFee.toString());
 
-      
-
-      
+      //测试calTokensForAmount，输入amount，计算能给出多少tokens。预设的是除以2，所以
       //输入0.5的数量，返回应该是0.25
+      //输入0.123的数量，返回应该是0.0615
+
+      //下面测试输入0.5
       const amountAndTokens = await smartpool.calcTokensForAmount(constants.WeiPerEther.div(2));
 
       const tokenAddresses = tokens.map((token) => token.address);
@@ -176,7 +177,7 @@ describe("Basic Pool Functionality", function () {
       console.log(amountAndTokens.tokens);
       console.log(amountAndTokens.amounts.toString());
 
-      //输入0.123的数量，返回应该是0.0615
+      //下面测试输入0.5
       const testNum = new BigNumber("123000000000000000");
       const amountAndTokens2 = await smartpool.calcTokensForAmount(testNum);
 
