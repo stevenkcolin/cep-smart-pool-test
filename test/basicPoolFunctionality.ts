@@ -29,6 +29,7 @@ describe("Basic Pool Functionality", function () {
   this.timeout(300000);
   let signers: Signer[];
   let account: string;
+  let account2: string;
   let tokens: MockToken[];
   let pool: IbPool;
   let smartpool: Pv2SmartPool;
@@ -36,6 +37,8 @@ describe("Basic Pool Functionality", function () {
   beforeEach(async () => {
     signers = await ethers.signers();
     account = await signers[0].getAddress();
+    account2 = await signers[1].getAddress();
+    
     pool = IbPoolFactory.connect(await deployBalancerPool(signers[0]), signers[0]);
     tokenFactory = new MockTokenFactory(signers[0]);
     tokens = [];
@@ -83,37 +86,38 @@ describe("Basic Pool Functionality", function () {
   describe("init", async () => {
 
     // 第一个测试用例，测试smartpool里面的tokens集合。目前测试用的是7个代币
-    it("test for Tokens & ActualTokens", async () => {
-      const actualTokens = await smartpool.getTokens();
-      const tokenAddresses = tokens.map((token) => token.address);
+    // it("test for Tokens & ActualTokens", async () => {
+    //   const actualTokens = await smartpool.getTokens();
+    //   const tokenAddresses = tokens.map((token) => token.address);
 
-      console.log("Tokens is as below: ");
-      console.log("----------------------------------------------------------------------")
+    //   console.log("Tokens is as below: ");
+    //   console.log("----------------------------------------------------------------------")
 
-      for (const token of tokens) {
-        console.log("token name is: ", await token.name());
-        console.log("token symbol is: ",await token.symbol());
-        console.log("token address is: ",token.address);
-      }
+    //   for (const token of tokens) {
+    //     console.log("token name is: ", await token.name());
+    //     console.log("token symbol is: ",await token.symbol());
+    //     console.log("token address is: ",token.address);
+    //   }
 
-      console.log("Actual Tokens is as below: ");
-      console.log("----------------------------------------------------------------------")
-      for (const token of actualTokens) {
-        console.log("actual token is: ", token.toString());
-      }
+    //   console.log("Actual Tokens is as below: ");
+    //   console.log("----------------------------------------------------------------------")
+    //   for (const token of actualTokens) {
+    //     console.log("actual token is: ", token.toString());
+    //   }
 
-      expect(actualTokens).eql(tokenAddresses);
-    });
-
-
+    //   expect(actualTokens).eql(tokenAddresses);
+    // });
 
 
 
+
+    // 第二个测试用例，用来测试关于Pv2SmartPool的核心设置
     it("test for Pv2SmartPool", async () => {
       console.log("----------------------------------------------------------------------");
-      console.log("log for case test for Pv2SmartPool");
+      console.log("log for case 'test for Pv2SmartPool'");
       console.log("Pv2SmartPool address is :",smartpool.address);
       console.log("account is: ",account);
+      console.log("account2 is: ",account2);
 
       const actualTokens = await smartpool.getTokens();
       console.log("Actual Tokens is as below: ");
@@ -138,6 +142,46 @@ describe("Basic Pool Functionality", function () {
       const controller = await smartpool.getController();
       console.log("Pv2SmartPool Controller is: ",controller.toString());
       expect(controller).to.eq(account);
+
+      const publicSwapSetter = await smartpool.getPublicSwapSetter();
+      console.log("publicSwapSetter is: ",publicSwapSetter);
+      expect(publicSwapSetter).to.eq(account);
+
+      const tokenBinder = await smartpool.getTokenBinder();
+      console.log("tokenBinder is: ",tokenBinder);
+      expect(tokenBinder).to.eq(account);
+
+      const bPool = await smartpool.getBPool();
+      console.log("bPool is: ",bPool);
+      expect(bPool).to.eq(pool.address);
+
+      const SwapFee = await smartpool.getSwapFee();
+      console.log("swapFee is： ",SwapFee.toString());
+
+      
+
+      
+      //输入0.5的数量，返回应该是0.25
+      const amountAndTokens = await smartpool.calcTokensForAmount(constants.WeiPerEther.div(2));
+
+      const tokenAddresses = tokens.map((token) => token.address);
+      const expectedAmounts = tokens.map(() => constants.WeiPerEther.div(4));
+
+      expect(amountAndTokens.tokens).to.eql(tokenAddresses);
+      expect(amountAndTokens.amounts).to.eql(expectedAmounts);
+
+      console.log(tokenAddresses.toString());
+      console.log(expectedAmounts.toString());
+
+      console.log(amountAndTokens.tokens);
+      console.log(amountAndTokens.amounts.toString());
+
+      //输入0.123的数量，返回应该是0.0615
+      const testNum = new BigNumber("123000000000000000");
+      const amountAndTokens2 = await smartpool.calcTokensForAmount(testNum);
+
+      console.log(amountAndTokens2.tokens);
+      console.log(amountAndTokens2.amounts.toString());
 
 
 
