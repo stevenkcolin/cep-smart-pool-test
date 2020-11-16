@@ -53,14 +53,20 @@ npx buidler node
 npx buidler deploy-smart-pool-implementation-complete --impl-name PieDAO --network localhost
 ```
 
-test single test scripts poolToken.ts
+# Test Single File
+## test single test scripts poolToken.ts
 ```
 npx buidler test ./test/poolToken.ts
 ```
 
-test basic pool functions:
+## test basic pool functions:
 ```
 npx buidler test ./test/basicPoolFunctionality.ts
+```
+
+## test advancedPoolFunctionality
+```
+npx buidler test ./test/advancedPoolFunctionality.ts
 ```
 
 test cap functions
