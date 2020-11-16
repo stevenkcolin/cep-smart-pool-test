@@ -430,20 +430,20 @@ describe("Basic Pool Functionality", function () {
     // });
 
 
-    it("Adding liquidity when a transfer fails should fail", async () => {
-      const mintAmount = constants.WeiPerEther;
-      await tokens[1].approve(smartpool.address, constants.Zero);
-      await expect(smartpool.joinPool(mintAmount)).to.be.revertedWith(
-        "ERC20: transfer amount exceeds allowance"
-      );
-    });
-    it("Adding liquidity when a token transfer returns false should fail", async () => {
-      const mintAmount = constants.WeiPerEther.div(4);
-      await tokens[1].setTransferFromReturnFalse(true);
-      await expect(smartpool.joinPool(mintAmount)).to.be.revertedWith(
-        "LibUnderlying._pullUnderlying: transferFrom failed"
-      );
-    });
+    // it("Adding liquidity when a transfer fails should fail", async () => {
+    //   const mintAmount = constants.WeiPerEther;
+    //   await tokens[1].approve(smartpool.address, constants.Zero);
+    //   await expect(smartpool.joinPool(mintAmount)).to.be.revertedWith(
+    //     "ERC20: transfer amount exceeds allowance"
+    //   );
+    // });
+    // it("Adding liquidity when a token transfer returns false should fail", async () => {
+    //   const mintAmount = constants.WeiPerEther.div(4);
+    //   await tokens[1].setTransferFromReturnFalse(true);
+    //   await expect(smartpool.joinPool(mintAmount)).to.be.revertedWith(
+    //     "LibUnderlying._pullUnderlying: transferFrom failed"
+    //   );
+    // });
   //   it("Removing liquidity should work", async () => {
   //     const removeAmount = constants.WeiPerEther.div(2);
 
@@ -469,8 +469,7 @@ describe("Basic Pool Functionality", function () {
   //     await expect(smartpool["exitPool(uint256)"](INITIAL_SUPPLY.add(1))).to.be.revertedWith(
   //       "ERR_INSUFFICIENT_BAL"
   //     );
-    }); //end of Joining and Exiting
-
+    // }); 
   //   it("Removing liquidity when a token transfer fails should fail", async () => {
   //     await tokens[0].setTransferFailed(true);
   //     await expect(smartpool["exitPool(uint256)"](constants.WeiPerEther.div(2))).to.be.revertedWith(
@@ -673,7 +672,8 @@ describe("Basic Pool Functionality", function () {
   //       smartpool.exitswapPoolAmountIn(tokenOutAddress, poolAmountIn, constants.Zero)
   //     ).to.be.revertedWith("PV2SmartPool.onlyPublicSwap: swapping not enabled");
   //   });
-  // });
+  }); //end of Joining and Exiting
+
 
   // describe("Front running protected join and exit", async () => {
   //   it("Adding liquidity with frontrunning protection should work should work", async () => {
