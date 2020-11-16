@@ -62,6 +62,8 @@ describe("Basic Pool Functionality", function () {
 
     for (const token of tokens) {
       await token.approve(smartpool.address, constants.MaxUint256);
+      
+      console.log("token ",(await token.name()).toString()," address is: ",token.address.toString());
       // Attach alt signer to token and approve pool
       await MockTokenFactory.connect(token.address, signers[1]).approve(
         smartpool.address,
@@ -526,59 +528,94 @@ describe("Basic Pool Functionality", function () {
   //     ).to.be.revertedWith("LibPoolEntryExit.joinswapPoolAmountOut: Token Not Bound");
   //   });
 
-  //   it("joinswapPoolAmountOut should work", async () => {
-  //     await smartpool.setPublicSwap(true);
-  //     const mintAmount = constants.WeiPerEther.div(100);
-  //     const inputToken = tokens[0];
+    // it("joinswapPoolAmountOut should work", async () => {
+    //   await smartpool.setPublicSwap(true);
+    //   const mintAmount = constants.WeiPerEther.div(37);
+    //   const inputToken = tokens[0];
 
-  //     const userBalanceBefore = await inputToken.balanceOf(account);
-  //     const userPoolBalanceBefore = await smartpool.balanceOf(account);
-  //     const totalSupplyBefore = await smartpool.totalSupply();
-  //     const expectedTokenAmountIn = await smartpool.calcSingleInGivenPoolOut(
-  //       inputToken.address,
-  //       mintAmount
-  //     );
-  //     const poolTokenBalanceBefore = await pool.getBalance(inputToken.address);
+    //   console.log("mintAmount before is: ",mintAmount.toString());
+    //   console.log("inputToken ", (await inputToken.name()).toString() ," is : ",inputToken.address.toString());
 
-  //     await smartpool.joinswapPoolAmountOut(inputToken.address, mintAmount, constants.MaxUint256);
+    //   const userBalanceBefore = await inputToken.balanceOf(account);
+      
 
-  //     const userBalanceAfter = await inputToken.balanceOf(account);
-  //     const userPoolBalanceAfter = await smartpool.balanceOf(account);
-  //     const totalSupplyAfter = await smartpool.totalSupply();
-  //     const poolTokenBalanceAfter = await pool.getBalance(inputToken.address);
 
-  //     expect(userBalanceAfter).to.eq(userBalanceBefore.sub(expectedTokenAmountIn));
-  //     expect(userPoolBalanceAfter).to.eq(userPoolBalanceBefore.add(mintAmount));
-  //     expect(totalSupplyAfter).to.eq(totalSupplyBefore.add(mintAmount));
-  //     expect(poolTokenBalanceAfter).to.eq(poolTokenBalanceBefore.add(expectedTokenAmountIn));
-  //   });
+    //   const userPoolBalanceBefore = await smartpool.balanceOf(account);
 
-  //   it("joinswapExternAmountIn should work", async () => {
-  //     smartpool.setPublicSwap(true);
-  //     const tokenAmountIn = constants.WeiPerEther.div(100);
-  //     const inputToken = tokens[0];
+    //   const totalSupplyBefore = await smartpool.totalSupply();
+      
 
-  //     const userBalanceBefore = await inputToken.balanceOf(account);
-  //     const userPoolBalanceBefore = await smartpool.balanceOf(account);
-  //     const totalSupplyBefore = await smartpool.totalSupply();
-  //     const expectedPoolAmountOut = await smartpool.calcPoolOutGivenSingleIn(
-  //       inputToken.address,
-  //       tokenAmountIn
-  //     );
-  //     const poolTokenBalanceBefore = await pool.getBalance(inputToken.address);
+    //   const expectedTokenAmountIn = await smartpool.calcSingleInGivenPoolOut(
+    //     inputToken.address,
+    //     mintAmount
+    //   );
+    //   const poolTokenBalanceBefore = await pool.getBalance(inputToken.address);
+      
+    //   console.log("mintAmount before is: ",mintAmount.toString());
+    //   console.log("UserBalanceBefore is: ",userBalanceBefore.toString());
+    //   console.log("userPoolBalanceBefore is: ",userPoolBalanceBefore.toString());
+    //   console.log("totalSupplyBefore is: ",totalSupplyBefore.toString());
+    //   console.log("poolTokenBalanceBefore is: ",poolTokenBalanceBefore.toString());
+    //   console.log("----------------------------------------------------------------------");
 
-  //     await smartpool.joinswapExternAmountIn(inputToken.address, tokenAmountIn, constants.Zero);
+    //   await smartpool.joinswapPoolAmountOut(inputToken.address, mintAmount, constants.MaxUint256);
 
-  //     const userBalanceAfter = await inputToken.balanceOf(account);
-  //     const userPoolBalanceAfter = await smartpool.balanceOf(account);
-  //     const totalSupplyAfter = await smartpool.totalSupply();
-  //     const poolTokenBalanceAfter = await pool.getBalance(inputToken.address);
+    //   const userBalanceAfter = await inputToken.balanceOf(account);
+    //   const userPoolBalanceAfter = await smartpool.balanceOf(account);
+    //   const totalSupplyAfter = await smartpool.totalSupply();
+    //   const poolTokenBalanceAfter = await pool.getBalance(inputToken.address);
+      
+    //   console.log("mintAmountAfter is: ",mintAmount.toString());
+    //   console.log("userBalanceAfter is: ",userBalanceAfter.toString());
+    //   console.log("userPoolBalanceAfter is: ",userPoolBalanceAfter.toString());
+    //   console.log("totalSupplyAfter is: ",totalSupplyAfter.toString());
+    //   console.log("poolTokenBalanceAfter is: ",poolTokenBalanceAfter.toString());
 
-  //     expect(userBalanceAfter).to.eq(userBalanceBefore.sub(tokenAmountIn));
-  //     expect(userPoolBalanceAfter).to.eq(userPoolBalanceBefore.add(expectedPoolAmountOut));
-  //     expect(totalSupplyAfter).to.eq(totalSupplyBefore.add(expectedPoolAmountOut));
-  //     expect(poolTokenBalanceAfter).to.eq(poolTokenBalanceBefore.add(tokenAmountIn));
-  //   });
+    //   expect(userBalanceAfter).to.eq(userBalanceBefore.sub(expectedTokenAmountIn));
+    //   expect(userPoolBalanceAfter).to.eq(userPoolBalanceBefore.add(mintAmount));
+    //   expect(totalSupplyAfter).to.eq(totalSupplyBefore.add(mintAmount));
+    //   expect(poolTokenBalanceAfter).to.eq(poolTokenBalanceBefore.add(expectedTokenAmountIn));
+    // });
+
+    it("joinswapExternAmountIn should work", async () => {
+      smartpool.setPublicSwap(true);
+      const tokenAmountIn = constants.WeiPerEther.div(20);
+      const inputToken = tokens[0];
+
+      const userBalanceBefore = await inputToken.balanceOf(account);
+      const userPoolBalanceBefore = await smartpool.balanceOf(account);
+      const totalSupplyBefore = await smartpool.totalSupply();
+      const expectedPoolAmountOut = await smartpool.calcPoolOutGivenSingleIn(
+        inputToken.address,
+        tokenAmountIn
+      );
+      const poolTokenBalanceBefore = await pool.getBalance(inputToken.address);
+
+      console.log("tokenAmountIn Before is: ",tokenAmountIn.toString());
+      console.log("UserBalanceBefore is: ",userBalanceBefore.toString());
+      console.log("userPoolBalanceBefore is: ",userPoolBalanceBefore.toString());
+      console.log("totalSupplyBefore is: ",totalSupplyBefore.toString());
+      console.log("poolTokenBalanceBefore is: ",poolTokenBalanceBefore.toString());
+      console.log("----------------------------------------------------------------------");
+
+      await smartpool.joinswapExternAmountIn(inputToken.address, tokenAmountIn, constants.Zero);
+
+      const userBalanceAfter = await inputToken.balanceOf(account);
+      const userPoolBalanceAfter = await smartpool.balanceOf(account);
+      const totalSupplyAfter = await smartpool.totalSupply();
+      const poolTokenBalanceAfter = await pool.getBalance(inputToken.address);
+
+      console.log("tokenAmountIn After is: ",tokenAmountIn.toString());
+      console.log("userBalanceAfter is: ",userBalanceAfter.toString());
+      console.log("userPoolBalanceAfter is: ",userPoolBalanceAfter.toString());
+      console.log("totalSupplyAfter is: ",totalSupplyAfter.toString());
+      console.log("poolTokenBalanceAfter is: ",poolTokenBalanceAfter.toString());
+
+      expect(userBalanceAfter).to.eq(userBalanceBefore.sub(tokenAmountIn));
+      expect(userPoolBalanceAfter).to.eq(userPoolBalanceBefore.add(expectedPoolAmountOut));
+      expect(totalSupplyAfter).to.eq(totalSupplyBefore.add(expectedPoolAmountOut));
+      expect(poolTokenBalanceAfter).to.eq(poolTokenBalanceBefore.add(tokenAmountIn));
+    });
 
   //   it("Joining the pool from a single asset when public swap is disabled should fail", async () => {
   //     const poolAmountOut = constants.WeiPerEther.div(100);
