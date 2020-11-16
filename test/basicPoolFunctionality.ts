@@ -303,20 +303,22 @@ describe("Basic Pool Functionality", function () {
 
 
 
-    it("Setting the token binder should work", async () => {
-      await smartpool.setTokenBinder(account);
+    // it("Setting the token binder should work", async () => {
+    //   await smartpool.setTokenBinder(account);
       
-      const tokenBinder = await smartpool.getTokenBinder();
-      console.log("tokenBinder address is : ",tokenBinder);
+    //   const tokenBinder = await smartpool.getTokenBinder();
+    //   console.log("tokenBinder address is : ",tokenBinder);
 
-      expect(tokenBinder).to.eq(account);
+    //   expect(tokenBinder).to.eq(account);
+    // });
+
+
+    it("Setting the token binder from a non controller address should fail", async () => {
+      smartpool = smartpool.connect(signers[1]);
+      await expect(smartpool.setTokenBinder(PLACE_HOLDER_ADDRESS)).to.be.revertedWith(
+        "PV2SmartPool.onlyController: not controller"
+      );
     });
-  //   it("Setting the token binder from a non controller address should fail", async () => {
-  //     smartpool = smartpool.connect(signers[1]);
-  //     await expect(smartpool.setTokenBinder(PLACE_HOLDER_ADDRESS)).to.be.revertedWith(
-  //       "PV2SmartPool.onlyController: not controller"
-  //     );
-  //   });
   //   it("Setting public swap should work", async () => {
   //     await smartpool.setPublicSwap(true);
   //     const publicSwap = await smartpool.isPublicSwap();
