@@ -393,16 +393,16 @@ describe("Basic Pool Functionality", function () {
 
   describe("Joining and Exiting", async () => {
 
-    it("Case1: Get Joining and Exiting Information", async () => {
+    // it("Case3: Get Joining and Exiting Information", async () => {
       
 
-      console.log("----------------------------------------------------------------------");
-      console.log("Case 3");
+    //   console.log("----------------------------------------------------------------------");
+    //   console.log("Case 3");
       
 
 
 
-    });
+    // });
 
 
 
@@ -411,6 +411,7 @@ describe("Basic Pool Functionality", function () {
       await smartpool.joinPool(mintAmount);
 
       const balance = await smartpool.balanceOf(account);
+      console.log ("balance is: ",balance);
       expect(balance).to.eq(mintAmount.add(INITIAL_SUPPLY));
 
       for (let entry of tokens) {
