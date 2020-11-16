@@ -320,35 +320,35 @@ describe("Basic Pool Functionality", function () {
     //   );
     // });
 
-    it("Case2: Get Controller Information", async () => {
+    // it("Case2: Get Controller Information", async () => {
       
 
-      console.log("----------------------------------------------------------------------");
-      console.log("Case 2");
+    //   console.log("----------------------------------------------------------------------");
+    //   console.log("Case 2");
       
 
-      const controller = await smartpool.getController();
-      console.log("Controller address is: ",controller);
+    //   const controller = await smartpool.getController();
+    //   console.log("Controller address is: ",controller);
 
-      const publicSwapSetter = await smartpool.getPublicSwapSetter();
-      console.log("publicSwapSetter is: ",publicSwapSetter.toString());
+    //   const publicSwapSetter = await smartpool.getPublicSwapSetter();
+    //   console.log("publicSwapSetter is: ",publicSwapSetter.toString());
 
-      const tokenBinder = await smartpool.getTokenBinder();
-      console.log("tokenBinder address is : ",tokenBinder);
+    //   const tokenBinder = await smartpool.getTokenBinder();
+    //   console.log("tokenBinder address is : ",tokenBinder);
       
-      const publicSwap = await smartpool.isPublicSwap();
-      console.log("publicSwap is: ",publicSwap);
+    //   const publicSwap = await smartpool.isPublicSwap();
+    //   console.log("publicSwap is: ",publicSwap);
 
-      const swapFee = await smartpool.getSwapFee();
-      console.log("swapFee is: ",swapFee.toString());
+    //   const swapFee = await smartpool.getSwapFee();
+    //   console.log("swapFee is: ",swapFee.toString());
 
-      const feeValue = constants.WeiPerEther.div(33);
-      await smartpool.setSwapFee(feeValue);
-      const swapFee2 = await smartpool.getSwapFee();
-      console.log("new swapFee is: ",swapFee2.toString());
-      expect(swapFee2).to.eq(feeValue);
+    //   const feeValue = constants.WeiPerEther.div(33);
+    //   await smartpool.setSwapFee(feeValue);
+    //   const swapFee2 = await smartpool.getSwapFee();
+    //   console.log("new swapFee is: ",swapFee2.toString());
+    //   expect(swapFee2).to.eq(feeValue);
 
-    });
+    // });
 
     // it("Setting public swap should work", async () => {
     //   await smartpool.setPublicSwap(true);
@@ -364,8 +364,6 @@ describe("Basic Pool Functionality", function () {
   //       "PV2SmartPool.onlyPublicSwapSetter: not public swap setter"
   //     );
   //   });
-
-
     // it("Setting the swap fee should work", async () => {
     //   const feeValue = constants.WeiPerEther.div(33);
     //   await smartpool.setSwapFee(feeValue);
@@ -393,19 +391,33 @@ describe("Basic Pool Functionality", function () {
     // });
   }); //end of Controller functions
 
-  // describe("Joining and Exiting", async () => {
-  //   it("Adding liquidity should work", async () => {
-  //     const mintAmount = constants.WeiPerEther;
-  //     await smartpool.joinPool(mintAmount);
+  describe("Joining and Exiting", async () => {
 
-  //     const balance = await smartpool.balanceOf(account);
-  //     expect(balance).to.eq(mintAmount.add(INITIAL_SUPPLY));
+    it("Case1: Get Joining and Exiting Information", async () => {
+      
 
-  //     for (let entry of tokens) {
-  //       const userBalance = await entry.balanceOf(account)
-  //       expect(userBalance).to.eq(INITIAL_TOKEN_SUPPLY.sub(mintAmount));
-  //     }
-  //   });
+      console.log("----------------------------------------------------------------------");
+      console.log("Case 3");
+      
+
+
+
+    });
+
+
+
+    it("Adding liquidity should work", async () => {
+      const mintAmount = constants.WeiPerEther;
+      await smartpool.joinPool(mintAmount);
+
+      const balance = await smartpool.balanceOf(account);
+      expect(balance).to.eq(mintAmount.add(INITIAL_SUPPLY));
+
+      for (let entry of tokens) {
+        const userBalance = await entry.balanceOf(account)
+        expect(userBalance).to.eq(INITIAL_TOKEN_SUPPLY.sub(mintAmount));
+      }
+    });
   //   it("Adding liquidity when a transfer fails should fail", async () => {
   //     const mintAmount = constants.WeiPerEther;
   //     await tokens[1].approve(smartpool.address, constants.Zero);
@@ -445,7 +457,7 @@ describe("Basic Pool Functionality", function () {
   //     await expect(smartpool["exitPool(uint256)"](INITIAL_SUPPLY.add(1))).to.be.revertedWith(
   //       "ERR_INSUFFICIENT_BAL"
   //     );
-  //   });
+    }); //end of Joining and Exiting
 
   //   it("Removing liquidity when a token transfer fails should fail", async () => {
   //     await tokens[0].setTransferFailed(true);
