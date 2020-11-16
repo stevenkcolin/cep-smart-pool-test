@@ -65,49 +65,52 @@ describe("Cap", function () {
     await smartpool.setJoinExitEnabled(true);
   });
 
-  it("Cap should initially zero", async () => {
-    const cap = await smartpool.getCap();
-    expect(cap).to.eq(constants.Zero);
-  });
+  // it("Cap should initially zero", async () => {
+  //   const cap = await smartpool.getCap();
+  //   console.log("cap is: ",cap.toString());
+  //   expect(cap).to.eq(constants.Zero);
+  // });
 
   it("Setting the cap should work", async () => {
     const capValue = new BigNumber(100);
     await smartpool.setCap(capValue);
     const cap = await smartpool.getCap();
+
+    console.log("cap is: ",cap.toString());
     expect(cap).to.eq(capValue);
   });
 
-  it("Setting the cap from a non controller address should fail", async () => {
-    await smartpool.setController(await signers[1].getAddress());
-    await expect(smartpool.setCap(100)).to.be.revertedWith(
-      "PV2SmartPool.onlyController: not controller"
-    );
-  });
+  // it("Setting the cap from a non controller address should fail", async () => {
+  //   await smartpool.setController(await signers[1].getAddress());
+  //   await expect(smartpool.setCap(100)).to.be.revertedWith(
+  //     "PV2SmartPool.onlyController: not controller"
+  //   );
+  // });
 
-  it("JoinPool with less than the cap should work", async () => {
-    await smartpool.setCap(constants.MaxUint256);
+  // it("JoinPool with less than the cap should work", async () => {
+  //   await smartpool.setCap(constants.MaxUint256);
 
-    const mintAmount = constants.WeiPerEther;
-    await smartpool.joinPool(mintAmount);
+  //   const mintAmount = constants.WeiPerEther;
+  //   await smartpool.joinPool(mintAmount);
 
-    const balance = await smartpool.balanceOf(account);
-    expect(balance).to.eq(mintAmount.add(INITIAL_SUPPLY));
-  });
+  //   const balance = await smartpool.balanceOf(account);
+  //   expect(balance).to.eq(mintAmount.add(INITIAL_SUPPLY));
+  // });
 
-  it("JoinPool with more than the cap should fail", async () => {
-    const cap = constants.WeiPerEther.mul(100);
-    await smartpool.setCap(cap);
-    await expect(smartpool.joinPool(cap.add(1))).to.be.revertedWith(
-      "PV2SmartPool.withinCap: Cap limit reached"
-    );
-  });
+  // it("JoinPool with more than the cap should fail", async () => {
+  //   const cap = constants.WeiPerEther.mul(100);
+  //   await smartpool.setCap(cap);
+  //   await expect(smartpool.joinPool(cap.add(1))).to.be.revertedWith(
+  //     "PV2SmartPool.withinCap: Cap limit reached"
+  //   );
+  // });
 
-  it("joinswapExternAmountIn with less than the cap should work", async () => {
-    const cap = constants.WeiPerEther.mul(100);
-    await smartpool.setCap(cap);
-    await smartpool.setPublicSwap(true);
-    const tokenBalance = constants.WeiPerEther.div(100);
+  // it("joinswapExternAmountIn with less than the cap should work", async () => {
+  //   const cap = constants.WeiPerEther.mul(100);
+  //   await smartpool.setCap(cap);
+  //   await smartpool.setPublicSwap(true);
+  //   const tokenBalance = constants.WeiPerEther.div(100);
 
-    await smartpool.joinswapExternAmountIn(tokens[0].address, tokenBalance, constants.Zero);
-  });
+  //   await smartpool.joinswapExternAmountIn(tokens[0].address, tokenBalance, constants.Zero);
+  // });
 });
