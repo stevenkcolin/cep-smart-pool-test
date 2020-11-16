@@ -313,24 +313,53 @@ describe("Basic Pool Functionality", function () {
     // });
 
 
-    it("Setting the token binder from a non controller address should fail", async () => {
-      smartpool = smartpool.connect(signers[1]);
-      await expect(smartpool.setTokenBinder(PLACE_HOLDER_ADDRESS)).to.be.revertedWith(
-        "PV2SmartPool.onlyController: not controller"
-      );
+    // it("Setting the token binder from a non controller address should fail", async () => {
+    //   smartpool = smartpool.connect(signers[1]);
+    //   await expect(smartpool.setTokenBinder(PLACE_HOLDER_ADDRESS)).to.be.revertedWith(
+    //     "PV2SmartPool.onlyController: not controller"
+    //   );
+    // });
+
+    it("Case2: Get Controller Information", async () => {
+      
+
+      console.log("----------------------------------------------------------------------");
+      console.log("Case 2");
+      
+
+      const controller = await smartpool.getController();
+      console.log("Controller address is: ",controller);
+
+      const publicSwapSetter = await smartpool.getPublicSwapSetter();
+      console.log("publicSwapSetter is: ",publicSwapSetter.toString());
+
+      const tokenBinder = await smartpool.getTokenBinder();
+      console.log("tokenBinder address is : ",tokenBinder);
+      
+      const publicSwap = await smartpool.isPublicSwap();
+      console.log("publicSwap is: ",publicSwap);
+
+      const swapFee = await smartpool.getSwapFee();
+      console.log("swapFee is: ",swapFee.toString());
+
     });
-  //   it("Setting public swap should work", async () => {
-  //     await smartpool.setPublicSwap(true);
-  //     const publicSwap = await smartpool.isPublicSwap();
-  //     // tslint:disable-next-line:no-unused-expression
-  //     expect(publicSwap).to.be.true;
-  //   });
+
+    // it("Setting public swap should work", async () => {
+    //   await smartpool.setPublicSwap(true);
+    //   const publicSwap = await smartpool.isPublicSwap();
+      
+    //   console.log("publicSwap is: ",publicSwap);
+    //   expect(publicSwap).to.be.true;
+    // });
+
   //   it("Setting public swap from a non publicSwapSetter address should fail", async () => {
   //     smartpool = smartpool.connect(signers[1]);
   //     await expect(smartpool.setPublicSwap(true)).to.be.revertedWith(
   //       "PV2SmartPool.onlyPublicSwapSetter: not public swap setter"
   //     );
   //   });
+
+
   //   it("Setting the swap fee should work", async () => {
   //     const feeValue = constants.WeiPerEther.div(20);
   //     await smartpool.setSwapFee(feeValue);
