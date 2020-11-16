@@ -68,6 +68,22 @@ test cap functions
 npx buidler test ./test/capPoolFunctionality.ts
 ```
 
+test ProxiedFactory test script
+```
+npx buidler test ./test/pProxiedFactory.ts
+```
+
+test reentryProtection test script
+```
+npx buidler test ./test/reentryProtection.ts
+```
+
+test safeApproval test script
+```
+npx buidler test ./test/safeApproval.ts
+```
+
+
 ## Integration
 
 ### Adding and removing liquidity
