@@ -35,6 +35,7 @@ describe("Basic Pool Functionality", function () {
   let smartpool: Pv2SmartPool;
 
   beforeEach(async () => {
+
     signers = await ethers.signers();
     account = await signers[0].getAddress();
     account2 = await signers[1].getAddress();
@@ -73,6 +74,8 @@ describe("Basic Pool Functionality", function () {
     await smartpool.setJoinExitEnabled(true);
     // await timeTraveler.snapshot();
     console.log("Before Each case, the initial Pv2SmartPool address is :",smartpool.address);
+    console.log("account address is: ",account);
+    console.log("account2 address is: ",account2);
   });
 
   // beforeEach(async() => {
@@ -86,7 +89,7 @@ describe("Basic Pool Functionality", function () {
   describe("init", async () => {
 
     // 第一个测试用例，测试smartpool里面的tokens集合。目前测试用的是7个代币
-    // it("test for Tokens & ActualTokens", async () => {
+    // it("Case1：Tokens & ActualTokens", async () => {
     //   const actualTokens = await smartpool.getTokens();
     //   const tokenAddresses = tokens.map((token) => token.address);
 
@@ -112,82 +115,83 @@ describe("Basic Pool Functionality", function () {
 
 
     // 第二个测试用例，用来测试关于Pv2SmartPool的核心设置
-    it("test for Pv2SmartPool", async () => {
-      console.log("----------------------------------------------------------------------");
-      console.log("log for case 'test for Pv2SmartPool'");
-      console.log("Pv2SmartPool address is :",smartpool.address);
-      console.log("account is: ",account);
-      console.log("account2 is: ",account2);
+    // it("Case2：Pv2SmartPool", async () => {
+    //   console.log("----------------------------------------------------------------------");
+    //   console.log("log for case 'test for Pv2SmartPool'");
+    //   console.log("Pv2SmartPool address is :",smartpool.address);
+    //   console.log("account is: ",account);
+    //   console.log("account2 is: ",account2);
 
-      const actualTokens = await smartpool.getTokens();
-      console.log("Actual Tokens is as below: ");
-      console.log("----------------------------------------------------------------------")
-      for (const token of actualTokens) {
-        console.log("actual token is: ", token.toString());
-      }
+    //   const actualTokens = await smartpool.getTokens();
+    //   console.log("Actual Tokens is as below: ");
+    //   console.log("----------------------------------------------------------------------")
+    //   for (const token of actualTokens) {
+    //     console.log("actual token is: ", token.toString());
+    //   }
 
-      const name = await smartpool.name();
-      console.log("Pv2SmartPool name is: ",name);
-      expect(name).to.eq(NAME);
-
-
-      const symbol = await smartpool.symbol();
-      console.log("Pv2SmartPool symbol is: ",symbol);
-      expect(symbol).to.eq(SYMBOL);
-
-      const initialSupply = await smartpool.totalSupply();
-      console.log("Pv2SmartPool initialSupply is： ",initialSupply.toString());
-      expect(initialSupply).to.eq(INITIAL_SUPPLY);
-
-      const controller = await smartpool.getController();
-      console.log("Pv2SmartPool Controller is: ",controller.toString());
-      expect(controller).to.eq(account);
-
-      const publicSwapSetter = await smartpool.getPublicSwapSetter();
-      console.log("publicSwapSetter is: ",publicSwapSetter);
-      expect(publicSwapSetter).to.eq(account);
-
-      const tokenBinder = await smartpool.getTokenBinder();
-      console.log("tokenBinder is: ",tokenBinder);
-      expect(tokenBinder).to.eq(account);
-
-      const bPool = await smartpool.getBPool();
-      console.log("bPool is: ",bPool);
-      expect(bPool).to.eq(pool.address);
-
-      const SwapFee = await smartpool.getSwapFee();
-      console.log("swapFee is： ",SwapFee.toString());
-
-      //测试calTokensForAmount，输入amount，计算能给出多少tokens。预设的是除以2，所以
-      //输入0.5的数量，返回应该是0.25
-      //输入0.123的数量，返回应该是0.0615
-
-      //下面测试输入0.5
-      const amountAndTokens = await smartpool.calcTokensForAmount(constants.WeiPerEther.div(2));
-
-      const tokenAddresses = tokens.map((token) => token.address);
-      const expectedAmounts = tokens.map(() => constants.WeiPerEther.div(4));
-
-      expect(amountAndTokens.tokens).to.eql(tokenAddresses);
-      expect(amountAndTokens.amounts).to.eql(expectedAmounts);
-
-      console.log(tokenAddresses.toString());
-      console.log(expectedAmounts.toString());
-
-      console.log(amountAndTokens.tokens);
-      console.log(amountAndTokens.amounts.toString());
-
-      //下面测试输入0.5
-      const testNum = new BigNumber("123000000000000000");
-      const amountAndTokens2 = await smartpool.calcTokensForAmount(testNum);
-
-      console.log(amountAndTokens2.tokens);
-      console.log(amountAndTokens2.amounts.toString());
+    //   const name = await smartpool.name();
+    //   console.log("Pv2SmartPool name is: ",name);
+    //   expect(name).to.eq(NAME);
 
 
+    //   const symbol = await smartpool.symbol();
+    //   console.log("Pv2SmartPool symbol is: ",symbol);
+    //   expect(symbol).to.eq(SYMBOL);
+
+    //   const initialSupply = await smartpool.totalSupply();
+    //   console.log("Pv2SmartPool initialSupply is： ",initialSupply.toString());
+    //   expect(initialSupply).to.eq(INITIAL_SUPPLY);
+
+    //   const controller = await smartpool.getController();
+    //   console.log("Pv2SmartPool Controller is: ",controller.toString());
+    //   expect(controller).to.eq(account);
+
+    //   const publicSwapSetter = await smartpool.getPublicSwapSetter();
+    //   console.log("publicSwapSetter is: ",publicSwapSetter);
+    //   expect(publicSwapSetter).to.eq(account);
+
+    //   const tokenBinder = await smartpool.getTokenBinder();
+    //   console.log("tokenBinder is: ",tokenBinder);
+    //   expect(tokenBinder).to.eq(account);
+
+    //   const bPool = await smartpool.getBPool();
+    //   console.log("bPool is: ",bPool);
+    //   expect(bPool).to.eq(pool.address);
+
+    //   const SwapFee = await smartpool.getSwapFee();
+    //   console.log("swapFee is： ",SwapFee.toString());
+
+    //   //测试calTokensForAmount，输入amount，计算能给出多少tokens。预设的是除以2，所以
+    //   //输入0.5的数量，返回应该是0.25
+    //   //输入0.123的数量，返回应该是0.0615
+
+    //   //下面测试输入0.5
+    //   const amountAndTokens = await smartpool.calcTokensForAmount(constants.WeiPerEther.div(2));
+
+    //   const tokenAddresses = tokens.map((token) => token.address);
+    //   const expectedAmounts = tokens.map(() => constants.WeiPerEther.div(4));
+
+    //   expect(amountAndTokens.tokens).to.eql(tokenAddresses);
+    //   expect(amountAndTokens.amounts).to.eql(expectedAmounts);
+
+    //   console.log(tokenAddresses.toString());
+    //   console.log(expectedAmounts.toString());
+
+    //   console.log(amountAndTokens.tokens);
+    //   console.log(amountAndTokens.amounts.toString());
+
+    //   //下面测试输入0.5
+    //   const testNum = new BigNumber("123000000000000000");
+    //   const amountAndTokens2 = await smartpool.calcTokensForAmount(testNum);
+
+    //   console.log(amountAndTokens2.tokens);
+    //   console.log(amountAndTokens2.amounts.toString());
+    // }); //end of Case2：Pv2SmartPool
 
 
-    });
+
+
+
     // it("Token symbol should be correct", async () => {
     //   const name = await smartpool.name();
     //   expect(name).to.eq(NAME);
@@ -239,36 +243,73 @@ describe("Basic Pool Functionality", function () {
     // });
   });
 
-  // describe("Controller functions", async () => {
-  //   it("Setting a new controller should work", async () => {
-  //     await smartpool.setController(PLACE_HOLDER_ADDRESS);
-  //     const controller = await smartpool.getController();
-  //     expect(controller).to.eq(PLACE_HOLDER_ADDRESS);
-  //   });
-  //   it("Setting a new controller from a non controller address should fail", async () => {
-  //     smartpool = smartpool.connect(signers[1]);
+  describe("Controller functions", async () => {
+    // it("Case1: Setting a new controller should work", async () => {
+    //   await smartpool.setController(account);
 
-  //     await expect(smartpool.setController(PLACE_HOLDER_ADDRESS)).to.be.revertedWith(
-  //       "PV2SmartPool.onlyController: not controller"
-  //     );
-  //   });
-  //   it("Setting public swap setter should work", async () => {
-  //     await smartpool.setPublicSwapSetter(PLACE_HOLDER_ADDRESS);
-  //     const publicSwapSetter = await smartpool.getPublicSwapSetter();
-  //     expect(publicSwapSetter).to.eq(PLACE_HOLDER_ADDRESS);
-  //   });
-  //   it("Setting public swap setter from a non controller address should fail", async () => {
-  //     smartpool = smartpool.connect(signers[1]);
+    //   console.log("----------------------------------------------------------------------");
+    //   console.log("Caese 1");
+    //   console.log("PLACE_HOLDER_ADDRESS is: ",account);
 
-  //     await expect(smartpool.setPublicSwapSetter(PLACE_HOLDER_ADDRESS)).to.be.revertedWith(
-  //       "PV2SmartPool.onlyController: not controller"
-  //     );
-  //   });
-  //   it("Setting the token binder should work", async () => {
-  //     await smartpool.setTokenBinder(PLACE_HOLDER_ADDRESS);
-  //     const tokenBinder = await smartpool.getTokenBinder();
-  //     expect(tokenBinder).to.eq(PLACE_HOLDER_ADDRESS);
-  //   });
+    //   const controller = await smartpool.getController();
+    //   console.log("smartpool controller is : ",controller.toString());
+    //   expect(controller).to.eq(account);
+    // });
+
+    // it("Case2: Setting a new controller should work", async () => {
+    //   await smartpool.setController(account2);
+
+    //   console.log("----------------------------------------------------------------------");
+    //   console.log("Case 1");
+    //   console.log("account2 address is: ",account2);
+
+    //   const controller = await smartpool.getController();
+    //   console.log("smartpool controller is : ",controller.toString());
+    //   expect(controller).to.eq(account2);
+    // });
+
+    // it("Setting a new controller from a non controller address should fail", async () => {
+    //   smartpool = smartpool.connect(signers[1]);
+
+    //   await expect(smartpool.setController(account)).to.be.revertedWith(
+    //     "PV2SmartPool.onlyController: not controller"
+    //   );
+
+    //   await expect(smartpool.setController(account2)).to.be.revertedWith(
+    //     "PV2SmartPool.onlyController: not controller"
+    //   );
+    // });
+
+    // it("Setting public swap setter should work", async () => {
+    //   await smartpool.setPublicSwapSetter(account);
+    //   const publicSwapSetter = await smartpool.getPublicSwapSetter();
+    //   console.log("publicSwapSetter is: ",publicSwapSetter.toString());
+
+    //   expect(publicSwapSetter).to.eq(account);
+    // });
+
+    // it("Setting public swap setter from a non controller address should fail", async () => {
+    //   smartpool = smartpool.connect(signers[1]);
+
+    //   await expect(smartpool.setPublicSwapSetter(account)).to.be.revertedWith(
+    //     "PV2SmartPool.onlyController: not controller"
+    //   );
+
+    //   await expect(smartpool.setPublicSwapSetter(account2)).to.be.revertedWith(
+    //     "PV2SmartPool.onlyController: not controller"
+    //   );
+    // });
+
+
+
+    it("Setting the token binder should work", async () => {
+      await smartpool.setTokenBinder(account);
+      
+      const tokenBinder = await smartpool.getTokenBinder();
+      console.log("tokenBinder address is : ",tokenBinder);
+
+      expect(tokenBinder).to.eq(account);
+    });
   //   it("Setting the token binder from a non controller address should fail", async () => {
   //     smartpool = smartpool.connect(signers[1]);
   //     await expect(smartpool.setTokenBinder(PLACE_HOLDER_ADDRESS)).to.be.revertedWith(
@@ -311,7 +352,7 @@ describe("Basic Pool Functionality", function () {
   //       "PV2SmartPool.createPool: unsupported function"
   //     );
   //   });
-  // });
+  }); //end of Controller functions
 
   // describe("Joining and Exiting", async () => {
   //   it("Adding liquidity should work", async () => {
