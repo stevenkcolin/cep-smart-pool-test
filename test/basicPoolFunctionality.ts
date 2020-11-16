@@ -76,6 +76,7 @@ describe("Basic Pool Functionality", function () {
     console.log("Before Each case, the initial Pv2SmartPool address is :",smartpool.address);
     console.log("account address is: ",account);
     console.log("account2 address is: ",account2);
+    console.log("----------------------------------------------------------------------")
   });
 
   // beforeEach(async() => {
