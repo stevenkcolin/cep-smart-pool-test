@@ -342,6 +342,12 @@ describe("Basic Pool Functionality", function () {
       const swapFee = await smartpool.getSwapFee();
       console.log("swapFee is: ",swapFee.toString());
 
+      const feeValue = constants.WeiPerEther.div(33);
+      await smartpool.setSwapFee(feeValue);
+      const swapFee2 = await smartpool.getSwapFee();
+      console.log("new swapFee is: ",swapFee2.toString());
+      expect(swapFee2).to.eq(feeValue);
+
     });
 
     // it("Setting public swap should work", async () => {
@@ -360,30 +366,31 @@ describe("Basic Pool Functionality", function () {
   //   });
 
 
-  //   it("Setting the swap fee should work", async () => {
-  //     const feeValue = constants.WeiPerEther.div(20);
-  //     await smartpool.setSwapFee(feeValue);
-  //     const swapFee = await smartpool.getSwapFee();
-  //     expect(swapFee).to.eq(feeValue);
-  //   });
-  //   it("Setting the swap fee from a non controller address should fail", async () => {
-  //     smartpool = smartpool.connect(signers[1]);
-  //     await expect(smartpool.setSwapFee(constants.WeiPerEther.div(20))).to.be.revertedWith(
-  //       "PV2SmartPool.onlyController: not controller"
-  //     );
-  //   });
-  //   it("Should revert with unsupported function error when calling finalizePool()", async () => {
-  //     smartpool = smartpool.connect(signers[1]);
-  //     await expect(smartpool.finalizeSmartPool()).to.be.revertedWith(
-  //       "PV2SmartPool.finalizeSmartPool: unsupported function"
-  //     );
-  //   });
-  //   it("Should revert with unsupported function error when calling createPool(uint256 initialSupply)", async () => {
-  //     smartpool = smartpool.connect(signers[1]);
-  //     await expect(smartpool.createPool(0)).to.be.revertedWith(
-  //       "PV2SmartPool.createPool: unsupported function"
-  //     );
-  //   });
+    // it("Setting the swap fee should work", async () => {
+    //   const feeValue = constants.WeiPerEther.div(33);
+    //   await smartpool.setSwapFee(feeValue);
+    //   const swapFee = await smartpool.getSwapFee();
+    //   console.log("new swapFee is: ",swapFee.toString());
+    //   expect(swapFee).to.eq(feeValue);
+    // });
+    // it("Setting the swap fee from a non controller address should fail", async () => {
+    //   smartpool = smartpool.connect(signers[1]);
+    //   await expect(smartpool.setSwapFee(constants.WeiPerEther.div(20))).to.be.revertedWith(
+    //     "PV2SmartPool.onlyController: not controller"
+    //   );
+    // });
+    it("Should revert with unsupported function error when calling finalizePool()", async () => {
+      smartpool = smartpool.connect(signers[1]);
+      await expect(smartpool.finalizeSmartPool()).to.be.revertedWith(
+        "PV2SmartPool.finalizeSmartPool: unsupported function"
+      );
+    });
+    it("Should revert with unsupported function error when calling createPool(uint256 initialSupply)", async () => {
+      smartpool = smartpool.connect(signers[1]);
+      await expect(smartpool.createPool(0)).to.be.revertedWith(
+        "PV2SmartPool.createPool: unsupported function"
+      );
+    });
   }); //end of Controller functions
 
   // describe("Joining and Exiting", async () => {
