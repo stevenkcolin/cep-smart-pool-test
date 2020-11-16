@@ -379,18 +379,18 @@ describe("Basic Pool Functionality", function () {
     //     "PV2SmartPool.onlyController: not controller"
     //   );
     // });
-    it("Should revert with unsupported function error when calling finalizePool()", async () => {
-      smartpool = smartpool.connect(signers[1]);
-      await expect(smartpool.finalizeSmartPool()).to.be.revertedWith(
-        "PV2SmartPool.finalizeSmartPool: unsupported function"
-      );
-    });
-    it("Should revert with unsupported function error when calling createPool(uint256 initialSupply)", async () => {
-      smartpool = smartpool.connect(signers[1]);
-      await expect(smartpool.createPool(0)).to.be.revertedWith(
-        "PV2SmartPool.createPool: unsupported function"
-      );
-    });
+    // it("Should revert with unsupported function error when calling finalizePool()", async () => {
+    //   smartpool = smartpool.connect(signers[1]);
+    //   await expect(smartpool.finalizeSmartPool()).to.be.revertedWith(
+    //     "PV2SmartPool.finalizeSmartPool: unsupported function"
+    //   );
+    // });
+    // it("Should revert with unsupported function error when calling createPool(uint256 initialSupply)", async () => {
+    //   smartpool = smartpool.connect(signers[1]);
+    //   await expect(smartpool.createPool(0)).to.be.revertedWith(
+    //     "PV2SmartPool.createPool: unsupported function"
+    //   );
+    // });
   }); //end of Controller functions
 
   // describe("Joining and Exiting", async () => {
