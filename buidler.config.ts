@@ -50,7 +50,7 @@ interface ExtendedBuidlerConfig extends BuidlerConfig {
 }
 
 const config: ExtendedBuidlerConfig = {
-  defaultNetwork: "localhost",
+  defaultNetwork: "buidlerevm",
   solc: {
     version: "0.6.4",
     optimizer: {

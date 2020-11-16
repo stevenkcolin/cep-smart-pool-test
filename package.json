@@ -31,6 +31,7 @@
   "devDependencies": {
     "@nomiclabs/buidler-ethers": "^1.3.4",
     "@nomiclabs/buidler-waffle": "^1.3.5",
+    "@nomiclabs/hardhat-ethers": "^2.0.0",
     "@typechain/ethers-v4": "^1.0.0",
     "@types/chai": "^4.2.8",
     "@types/mocha": "^7.0.1",
@@ -54,11 +55,12 @@
     "test": "test"
   },
   "dependencies": {
-    "@nomiclabs/buidler": "^1.4.7",
     "@nomiclabs/buidler-etherscan": "^2.1.0",
+    "@nomiclabs/buidler": "^1.4.7",
     "@pie-dao/mock-contracts": "0.0.9",
     "@pie-dao/proxy": "0.0.6",
     "dotenv": "^8.2.0",
+    "keccak": "^3.0.1",
     "yarn": "^1.22.10"
   }
 }
