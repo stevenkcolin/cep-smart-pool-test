@@ -63,6 +63,11 @@ test basic pool functions:
 npx buidler test ./test/basicPoolFunctionality.ts
 ```
 
+test cap functions
+```
+npx buidler test ./test/capPoolFunctionality.ts
+```
+
 ## Integration
 
 ### Adding and removing liquidity
