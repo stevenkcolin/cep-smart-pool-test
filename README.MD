@@ -43,6 +43,11 @@ npx buidler deploy-smart-pool-implementation-complete --impl-name PieDAO --netwo
 ```
 
 deploy on localhost
+### Step1: launch localhost node localhost:8545
+```
+npx buidler node
+```
+### Step2: run the deploy scripts on the localhost ndoe
 
 ```
 npx buidler deploy-smart-pool-implementation-complete --impl-name PieDAO --network localhost
