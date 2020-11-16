@@ -21,7 +21,8 @@ const PLACE_HOLDER_ADDRESS = "0x0000000000000000000000000000000000000001";
 const NAME = "TEST POOL";
 const SYMBOL = "TPL";
 const INITIAL_SUPPLY = constants.WeiPerEther;
-const INITIAL_TOKEN_SUPPLY = constants.WeiPerEther.mul(constants.WeiPerEther.mul(1000000));
+// const INITIAL_TOKEN_SUPPLY = constants.WeiPerEther.mul(constants.WeiPerEther.mul(100));
+const INITIAL_TOKEN_SUPPLY = constants.WeiPerEther.mul(10000);
 let tokenFactory: MockTokenFactory;
 const timeTraveler = new TimeTraveler(ethereum);
 
@@ -46,7 +47,7 @@ describe("Basic Pool Functionality", function () {
     for (let i = 0; i < 7; i++) {
       const token: MockToken = await tokenFactory.deploy(`Mock ${i}`, `M${i}`, 18);
       await token.mint(account, INITIAL_TOKEN_SUPPLY);
-      await token.mint(await signers[1].getAddress(), constants.WeiPerEther.mul(1000000));
+      await token.mint(await signers[1].getAddress(), constants.WeiPerEther.mul(10000));
       await token.approve(pool.address, constants.MaxUint256);
       pool.bind(token.address, constants.WeiPerEther.div(2), constants.WeiPerEther);
       tokens.push(token);
@@ -411,11 +412,14 @@ describe("Basic Pool Functionality", function () {
       await smartpool.joinPool(mintAmount);
 
       const balance = await smartpool.balanceOf(account);
-      console.log ("balance is: ",balance);
+      console.log ("balance is: ",balance.toString());
+
       expect(balance).to.eq(mintAmount.add(INITIAL_SUPPLY));
 
       for (let entry of tokens) {
         const userBalance = await entry.balanceOf(account)
+        // console.log("token is : ",entry.address);
+        console.log("balance of token ",entry.address, " is ", userBalance.toString());
         expect(userBalance).to.eq(INITIAL_TOKEN_SUPPLY.sub(mintAmount));
       }
     });
