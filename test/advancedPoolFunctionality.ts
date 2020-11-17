@@ -472,6 +472,7 @@ describe("Advanced Pool Functionality", function () {
 
       beforeEach(async () => {
         // Pop off the last token for testing
+        console.log("tokens length is : ", tokens.length.toString());
         await smartpool.removeToken(tokens[tokens.length - 1].address);
         newToken = tokens[tokens.length - 1];
 
@@ -494,52 +495,52 @@ describe("Advanced Pool Functionality", function () {
         await smartpool.pokeWeights();
       });
 
-//       it("Weight update should cancel when adding token", async () => {
-//         // start adjustment
-//         await smartpool.updateWeightsGradually(weigthsFixturePokeWeightsUp, startBlock, endBlock);
-//         await smartpool.pokeWeights();
-//         // add new token
-//         const balance = constants.WeiPerEther.mul(100);
-//         const weight = constants.WeiPerEther.mul(2);
-//         await smartpool.commitAddToken(newToken.address, balance, weight);
-//         await smartpool.pokeWeights();
-//         await smartpool.applyAddToken();
+      it("Weight update should cancel when adding token", async () => {
+        // start adjustment
+        await smartpool.updateWeightsGradually(weigthsFixturePokeWeightsUp, startBlock, endBlock);
+        await smartpool.pokeWeights();
+        // add new token
+        const balance = constants.WeiPerEther.mul(100);
+        const weight = constants.WeiPerEther.mul(2);
+        await smartpool.commitAddToken(newToken.address, balance, weight);
+        await smartpool.pokeWeights();
+        await smartpool.applyAddToken();
 
-//         // throws 'VM Exception while processing transaction: invalid opcode' @ f4aab193
-//         await expect(smartpool.pokeWeights()).to.be.revertedWith("ERR_WEIGHT_ADJUSTMENT_FINISHED");
-//         // weight adjustment should still work
-//         await smartpool.updateWeightsGradually(weigthsFixturePokeWeightsUp, startBlock, endBlock);
-//         await smartpool.pokeWeights();
-//       });
+        // throws 'VM Exception while processing transaction: invalid opcode' @ f4aab193
+        await expect(smartpool.pokeWeights()).to.be.revertedWith("ERR_WEIGHT_ADJUSTMENT_FINISHED");
+        // weight adjustment should still work
+        await smartpool.updateWeightsGradually(weigthsFixturePokeWeightsUp, startBlock, endBlock);
+        await smartpool.pokeWeights();
+      });
 
-//       it("Weight update should cancel when calling bind", async () => {
-//         // start adjustment
-//         await smartpool.updateWeightsGradually(weigthsFixturePokeWeightsUp, startBlock, endBlock);
-//         await smartpool.pokeWeights();
-//         // binding a token
-//         const mintAmount = constants.WeiPerEther.mul(1000000);
-//         const token: MockToken = await tokenFactory.deploy("Mock", "M", 18);
-//         await token.mint(account, mintAmount);
-//         await token.approve(smartpool.address, constants.MaxUint256);
-//         await smartpool.bind(token.address, constants.WeiPerEther, constants.WeiPerEther);
+      it("Weight update should cancel when calling bind", async () => {
+        // start adjustment
+        await smartpool.updateWeightsGradually(weigthsFixturePokeWeightsUp, startBlock, endBlock);
+        await smartpool.pokeWeights();
+        // binding a token
+        const mintAmount = constants.WeiPerEther.mul(1000000);
+        const token: MockToken = await tokenFactory.deploy("Mock", "M", 18);
+        await token.mint(account, mintAmount);
+        await token.approve(smartpool.address, constants.MaxUint256);
+        await smartpool.bind(token.address, constants.WeiPerEther, constants.WeiPerEther);
 
-//         await expect(smartpool.pokeWeights()).to.be.revertedWith("ERR_WEIGHT_ADJUSTMENT_FINISHED");
-//         // weight adjustment should still work
-//         await smartpool.updateWeightsGradually(weigthsFixturePokeWeightsUp, startBlock, endBlock);
-//         await smartpool.pokeWeights();
-//       });
+        await expect(smartpool.pokeWeights()).to.be.revertedWith("ERR_WEIGHT_ADJUSTMENT_FINISHED");
+        // weight adjustment should still work
+        await smartpool.updateWeightsGradually(weigthsFixturePokeWeightsUp, startBlock, endBlock);
+        await smartpool.pokeWeights();
+      });
 
-//       it("Weight update should cancel when calling unbind", async () => {
-//         // start adjustment
-//         await smartpool.updateWeightsGradually(weigthsFixturePokeWeightsUp, startBlock, endBlock);
-//         await smartpool.pokeWeights();
-//         // unbinding a token
-//         smartpool.unbind(tokens[0].address);
-//         await expect(smartpool.pokeWeights()).to.be.revertedWith("ERR_WEIGHT_ADJUSTMENT_FINISHED");
-//         // weight adjustment should still work
-//         await smartpool.updateWeightsGradually(weigthsFixturePokeWeightsUp, startBlock, endBlock);
-//         await smartpool.pokeWeights();
-//       });
+      it("Weight update should cancel when calling unbind", async () => {
+        // start adjustment
+        await smartpool.updateWeightsGradually(weigthsFixturePokeWeightsUp, startBlock, endBlock);
+        await smartpool.pokeWeights();
+        // unbinding a token
+        smartpool.unbind(tokens[0].address);
+        await expect(smartpool.pokeWeights()).to.be.revertedWith("ERR_WEIGHT_ADJUSTMENT_FINISHED");
+        // weight adjustment should still work
+        await smartpool.updateWeightsGradually(weigthsFixturePokeWeightsUp, startBlock, endBlock);
+        await smartpool.pokeWeights();
+      });
 
 //       it("Weight update should cancel when calling rebind", async () => {
 //         // start adjustment
