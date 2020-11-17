@@ -354,47 +354,47 @@ describe("Advanced Pool Functionality", function () {
     // });
   });
 
-//   describe("pokeWeight()", async () => {
-//     const weigthsFixturePokeWeightsUp = [
-//       constants.WeiPerEther.mul(4),
-//       constants.WeiPerEther.mul(4),
-//       constants.WeiPerEther.mul(4),
-//       constants.WeiPerEther.mul(4),
-//       constants.WeiPerEther.mul(4),
-//       constants.WeiPerEther.mul(4),
-//       constants.WeiPerEther.mul(4),
-//       constants.WeiPerEther.mul(4),
-//     ];
+  describe("pokeWeight()", async () => {
+    const weigthsFixturePokeWeightsUp = [
+      constants.WeiPerEther.mul(4),
+      constants.WeiPerEther.mul(4),
+      constants.WeiPerEther.mul(4),
+      constants.WeiPerEther.mul(4),
+      constants.WeiPerEther.mul(4),
+      constants.WeiPerEther.mul(4),
+      constants.WeiPerEther.mul(4),
+      constants.WeiPerEther.mul(4),
+    ];
 
-//     const weigthsFixturePokeWeightsDown = [
-//       constants.WeiPerEther.mul(1),
-//       constants.WeiPerEther.mul(1),
-//       constants.WeiPerEther.mul(1),
-//       constants.WeiPerEther.mul(1),
-//       constants.WeiPerEther.mul(1),
-//       constants.WeiPerEther.mul(1),
-//       constants.WeiPerEther.mul(1),
-//       constants.WeiPerEther.mul(1),
-//     ];
+    const weigthsFixturePokeWeightsDown = [
+      constants.WeiPerEther.mul(1),
+      constants.WeiPerEther.mul(1),
+      constants.WeiPerEther.mul(1),
+      constants.WeiPerEther.mul(1),
+      constants.WeiPerEther.mul(1),
+      constants.WeiPerEther.mul(1),
+      constants.WeiPerEther.mul(1),
+      constants.WeiPerEther.mul(1),
+    ];
 
-//     it("Poking the weights up should work", async () => {
-//       await smartpool.updateWeightsGradually(weigthsFixturePokeWeightsUp, startBlock, endBlock);
-//       const weightsBefore = await smartpool.getDenormalizedWeights();
-//       await smartpool.pokeWeights();
-//       const currentBlock = await ethers.provider.getBlockNumber();
-//       const weightsAfter = await smartpool.getDenormalizedWeights();
+    it("Poking the weights up should work", async () => {
+      await smartpool.updateWeightsGradually(weigthsFixturePokeWeightsUp, startBlock, endBlock);
+      const weightsBefore = await smartpool.getDenormalizedWeights();
+      await smartpool.pokeWeights();
+      const currentBlock = await ethers.provider.getBlockNumber();
+      const weightsAfter = await smartpool.getDenormalizedWeights();
 
-//       for (let i = 0; i < weightsAfter.length; i++) {
-//         const expectedIncrease = weigthsFixturePokeWeightsUp[i]
-//           .sub(weightsBefore[i])
-//           .mul(currentBlock - startBlock)
-//           .div(endBlock - startBlock);
-//         expect(weightsAfter[i]).to.eq(
-//           weightsBefore[i].add(expectedIncrease),
-//           "Weight increase incorrect"
-//         );
-//       }
-//     });
+      for (let i = 0; i < weightsAfter.length; i++) {
+        const expectedIncrease = weigthsFixturePokeWeightsUp[i]
+          .sub(weightsBefore[i])
+          .mul(currentBlock - startBlock)
+          .div(endBlock - startBlock);
+        expect(weightsAfter[i]).to.eq(
+          weightsBefore[i].add(expectedIncrease),
+          "Weight increase incorrect"
+        );
+      }
+    });
 
 //     it("Poking the weights down should work", async () => {
 //       await smartpool.updateWeightsGradually(weigthsFixturePokeWeightsDown, startBlock, endBlock);
@@ -836,7 +836,7 @@ describe("Advanced Pool Functionality", function () {
 //         expect(feeRecipientPoolBalanceAfter).to.eq(expectedMint);
 //       });
 //     });
-//   });
+  });
 });
 
 function createBigNumberArray(length: number, value: BigNumber): BigNumber[] {
