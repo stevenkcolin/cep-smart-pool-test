@@ -52,7 +52,7 @@ describe("Basic Pool Functionality", function () {
       await token.mint(account, INITIAL_TOKEN_SUPPLY);
       await token.mint(await signers[1].getAddress(), constants.WeiPerEther.mul(100));
       await token.approve(pool.address, constants.MaxUint256);
-      pool.bind(token.address, constants.WeiPerEther.div(2), constants.WeiPerEther);
+      pool.bind(token.address, constants.WeiPerEther.div(10), constants.WeiPerEther);
       tokens.push(token);
     }
 
@@ -186,8 +186,8 @@ describe("Basic Pool Functionality", function () {
     //   const tokenAddresses = tokens.map((token) => token.address);
     //   const expectedAmounts = tokens.map(() => constants.WeiPerEther.div(4));
 
-    //   expect(amountAndTokens.tokens).to.eql(tokenAddresses);
-    //   expect(amountAndTokens.amounts).to.eql(expectedAmounts);
+    //   // expect(amountAndTokens.tokens).to.eql(tokenAddresses);
+    //   // expect(amountAndTokens.amounts).to.eql(expectedAmounts);
 
     //   console.log(tokenAddresses.toString());
     //   console.log(expectedAmounts.toString());
@@ -195,7 +195,7 @@ describe("Basic Pool Functionality", function () {
     //   console.log(amountAndTokens.tokens);
     //   console.log(amountAndTokens.amounts.toString());
 
-    //   //下面测试输入0.5
+    //   //下面测试输入0.123
     //   const testNum = new BigNumber("123000000000000000");
     //   const amountAndTokens2 = await smartpool.calcTokensForAmount(testNum);
 
@@ -209,8 +209,11 @@ describe("Basic Pool Functionality", function () {
 
     // it("Token symbol should be correct", async () => {
     //   const name = await smartpool.name();
+    //   console.log("Pv2SmartPool name is: ",name);
+    //   console.log("NAME is: ",NAME.toString());
     //   expect(name).to.eq(NAME);
     // });
+
     // it("Token name should be correct", async () => {
     //   const symbol = await smartpool.symbol();
     //   expect(symbol).to.eq(SYMBOL);
@@ -260,15 +263,27 @@ describe("Basic Pool Functionality", function () {
 
   describe("Controller functions", async () => {
     // it("Case1: Setting a new controller should work", async () => {
+    //   const controllerBefore = await smartpool.getController();
+    //   console.log("controllerBefore is : ",controllerBefore.toString());
+
+    //   await smartpool.setController(account2);
+
+    //   const controllerAfter = await smartpool.getController();
+    //   console.log("controllerAfter is : ",controllerAfter.toString());
+    //   expect(controllerAfter).to.eq(account2);
+
+
+    //   smartpool = smartpool.connect(signers[0]);
+
+    //   await expect(smartpool.setController(account)).to.be.revertedWith(
+    //     "PV2SmartPool.onlyController: not controller");
+
+
+    //   smartpool = smartpool.connect(signers[1]);
     //   await smartpool.setController(account);
 
-    //   console.log("----------------------------------------------------------------------");
-    //   console.log("Caese 1");
-    //   console.log("PLACE_HOLDER_ADDRESS is: ",account);
-
-    //   const controller = await smartpool.getController();
-    //   console.log("smartpool controller is : ",controller.toString());
-    //   expect(controller).to.eq(account);
+    //   const controllerAfterAfter = await smartpool.getController();
+    //   console.log("controllerAfterAfter is : ",controllerAfterAfter.toString());
     // });
 
     // it("Case2: Setting a new controller should work", async () => {
@@ -317,14 +332,14 @@ describe("Basic Pool Functionality", function () {
 
 
 
-    // it("Setting the token binder should work", async () => {
-    //   await smartpool.setTokenBinder(account);
+    it("Setting the token binder should work", async () => {
+      await smartpool.setTokenBinder(account);
       
-    //   const tokenBinder = await smartpool.getTokenBinder();
-    //   console.log("tokenBinder address is : ",tokenBinder);
+      const tokenBinder = await smartpool.getTokenBinder();
+      console.log("tokenBinder address is : ",tokenBinder);
 
-    //   expect(tokenBinder).to.eq(account);
-    // });
+      expect(tokenBinder).to.eq(account);
+    });
 
 
     // it("Setting the token binder from a non controller address should fail", async () => {
