@@ -289,63 +289,69 @@ describe("Advanced Pool Functionality", function () {
     //   ).to.be.revertedWith("PV2SmartPool.onlyController: not controller");
     // });
 
-    it("Updating should work", async () => {
-      const currentWeights = await smartpool.getDenormalizedWeights();
-      console.log("currentWeights is: ",currentWeights.toString());
+    // it("Updating should work", async () => {
+    //   const currentWeights = await smartpool.getDenormalizedWeights();
+    //   console.log("currentWeights is: ",currentWeights.toString());
 
-      await smartpool.updateWeightsGradually(weightsFixtureUp, startBlock, endBlock);
+    //   await smartpool.updateWeightsGradually(weightsFixtureUp, startBlock, endBlock);
 
-      const newWeights = await smartpool.getNewWeights();
-      const newCurrentWeights = await smartpool.getDenormalizedWeights();
+    //   const newWeights = await smartpool.getNewWeights();
+    //   const newCurrentWeights = await smartpool.getDenormalizedWeights();
 
-      console.log("newWeights is: ",newWeights.toString());
-      console.log("newCurrentWeights is: ",newCurrentWeights.toString());
+    //   console.log("newWeights is: ",newWeights.toString());
+    //   console.log("newCurrentWeights is: ",newCurrentWeights.toString());
 
-      expect(newWeights).to.eql(weightsFixtureUp);
-      expect(newCurrentWeights).to.eql(currentWeights);
-    });
+    //   expect(newWeights).to.eql(weightsFixtureUp);
+    //   expect(newCurrentWeights).to.eql(currentWeights);
+    // });
 
-  //   it("Setting a start block in the past should set it to the current block", async () => {
-  //     const currentWeights = await smartpool.getDenormalizedWeights();
+    // it("Setting a start block in the past should set it to the current block", async () => {
+    //   const currentWeights = await smartpool.getDenormalizedWeights();
+    //   console.log("currentWeights is: ",currentWeights.toString());
 
-  //     await smartpool.updateWeightsGradually(weightsFixtureUp, 0, endBlock);
-  //     const currentBlock = await ethers.provider.getBlockNumber();
+    //   await smartpool.updateWeightsGradually(weightsFixtureUp, 0, endBlock);
+    //   const currentBlock = await ethers.provider.getBlockNumber();
+    //   console.log("currentBlock is: ",currentBlock.toString());
 
-  //     const newWeights = await smartpool.getNewWeights();
-  //     const newCurrentWeights = await smartpool.getDenormalizedWeights();
-  //     const startBlockVal = await smartpool.getStartBlock();
+    //   const newWeights = await smartpool.getNewWeights();
+    //   console.log("newWeights is: ",newWeights.toString());
+    //   const newCurrentWeights = await smartpool.getDenormalizedWeights();
+    //   console.log("newCurrentWeights is: ",newCurrentWeights.toString());
 
-  //     expect(startBlockVal).to.eq(currentBlock);
+    //   const startBlockVal = await smartpool.getStartBlock();
+    //   console.log("startBlockVal is ",startBlockVal.toString());
 
-  //     expect(newWeights).to.eql(weightsFixtureUp);
-  //     expect(newCurrentWeights).to.eql(currentWeights);
-  //   });
+    //   expect(startBlockVal).to.eq(currentBlock);
 
-  //   it("Updating the weight of a token above the max should fail", async () => {
-  //     await expect(
-  //       smartpool.updateWeightsGradually(weightsFixtureTokenAboveMax, startBlock, endBlock)
-  //     ).to.be.revertedWith("ERR_WEIGHT_ABOVE_MAX");
-  //   });
+    //   expect(newWeights).to.eql(weightsFixtureUp);
+    //   expect(newCurrentWeights).to.eql(currentWeights);
+    // });
 
-  //   it("Updating the weight of a token below the minimum should fail", async () => {
-  //     await expect(
-  //       smartpool.updateWeightsGradually(weightsFixtureTokenBelowMin, startBlock, endBlock)
-  //     ).to.be.revertedWith("ERR_WEIGHT_BELOW_MIN");
-  //   });
+    // it("Updating the weight of a token above the max should fail", async () => {
+    //   await expect(
+    //     smartpool.updateWeightsGradually(weightsFixtureTokenAboveMax, startBlock, endBlock)
+    //   ).to.be.revertedWith("ERR_WEIGHT_ABOVE_MAX");
+    // });
 
-  //   it("Updating the weights above the total max weight should fail", async () => {
-  //     await expect(
-  //       smartpool.updateWeightsGradually(weightsFixtureTotalAboveMax, startBlock, endBlock)
-  //     ).to.be.revertedWith("ERR_MAX_TOTAL_WEIGHT");
-  //   });
+    // it("Updating the weight of a token below the minimum should fail", async () => {
+    //   await expect(
+    //     smartpool.updateWeightsGradually(weightsFixtureTokenBelowMin, startBlock, endBlock)
+    //   ).to.be.revertedWith("ERR_WEIGHT_BELOW_MIN");
+    // });
 
-  //   it("Updating to a start block which is bigger before the end block should fail", async () => {
-  //     await expect(
-  //       smartpool.updateWeightsGradually(weightsFixtureUp, endBlock + 1, endBlock)
-  //     ).to.be.revertedWith(
-  //       "PWeightControlledSmartPool.updateWeightsGradually: End block must be after start block"
-  //     );
-  //   });
+    // it("Updating the weights above the total max weight should fail", async () => {
+    //   await expect(
+    //     smartpool.updateWeightsGradually(weightsFixtureTotalAboveMax, startBlock, endBlock)
+    //   ).to.be.revertedWith("ERR_MAX_TOTAL_WEIGHT");
+    // });
+
+    // it("Updating to a start block which is bigger before the end block should fail", async () => {
+    //   await expect(
+    //     smartpool.updateWeightsGradually(weightsFixtureUp, endBlock + 1, endBlock)
+    //   ).to.be.revertedWith(
+    //     "PWeightControlledSmartPool.updateWeightsGradually: End block must be after start block"
+    //   );
+    // });
   });
 
 //   describe("pokeWeight()", async () => {
