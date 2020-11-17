@@ -46,12 +46,23 @@ describe("Basic Pool Functionality", function () {
     tokens = [];
     for (let i = 0; i < 7; i++) {
       const token: MockToken = await tokenFactory.deploy(`Mock ${i}`, `M${i}`, 18);
+
+      // console.log("hahaha token addresss is: ", token.address.toString());
+
       await token.mint(account, INITIAL_TOKEN_SUPPLY);
       await token.mint(await signers[1].getAddress(), constants.WeiPerEther.mul(100));
       await token.approve(pool.address, constants.MaxUint256);
       pool.bind(token.address, constants.WeiPerEther.div(2), constants.WeiPerEther);
       tokens.push(token);
     }
+
+    // for (const token of tokens) {
+    //   console.log("token address is: ",token.address.toString());
+    //   console.log("token name is: ",(await token.name()).toString());
+    //   console.log("token balance of account is: ",(await token.balanceOf(account)).toString());
+    //   console.log("token balance of account2 is: ",(await token.balanceOf(account2)).toString());
+    //   console.log("----------------------------------------------------------------------")
+    // }
 
     smartpool = (await run("deploy-libraries-and-smartpool")) as Pv2SmartPool;
 
