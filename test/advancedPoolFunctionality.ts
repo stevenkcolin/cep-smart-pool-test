@@ -13,6 +13,7 @@ import {IbPoolFactory} from "../typechain/IbPoolFactory";
 import {Pv2SmartPool} from "../typechain/Pv2SmartPool";
 import PV2SmartPoolArtifact from "../artifacts/PV2SmartPool.json";
 import {MaxUint256} from "ethers/constants";
+import { start } from "repl";
 
 chai.use(solidity);
 const {expect} = chai;
@@ -46,8 +47,8 @@ describe("Advanced Pool Functionality", function () {
 
     for (let i = 0; i < 8; i++) {
       const token: MockToken = await tokenFactory.deploy(`Mock ${i}`, `M${i}`, 18);
-      await token.mint(account, constants.WeiPerEther.mul(1000000));
-      await token.mint(await signers[1].getAddress(), constants.WeiPerEther.mul(1000000));
+      await token.mint(account, constants.WeiPerEther.mul(100));
+      await token.mint(await signers[1].getAddress(), constants.WeiPerEther.mul(100));
       await token.approve(pool.address, constants.MaxUint256);
       pool.bind(token.address, constants.WeiPerEther, constants.WeiPerEther.mul(2));
       tokens.push(token);
@@ -66,19 +67,28 @@ describe("Advanced Pool Functionality", function () {
         smartpool.address,
         constants.MaxUint256
       );
+      console.log("token ",(await token.name()).toString()," address is: ",token.address.toString());
     }
 
     startBlock = (await ethers.provider.getBlockNumber()) + 1;
     endBlock = startBlock + 100;
+
+
+    console.log("Before Each case, the initial Pv2SmartPool address is :",smartpool.address);
+    console.log("account address is: ",account);
+    console.log("account2 address is: ",account2);
+    console.log("startBlock is: ",startBlock);
+    console.log("endBlock is: ",endBlock);
+    console.log("----------------------------------------------------------------------")
   });
 
   describe("updateWeight()", async () => {
-    it("Updating the weigth from a non controller should fail", async () => {
-      smartpool = smartpool.connect(signers[1]);
-      await expect(
-        smartpool.updateWeight(tokens[0].address, constants.WeiPerEther)
-      ).to.be.revertedWith("PV2SmartPool.onlyController: not controller");
-    });
+    // it("Updating the weigth from a non controller should fail", async () => {
+    //   smartpool = smartpool.connect(signers[1]);
+    //   await expect(
+    //     smartpool.updateWeight(tokens[0].address, constants.WeiPerEther)
+    //   ).to.be.revertedWith("PV2SmartPool.onlyController: not controller");
+    // });
 
     // it("Updating down should work", async () => {
     //   const weightBefore = await smartpool.getDenormalizedWeight(tokens[0].address);
@@ -88,14 +98,30 @@ describe("Advanced Pool Functionality", function () {
     //   const userSmartPoolTokenBalanceBefore = await smartpool.balanceOf(account);
     //   const poolSmartPoolTokenTotalSupplyBefore = await smartpool.totalSupply();
 
+    //   console.log("weightBefore is: ",weightBefore.toString());
+    //   console.log("totalWeightBefore is: ",totalWeightBefore.toString());
+    //   console.log("poolTokenBalanceBefore is: ",poolTokenBalanceBefore.toString());
+    //   console.log("userTokenBalanceBefore is: ",userTokenBalanceBefore.toString())
+    //   console.log("userSmartPoolTokenBalanceBefore is: ",userSmartPoolTokenBalanceBefore.toString());
+    //   console.log("poolSmartPoolTokenTotalSupplyBefore is: ",poolSmartPoolTokenTotalSupplyBefore.toString());
+
+    //   console.log("----------------------------------------------------------------------")
+
     //   await smartpool.updateWeight(tokens[0].address, constants.WeiPerEther);
 
     //   const newWeight = await smartpool.getDenormalizedWeight(tokens[0].address);
     //   const totalWeightAfter = await pool.getTotalDenormalizedWeight();
     //   const poolTokenBalanceAfter = await tokens[0].balanceOf(pool.address);
-    //   const userTokenBalanceAfter = await tokens[0].balanceOf(account);
+    //   const userTokenBalanceAfter =xx await tokens[0].balanceOf(account);
     //   const userSmartPoolTokenBalanceAfter = await smartpool.balanceOf(account);
     //   const poolSmartPoolTokenTotalSupplyAfter = await smartpool.totalSupply();
+
+    //   console.log("newWeight is: ",newWeight.toString());
+    //   console.log("totalWeightAfter is: ",totalWeightAfter.toString());
+    //   console.log("poolTokenBalanceAfter is: ",poolTokenBalanceAfter.toString());
+    //   console.log("userTokenBalanceAfter is: ",userTokenBalanceAfter.toString());
+    //   console.log("userSmartPoolTokenBalanceAfter is: ",userSmartPoolTokenBalanceAfter.toString());
+    //   console.log("poolSmartPoolTokenTotalSupplyAfter is: ",poolSmartPoolTokenTotalSupplyAfter.toString());
 
     //   const expectedBurn = poolSmartPoolTokenTotalSupplyBefore
     //     .mul(totalWeightBefore.sub(totalWeightAfter))
@@ -138,6 +164,15 @@ describe("Advanced Pool Functionality", function () {
     //   const userSmartPoolTokenBalanceBefore = await smartpool.balanceOf(account);
     //   const poolSmartPoolTokenTotalSupplyBefore = await smartpool.totalSupply();
 
+    //   console.log("weightBefore is: ",weightBefore.toString());
+    //   console.log("totalWeightBefore is: ",totalWeightBefore.toString());
+    //   console.log("poolTokenBalanceBefore is: ",poolTokenBalanceBefore.toString());
+    //   console.log("userTokenBalanceBefore is: ",userTokenBalanceBefore.toString())
+    //   console.log("userSmartPoolTokenBalanceBefore is: ",userSmartPoolTokenBalanceBefore.toString());
+    //   console.log("poolSmartPoolTokenTotalSupplyBefore is: ",poolSmartPoolTokenTotalSupplyBefore.toString());
+
+    //   console.log("----------------------------------------------------------------------")
+
     //   await smartpool.updateWeight(tokens[0].address, constants.WeiPerEther.mul(4));
 
     //   const newWeight = await smartpool.getDenormalizedWeight(tokens[0].address);
@@ -147,6 +182,13 @@ describe("Advanced Pool Functionality", function () {
     //   const userSmartPoolTokenBalanceAfter = await smartpool.balanceOf(account);
     //   const poolSmartPoolTokenTotalSupplyAfter = await smartpool.totalSupply();
 
+    //   console.log("newWeight is: ",newWeight.toString());
+    //   console.log("totalWeightAfter is: ",totalWeightAfter.toString());
+    //   console.log("poolTokenBalanceAfter is: ",poolTokenBalanceAfter.toString());
+    //   console.log("userTokenBalanceAfter is: ",userTokenBalanceAfter.toString());
+    //   console.log("userSmartPoolTokenBalanceAfter is: ",userSmartPoolTokenBalanceAfter.toString());
+    //   console.log("poolSmartPoolTokenTotalSupplyAfter is: ",poolSmartPoolTokenTotalSupplyAfter.toString());
+
     //   const expectedMint = poolSmartPoolTokenTotalSupplyBefore
     //     .mul(totalWeightAfter.sub(totalWeightBefore))
     //     .div(totalWeightBefore);
@@ -154,6 +196,10 @@ describe("Advanced Pool Functionality", function () {
     //     .mul(newWeight)
     //     .div(weightBefore)
     //     .sub(poolTokenBalanceBefore);
+
+
+    //   console.log("expectedMint is: ",expectedMint.toString());
+    //   console.log("expectedTokenDeposit is: ",expectedTokenDeposit.toString());
 
     //   expect(newWeight).to.eq(constants.WeiPerEther.mul(4));
     //   expect(userSmartPoolTokenBalanceAfter).to.eq(
