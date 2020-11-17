@@ -377,86 +377,122 @@ describe("Advanced Pool Functionality", function () {
       constants.WeiPerEther.mul(1),
     ];
 
-    it("Poking the weights up should work", async () => {
-      await smartpool.updateWeightsGradually(weigthsFixturePokeWeightsUp, startBlock, endBlock);
-      const weightsBefore = await smartpool.getDenormalizedWeights();
-      await smartpool.pokeWeights();
-      const currentBlock = await ethers.provider.getBlockNumber();
-      const weightsAfter = await smartpool.getDenormalizedWeights();
+    // it("Poking the weights up should work", async () => {
+    //   await smartpool.updateWeightsGradually(weigthsFixturePokeWeightsUp, startBlock, endBlock);
+    //   const weightsBefore = await smartpool.getDenormalizedWeights();
+    //   console.log("weightsBefore is: ",weightsBefore.toString());
 
-      for (let i = 0; i < weightsAfter.length; i++) {
-        const expectedIncrease = weigthsFixturePokeWeightsUp[i]
-          .sub(weightsBefore[i])
-          .mul(currentBlock - startBlock)
-          .div(endBlock - startBlock);
-        expect(weightsAfter[i]).to.eq(
-          weightsBefore[i].add(expectedIncrease),
-          "Weight increase incorrect"
-        );
-      }
-    });
+    //   await smartpool.pokeWeights();
+    //   const currentBlock = await ethers.provider.getBlockNumber();
+    //   console.log("currentBlock is: ",currentBlock.toString());
 
-//     it("Poking the weights down should work", async () => {
-//       await smartpool.updateWeightsGradually(weigthsFixturePokeWeightsDown, startBlock, endBlock);
-//       const weightsBefore = await smartpool.getDenormalizedWeights();
-//       await smartpool.pokeWeights();
-//       const currentBlock = await ethers.provider.getBlockNumber();
-//       const weightsAfter = await smartpool.getDenormalizedWeights();
+    //   const weightsAfter = await smartpool.getDenormalizedWeights();
+    //   console.log("weightsAfter is: ",weightsAfter.toString());
 
-//       for (let i = 0; i < weightsAfter.length; i++) {
-//         const expectedDecrease = weightsBefore[i]
-//           .sub(weigthsFixturePokeWeightsDown[i])
-//           .mul(currentBlock - startBlock)
-//           .div(endBlock - startBlock);
-//         expect(weightsAfter[i]).to.eq(
-//           weightsBefore[i].sub(expectedDecrease),
-//           "Weight decrease incorrect"
-//         );
-//       }
-//     });
+    //   for (let i = 0; i < weightsAfter.length; i++) {
+    //     const expectedIncrease = weigthsFixturePokeWeightsUp[i]
+    //       .sub(weightsBefore[i])
+    //       .mul(currentBlock - startBlock)
+    //       .div(endBlock - startBlock);
+    //     expect(weightsAfter[i]).to.eq(
+    //       weightsBefore[i].add(expectedIncrease),
+    //       "Weight increase incorrect"
+    //     );
+    //   }
+    // });
 
-//     it("Poking the weight after the end block should work", async () => {
-//       await smartpool.updateWeightsGradually(weigthsFixturePokeWeightsUp, startBlock, endBlock);
-//       await mine_blocks(200);
+    // it("Poking the weights down should work", async () => {
+    //   await smartpool.updateWeightsGradually(weigthsFixturePokeWeightsDown, startBlock, endBlock);
+    //   const weightsBefore = await smartpool.getDenormalizedWeights();
+    //   console.log("weightsBefore is: ",weightsBefore.toString());
 
-//       await smartpool.pokeWeights();
-//       const weightsAfter = await smartpool.getDenormalizedWeights();
+    //   await smartpool.pokeWeights();
+    //   const currentBlock = await ethers.provider.getBlockNumber();
+    //   const weightsAfter = await smartpool.getDenormalizedWeights();
+      
+    //   console.log("weightsAfter is: ", weightsAfter.toString());
 
-//       expect(weightsAfter).to.eql(weigthsFixturePokeWeightsUp, "Weight increase incorrect");
-//     });
+    //   for (let i = 0; i < weightsAfter.length; i++) {
+    //     const expectedDecrease = weightsBefore[i]
+    //       .sub(weigthsFixturePokeWeightsDown[i])
+    //       .mul(currentBlock - startBlock)
+    //       .div(endBlock - startBlock);
 
-//     it("Poking the weight twice after the end block should fail", async () => {
-//       await smartpool.updateWeightsGradually(weigthsFixturePokeWeightsUp, startBlock, endBlock);
-//       await smartpool.pokeWeights();
-//       await mine_blocks(5);
-//       await smartpool.pokeWeights();
-//       await mine_blocks(200);
-//       await smartpool.pokeWeights();
-//       await expect(smartpool.pokeWeights()).to.be.revertedWith("ERR_WEIGHT_ADJUSTMENT_FINISHED");
-//     });
+    //     console.log("expectedDecrease is: ",expectedDecrease.toString());
+    //     expect(weightsAfter[i]).to.eq(
+    //       weightsBefore[i].sub(expectedDecrease),
+    //       "Weight decrease incorrect"
+    //     );
+    //   }
+    // });
 
-//     describe("Adding tokens", async () => {
-//       let newToken: MockToken;
+    // it("Poking the weight after the end block should work", async () => {
 
-//       beforeEach(async () => {
-//         // Pop off the last token for testing
-//         await smartpool.removeToken(tokens[tokens.length - 1].address);
-//         newToken = tokens[tokens.length - 1];
-//       });
+    //   const weightsBefore = await smartpool.getDenormalizedWeights();
+    //   console.log("weightsBefore is: ",weightsBefore.toString());
 
-//       it("Weight update should cancel when removing token", async () => {
-//         // verify there is no current adjustment going on
-//         await expect(smartpool.pokeWeights()).to.be.revertedWith("ERR_WEIGHT_ADJUSTMENT_FINISHED");
-//         // start adjustment
-//         await smartpool.updateWeightsGradually(weigthsFixturePokeWeightsUp, startBlock, endBlock);
-//         await smartpool.pokeWeights();
-//         // remove a token
-//         await smartpool.removeToken(tokens[tokens.length - 2].address);
-//         await expect(smartpool.pokeWeights()).to.be.revertedWith("ERR_WEIGHT_ADJUSTMENT_FINISHED");
-//         // weight adjustment should still work
-//         await smartpool.updateWeightsGradually(weigthsFixturePokeWeightsUp, startBlock, endBlock);
-//         await smartpool.pokeWeights();
-//       });
+    //   await smartpool.updateWeightsGradually(weigthsFixturePokeWeightsUp, startBlock, endBlock);
+    //   // 挖了50个区块后，检查weights是多少
+    //   await mine_blocks(37);
+
+    //   await smartpool.pokeWeights();
+    //   const weightsAfter = await smartpool.getDenormalizedWeights();
+    //   console.log("weightsAfter is: ",weightsAfter.toString());
+
+    //   // expect(weightsAfter).to.eql(weigthsFixturePokeWeightsUp, "Weight increase incorrect");
+    // });
+
+    // it("Poking the weight twice after the end block should fail", async () => {
+    //   const weightsBefore = await smartpool.getDenormalizedWeights();
+    //   console.log("weightsBefore is: ",weightsBefore.toString());
+
+    //   await smartpool.updateWeightsGradually(weigthsFixturePokeWeightsUp, startBlock, endBlock);
+    //   await smartpool.pokeWeights();
+    //   await mine_blocks(24);
+    //   await smartpool.pokeWeights();
+
+    //   //检查5个区块后，是否weights有所变化
+    //   const weightsAfter = await smartpool.getDenormalizedWeights();
+    //   console.log("weightsAfter is: ",weightsAfter.toString());
+
+
+      
+    //   await mine_blocks(200);
+    //   await smartpool.pokeWeights();
+
+    //   //检查200个区块后，是否weights有所变化
+    //   const weightsAfter2 = await smartpool.getDenormalizedWeights();
+    //   console.log("weightsAfter2 is: ",weightsAfter2.toString());
+      
+    //   await expect(smartpool.pokeWeights()).to.be.revertedWith("ERR_WEIGHT_ADJUSTMENT_FINISHED");
+    // });
+
+    describe("Adding tokens", async () => {
+      let newToken: MockToken;
+
+      beforeEach(async () => {
+        // Pop off the last token for testing
+        await smartpool.removeToken(tokens[tokens.length - 1].address);
+        newToken = tokens[tokens.length - 1];
+
+        console.log("------------------------------------------")
+        console.log("test for Adding Tokens");
+        console.log("newToken address is: ",newToken.address);
+      });
+
+      it("Weight update should cancel when removing token", async () => {
+        // verify there is no current adjustment going on
+        await expect(smartpool.pokeWeights()).to.be.revertedWith("ERR_WEIGHT_ADJUSTMENT_FINISHED");
+        // start adjustment
+        await smartpool.updateWeightsGradually(weigthsFixturePokeWeightsUp, startBlock, endBlock);
+        await smartpool.pokeWeights();
+        // remove a token
+        await smartpool.removeToken(tokens[tokens.length - 2].address);
+        await expect(smartpool.pokeWeights()).to.be.revertedWith("ERR_WEIGHT_ADJUSTMENT_FINISHED");
+        // weight adjustment should still work
+        await smartpool.updateWeightsGradually(weigthsFixturePokeWeightsUp, startBlock, endBlock);
+        await smartpool.pokeWeights();
+      });
 
 //       it("Weight update should cancel when adding token", async () => {
 //         // start adjustment
@@ -600,7 +636,7 @@ describe("Advanced Pool Functionality", function () {
 //         expect(totalSupplyAfter).to.eq(totalSupplyBefore.add(expectedMint));
 //         expect(userPoolBalanceAfter).to.eq(userPoolBalanceBefore.add(expectedMint));
 //       });
-//     });
+    });
 
 //     describe("removeToken", async () => {
 //       it("removeToken should work", async () => {
