@@ -237,69 +237,73 @@ describe("Advanced Pool Functionality", function () {
     // });
   });
 
-  // describe("updateWeightsGradually()", async () => {
-  //   const weightsFixtureUp = [
-  //     constants.WeiPerEther.mul(4),
-  //     constants.WeiPerEther.mul(2),
-  //     constants.WeiPerEther.mul(2),
-  //     constants.WeiPerEther.mul(2),
-  //     constants.WeiPerEther.mul(2),
-  //     constants.WeiPerEther.mul(2),
-  //     constants.WeiPerEther.mul(2),
-  //     constants.WeiPerEther.mul(2),
-  //   ];
+  describe("updateWeightsGradually()", async () => {
+    const weightsFixtureUp = [
+      constants.WeiPerEther.mul(4),
+      constants.WeiPerEther.mul(2),
+      constants.WeiPerEther.mul(2),
+      constants.WeiPerEther.mul(2),
+      constants.WeiPerEther.mul(2),
+      constants.WeiPerEther.mul(2),
+      constants.WeiPerEther.mul(2),
+      constants.WeiPerEther.mul(2),
+    ];
 
-  //   const weightsFixtureTokenAboveMax = [
-  //     constants.WeiPerEther.mul(51),
-  //     constants.WeiPerEther.mul(2),
-  //     constants.WeiPerEther.mul(2),
-  //     constants.WeiPerEther.mul(2),
-  //     constants.WeiPerEther.mul(2),
-  //     constants.WeiPerEther.mul(2),
-  //     constants.WeiPerEther.mul(2),
-  //     constants.WeiPerEther.mul(2),
-  //   ];
+    const weightsFixtureTokenAboveMax = [
+      constants.WeiPerEther.mul(51),
+      constants.WeiPerEther.mul(2),
+      constants.WeiPerEther.mul(2),
+      constants.WeiPerEther.mul(2),
+      constants.WeiPerEther.mul(2),
+      constants.WeiPerEther.mul(2),
+      constants.WeiPerEther.mul(2),
+      constants.WeiPerEther.mul(2),
+    ];
 
-  //   const weightsFixtureTokenBelowMin = [
-  //     constants.WeiPerEther.div(2),
-  //     constants.WeiPerEther.mul(2),
-  //     constants.WeiPerEther.mul(2),
-  //     constants.WeiPerEther.mul(2),
-  //     constants.WeiPerEther.mul(2),
-  //     constants.WeiPerEther.mul(2),
-  //     constants.WeiPerEther.mul(2),
-  //     constants.WeiPerEther.mul(2),
-  //   ];
+    const weightsFixtureTokenBelowMin = [
+      constants.WeiPerEther.div(2),
+      constants.WeiPerEther.mul(2),
+      constants.WeiPerEther.mul(2),
+      constants.WeiPerEther.mul(2),
+      constants.WeiPerEther.mul(2),
+      constants.WeiPerEther.mul(2),
+      constants.WeiPerEther.mul(2),
+      constants.WeiPerEther.mul(2),
+    ];
 
-  //   const weightsFixtureTotalAboveMax = [
-  //     constants.WeiPerEther.mul(10),
-  //     constants.WeiPerEther.mul(10),
-  //     constants.WeiPerEther.mul(10),
-  //     constants.WeiPerEther.mul(10),
-  //     constants.WeiPerEther.mul(10),
-  //     constants.WeiPerEther.mul(10),
-  //     constants.WeiPerEther.mul(10),
-  //     constants.WeiPerEther.mul(10),
-  //   ];
+    const weightsFixtureTotalAboveMax = [
+      constants.WeiPerEther.mul(10),
+      constants.WeiPerEther.mul(10),
+      constants.WeiPerEther.mul(10),
+      constants.WeiPerEther.mul(10),
+      constants.WeiPerEther.mul(10),
+      constants.WeiPerEther.mul(10),
+      constants.WeiPerEther.mul(10),
+      constants.WeiPerEther.mul(10),
+    ];
 
-  //   it("Updating from a non controller should fail", async () => {
-  //     smartpool = smartpool.connect(signers[1]);
-  //     await expect(
-  //       smartpool.updateWeightsGradually(weightsFixtureUp, startBlock, endBlock)
-  //     ).to.be.revertedWith("PV2SmartPool.onlyController: not controller");
-  //   });
+    // it("Updating from a non controller should fail", async () => {
+    //   smartpool = smartpool.connect(signers[1]);
+    //   await expect(
+    //     smartpool.updateWeightsGradually(weightsFixtureUp, startBlock, endBlock)
+    //   ).to.be.revertedWith("PV2SmartPool.onlyController: not controller");
+    // });
 
-  //   it("Updating should work", async () => {
-  //     const currentWeights = await smartpool.getDenormalizedWeights();
+    it("Updating should work", async () => {
+      const currentWeights = await smartpool.getDenormalizedWeights();
+      console.log("currentWeights is: ",currentWeights.toString());
 
-  //     await smartpool.updateWeightsGradually(weightsFixtureUp, startBlock, endBlock);
+      await smartpool.updateWeightsGradually(weightsFixtureUp, startBlock, endBlock);
 
-  //     const newWeights = await smartpool.getNewWeights();
-  //     const newCurrentWeights = await smartpool.getDenormalizedWeights();
+      const newWeights = await smartpool.getNewWeights();
+      const newCurrentWeights = await smartpool.getDenormalizedWeights();
 
-  //     expect(newWeights).to.eql(weightsFixtureUp);
-  //     expect(newCurrentWeights).to.eql(currentWeights);
-  //   });
+      console.log("newWeights is: ",newWeights.toString());
+      console.log("newCurrentWeights is: ",newCurrentWeights.toString());
+
+      expect(newWeights).to.eql(weightsFixtureUp);
+      expect(newCurrentWeights).to.eql(currentWeights);
+    });
 
   //   it("Setting a start block in the past should set it to the current block", async () => {
   //     const currentWeights = await smartpool.getDenormalizedWeights();
@@ -342,7 +346,7 @@ describe("Advanced Pool Functionality", function () {
   //       "PWeightControlledSmartPool.updateWeightsGradually: End block must be after start block"
   //     );
   //   });
-  // });
+  });
 
 //   describe("pokeWeight()", async () => {
 //     const weigthsFixturePokeWeightsUp = [
