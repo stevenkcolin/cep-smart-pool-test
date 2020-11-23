@@ -830,26 +830,32 @@ describe("Advanced Pool Functionality", function () {
       // });
     });
 
-//     describe("Annual Fee", async () => {
-//       it("Charging the fee should work [ @skip-on-coverage ]", async () => {
-//         const totalSupplyBefore = await smartpool.totalSupply();
-//         const feePercentage = parseEther("0.1");
+    describe("Annual Fee", async () => {
+      it("Charging the fee should work [ @skip-on-coverage ]", async () => {
+        const totalSupplyBefore = await smartpool.totalSupply();
+        const feePercentage = parseEther("0.1");
 
-//         const beginTimeStamp = Math.floor(Date.now() / 1000) + 3600;
-//         const endTimeStamp = beginTimeStamp + 60 * 60 * 24 * 365;
-//         const expectedMint = totalSupplyBefore.mul(feePercentage).div(constants.WeiPerEther);
+        const beginTimeStamp = Math.floor(Date.now() / 1000) + 3600;
+        const endTimeStamp = beginTimeStamp + 60 * 60 * 24 * 365;
+        const expectedMint = totalSupplyBefore.mul(feePercentage).div(constants.WeiPerEther);
 
-//         await timeTraveler.setNextBlockTimestamp(beginTimeStamp);
-//         await smartpool.setAnnualFee(feePercentage);
-//         await timeTraveler.setNextBlockTimestamp(endTimeStamp);
-//         await smartpool.chargeOutstandingAnnualFee();
+        console.log("totalSupplyBefore is: ",totalSupplyBefore.toString());
+        console.log("expectedMint is: ",expectedMint.toString());
 
-//         const feeRecipientPoolBalanceAfter = await smartpool.balanceOf(constants.AddressZero);
-//         const totalSupplyAfter = await smartpool.totalSupply();
+        await timeTraveler.setNextBlockTimestamp(beginTimeStamp);
+        await smartpool.setAnnualFee(feePercentage);
+        await timeTraveler.setNextBlockTimestamp(endTimeStamp);
+        await smartpool.chargeOutstandingAnnualFee();
 
-//         expect(totalSupplyAfter).to.eq(totalSupplyBefore.add(expectedMint));
-//         expect(feeRecipientPoolBalanceAfter).to.eq(expectedMint);
-//       });
+        const feeRecipientPoolBalanceAfter = await smartpool.balanceOf(constants.AddressZero);
+        const totalSupplyAfter = await smartpool.totalSupply();
+
+        console.log("totalSupplyAfter is: ",totalSupplyAfter.toString());
+        console.log("feeRecipientPoolBalanceAfter is: ",feeRecipientPoolBalanceAfter.toString());
+
+        expect(totalSupplyAfter).to.eq(totalSupplyBefore.add(expectedMint));
+        expect(feeRecipientPoolBalanceAfter).to.eq(expectedMint);
+      });
 //       it("Setting the fee should work", async () => {
 //         const newFee = parseEther("0.01");
 
@@ -905,7 +911,7 @@ describe("Advanced Pool Functionality", function () {
 //         expect(totalSupplyAfter).to.eq(totalSupplyBefore.add(expectedMint));
 //         expect(feeRecipientPoolBalanceAfter).to.eq(expectedMint);
 //       });
-//     });
+    });
   });
 });
 
