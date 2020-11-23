@@ -769,15 +769,15 @@ describe("Advanced Pool Functionality", function () {
       // });
     });
 
-//     describe("Join exit disabled enforcement", async () => {
-//       beforeEach(async () => {
-//         await smartpool.setPublicSwap(true);
-//       });
-//       it("joinPool", async () => {
-//         await expect(smartpool.joinPool(constants.WeiPerEther)).to.be.revertedWith(
-//           "PV2SmartPool.onlyJoinExitEnabled: join and exit not enabled"
-//         );
-//       });
+    describe("Join exit disabled enforcement", async () => {
+      beforeEach(async () => {
+        await smartpool.setPublicSwap(true);
+      });
+      it("joinPool", async () => {
+        await expect(smartpool.joinPool(constants.WeiPerEther)).to.be.revertedWith(
+          "PV2SmartPool.onlyJoinExitEnabled: join and exit not enabled"
+        );
+      });
 //       it("joinPool with front running protection", async () => {
 //         await expect(
 //           smartpool["joinPool(uint256,uint256[])"](
@@ -828,7 +828,7 @@ describe("Advanced Pool Functionality", function () {
 //           smartpool.exitswapExternAmountOut(tokens[0].address, constants.WeiPerEther, MaxUint256)
 //         ).to.be.revertedWith("PV2SmartPool.onlyJoinExitEnabled: join and exit not enabled");
 //       });
-//     });
+    });
 
 //     describe("Annual Fee", async () => {
 //       it("Charging the fee should work [ @skip-on-coverage ]", async () => {
