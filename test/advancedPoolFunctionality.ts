@@ -773,61 +773,61 @@ describe("Advanced Pool Functionality", function () {
       beforeEach(async () => {
         await smartpool.setPublicSwap(true);
       });
-      it("joinPool", async () => {
-        await expect(smartpool.joinPool(constants.WeiPerEther)).to.be.revertedWith(
-          "PV2SmartPool.onlyJoinExitEnabled: join and exit not enabled"
-        );
-      });
-//       it("joinPool with front running protection", async () => {
-//         await expect(
-//           smartpool["joinPool(uint256,uint256[])"](
-//             constants.WeiPerEther,
-//             createBigNumberArray(8, constants.Zero)
-//           )
-//         ).to.be.revertedWith("PV2SmartPool.onlyJoinExitEnabled: join and exit not enabled");
-//       });
-//       it("exitPool", async () => {
-//         await expect(
-//           smartpool["exitPool(uint256)"](constants.WeiPerEther.div(2))
-//         ).to.be.revertedWith("PV2SmartPool.onlyJoinExitEnabled: join and exit not enabled");
-//       });
-//       it("exitPool with frontrunning protection", async () => {
-//         await expect(
-//           smartpool["exitPool(uint256,uint256[])"](
-//             constants.WeiPerEther.div(2),
-//             createBigNumberArray(8, constants.MaxUint256)
-//           )
-//         ).to.be.revertedWith("PV2SmartPool.onlyJoinExitEnabled: join and exit not enabled");
-//       });
-//       it("exitPoolTakingLoss", async () => {
-//         await expect(smartpool.exitPoolTakingloss(constants.WeiPerEther, [])).to.be.revertedWith(
-//           "PV2SmartPool.onlyJoinExitEnabled: join and exit not enabled"
-//         );
-//       });
-//       it("joinswapExternAmountIn", async () => {
-//         await expect(
-//           smartpool.joinswapExternAmountIn(tokens[0].address, constants.WeiPerEther, constants.Zero)
-//         ).to.be.revertedWith("PV2SmartPool.onlyJoinExitEnabled: join and exit not enabled");
-//       });
-//       it("joinswapPoolAmountOut", async () => {
-//         await expect(
-//           smartpool.joinswapPoolAmountOut(
-//             tokens[0].address,
-//             constants.WeiPerEther,
-//             constants.MaxUint256
-//           )
-//         ).to.be.revertedWith("PV2SmartPool.onlyJoinExitEnabled: join and exit not enabled");
-//       });
-//       it("exitswapPoolAmountIn", async () => {
-//         await expect(
-//           smartpool.exitswapPoolAmountIn(tokens[0].address, constants.WeiPerEther, constants.Zero)
-//         ).to.be.revertedWith("PV2SmartPool.onlyJoinExitEnabled: join and exit not enabled");
-//       });
-//       it("exitswapExternAmountOut", async () => {
-//         await expect(
-//           smartpool.exitswapExternAmountOut(tokens[0].address, constants.WeiPerEther, MaxUint256)
-//         ).to.be.revertedWith("PV2SmartPool.onlyJoinExitEnabled: join and exit not enabled");
-//       });
+      // it("joinPool", async () => {
+      //   await expect(smartpool.joinPool(constants.WeiPerEther)).to.be.revertedWith(
+      //     "PV2SmartPool.onlyJoinExitEnabled: join and exit not enabled"
+      //   );
+      // });
+      // it("joinPool with front running protection", async () => {
+      //   await expect(
+      //     smartpool["joinPool(uint256,uint256[])"](
+      //       constants.WeiPerEther,
+      //       createBigNumberArray(8, constants.Zero)
+      //     )
+      //   ).to.be.revertedWith("PV2SmartPool.onlyJoinExitEnabled: join and exit not enabled");
+      // });
+      // it("exitPool", async () => {
+      //   await expect(
+      //     smartpool["exitPool(uint256)"](constants.WeiPerEther.div(2))
+      //   ).to.be.revertedWith("PV2SmartPool.onlyJoinExitEnabled: join and exit not enabled");
+      // });
+      // it("exitPool with frontrunning protection", async () => {
+      //   await expect(
+      //     smartpool["exitPool(uint256,uint256[])"](
+      //       constants.WeiPerEther.div(2),
+      //       createBigNumberArray(8, constants.MaxUint256)
+      //     )
+      //   ).to.be.revertedWith("PV2SmartPool.onlyJoinExitEnabled: join and exit not enabled");
+      // });
+      // it("exitPoolTakingLoss", async () => {
+      //   await expect(smartpool.exitPoolTakingloss(constants.WeiPerEther, [])).to.be.revertedWith(
+      //     "PV2SmartPool.onlyJoinExitEnabled: join and exit not enabled"
+      //   );
+      // });
+      // it("joinswapExternAmountIn", async () => {
+      //   await expect(
+      //     smartpool.joinswapExternAmountIn(tokens[0].address, constants.WeiPerEther, constants.Zero)
+      //   ).to.be.revertedWith("PV2SmartPool.onlyJoinExitEnabled: join and exit not enabled");
+      // });
+      // it("joinswapPoolAmountOut", async () => {
+      //   await expect(
+      //     smartpool.joinswapPoolAmountOut(
+      //       tokens[0].address,
+      //       constants.WeiPerEther,
+      //       constants.MaxUint256
+      //     )
+      //   ).to.be.revertedWith("PV2SmartPool.onlyJoinExitEnabled: join and exit not enabled");
+      // });
+      // it("exitswapPoolAmountIn", async () => {
+      //   await expect(
+      //     smartpool.exitswapPoolAmountIn(tokens[0].address, constants.WeiPerEther, constants.Zero)
+      //   ).to.be.revertedWith("PV2SmartPool.onlyJoinExitEnabled: join and exit not enabled");
+      // });
+      // it("exitswapExternAmountOut", async () => {
+      //   await expect(
+      //     smartpool.exitswapExternAmountOut(tokens[0].address, constants.WeiPerEther, MaxUint256)
+      //   ).to.be.revertedWith("PV2SmartPool.onlyJoinExitEnabled: join and exit not enabled");
+      // });
     });
 
 //     describe("Annual Fee", async () => {
