@@ -831,86 +831,88 @@ describe("Advanced Pool Functionality", function () {
     });
 
     describe("Annual Fee", async () => {
-      it("Charging the fee should work [ @skip-on-coverage ]", async () => {
-        const totalSupplyBefore = await smartpool.totalSupply();
-        const feePercentage = parseEther("0.1");
+      // it("Charging the fee should work [ @skip-on-coverage ]", async () => {
+      //   const totalSupplyBefore = await smartpool.totalSupply();
+      //   const feePercentage = parseEther("0.1");
 
-        const beginTimeStamp = Math.floor(Date.now() / 1000) + 3600;
-        const endTimeStamp = beginTimeStamp + 60 * 60 * 24 * 365;
-        const expectedMint = totalSupplyBefore.mul(feePercentage).div(constants.WeiPerEther);
+      //   const beginTimeStamp = Math.floor(Date.now() / 1000) + 3600;
+      //   const endTimeStamp = beginTimeStamp + 60 * 60 * 24 * 365;
+      //   const expectedMint = totalSupplyBefore.mul(feePercentage).div(constants.WeiPerEther);
 
-        console.log("totalSupplyBefore is: ",totalSupplyBefore.toString());
-        console.log("expectedMint is: ",expectedMint.toString());
+      //   console.log("totalSupplyBefore is: ",totalSupplyBefore.toString());
+      //   console.log("expectedMint is: ",expectedMint.toString());
 
-        await timeTraveler.setNextBlockTimestamp(beginTimeStamp);
-        await smartpool.setAnnualFee(feePercentage);
-        await timeTraveler.setNextBlockTimestamp(endTimeStamp);
-        await smartpool.chargeOutstandingAnnualFee();
+      //   await timeTraveler.setNextBlockTimestamp(beginTimeStamp);
+      //   await smartpool.setAnnualFee(feePercentage);
+      //   await timeTraveler.setNextBlockTimestamp(endTimeStamp);
+      //   await smartpool.chargeOutstandingAnnualFee();
 
-        const feeRecipientPoolBalanceAfter = await smartpool.balanceOf(constants.AddressZero);
-        const totalSupplyAfter = await smartpool.totalSupply();
+      //   const feeRecipientPoolBalanceAfter = await smartpool.balanceOf(constants.AddressZero);
+      //   const totalSupplyAfter = await smartpool.totalSupply();
 
-        console.log("totalSupplyAfter is: ",totalSupplyAfter.toString());
-        console.log("feeRecipientPoolBalanceAfter is: ",feeRecipientPoolBalanceAfter.toString());
+      //   console.log("totalSupplyAfter is: ",totalSupplyAfter.toString());
+      //   console.log("feeRecipientPoolBalanceAfter is: ",feeRecipientPoolBalanceAfter.toString());
 
-        expect(totalSupplyAfter).to.eq(totalSupplyBefore.add(expectedMint));
-        expect(feeRecipientPoolBalanceAfter).to.eq(expectedMint);
-      });
-//       it("Setting the fee should work", async () => {
-//         const newFee = parseEther("0.01");
+      //   expect(totalSupplyAfter).to.eq(totalSupplyBefore.add(expectedMint));
+      //   expect(feeRecipientPoolBalanceAfter).to.eq(expectedMint);
+      // });
+      // it("Setting the fee should work", async () => {
+      //   const newFee = parseEther("0.01");
 
-//         await smartpool.setAnnualFee(newFee);
-//         const actualFee = await smartpool.getAnnualFee();
+      //   await smartpool.setAnnualFee(newFee);
+      //   const actualFee = await smartpool.getAnnualFee();
 
-//         expect(actualFee).to.eq(newFee);
-//       });
-//       it("Setting the fee from a non controller should fail", async () => {
-//         const newFee = parseEther("0.01");
+      //   console.log("actualFee is: ",actualFee);
 
-//         await smartpool.setController(account2);
-//         await expect(smartpool.setAnnualFee(newFee)).to.be.revertedWith(
-//           "PV2SmartPool.onlyController: not controller"
-//         );
-//       });
+      //   expect(actualFee).to.eq(newFee);
+      // });
+      // it("Setting the fee from a non controller should fail", async () => {
+      //   const newFee = parseEther("0.01");
 
-//       it("Setting the fee too high (10%) should fail", async () => {
-//         const newFee = parseEther("0.1000001");
+      //   await smartpool.setController(account2);
+      //   await expect(smartpool.setAnnualFee(newFee)).to.be.revertedWith(
+      //     "PV2SmartPool.onlyController: not controller"
+      //   );
+      // });
 
-//         await expect(smartpool.setAnnualFee(newFee)).to.be.revertedWith(
-//           "LibFees.setAnnualFee: Annual fee too high"
-//         );
-//       });
-//       it("Setting the fee recipient should work", async () => {
-//         await smartpool.setFeeRecipient(account2);
-//         const newFeeRecipient = await smartpool.getFeeRecipient();
+      // it("Setting the fee too high (10%) should fail", async () => {
+      //   const newFee = parseEther("0.1000001");
 
-//         expect(newFeeRecipient).to.eq(account2);
-//       });
-//       it("Setting the fee recipient from a non controller should fail", async () => {
-//         await smartpool.setController(account2);
-//         await expect(smartpool.setFeeRecipient(account2)).to.be.revertedWith(
-//           "PV2SmartPool.onlyController: not controller"
-//         );
-//       });
-//       it("Changing the fee should charge it [ @skip-on-coverage ]", async () => {
-//         const totalSupplyBefore = await smartpool.totalSupply();
-//         const feePercentage = parseEther("0.1");
+      //   await expect(smartpool.setAnnualFee(newFee)).to.be.revertedWith(
+      //     "LibFees.setAnnualFee: Annual fee too high"
+      //   );
+      // });
+      // it("Setting the fee recipient should work", async () => {
+      //   await smartpool.setFeeRecipient(account2);
+      //   const newFeeRecipient = await smartpool.getFeeRecipient();
 
-//         const beginTimeStamp = Math.floor(Date.now() / 1000) + 60 * 60 * 24 * 365 * 2;
-//         const endTimeStamp = beginTimeStamp + 60 * 60 * 24 * 365;
-//         const expectedMint = totalSupplyBefore.mul(feePercentage).div(constants.WeiPerEther);
+      //   expect(newFeeRecipient).to.eq(account2);
+      // });
+      // it("Setting the fee recipient from a non controller should fail", async () => {
+      //   await smartpool.setController(account2);
+      //   await expect(smartpool.setFeeRecipient(account2)).to.be.revertedWith(
+      //     "PV2SmartPool.onlyController: not controller"
+      //   );
+      // });
+      // it("Changing the fee should charge it [ @skip-on-coverage ]", async () => {
+      //   const totalSupplyBefore = await smartpool.totalSupply();
+      //   const feePercentage = parseEther("0.1");
 
-//         await timeTraveler.setNextBlockTimestamp(beginTimeStamp);
-//         await smartpool.setAnnualFee(feePercentage);
-//         await timeTraveler.setNextBlockTimestamp(endTimeStamp);
-//         await smartpool.setAnnualFee(parseEther("0.05"));
+      //   const beginTimeStamp = Math.floor(Date.now() / 1000) + 60 * 60 * 24 * 365 * 2;
+      //   const endTimeStamp = beginTimeStamp + 60 * 60 * 24 * 365;
+      //   const expectedMint = totalSupplyBefore.mul(feePercentage).div(constants.WeiPerEther);
 
-//         const feeRecipientPoolBalanceAfter = await smartpool.balanceOf(constants.AddressZero);
-//         const totalSupplyAfter = await smartpool.totalSupply();
+      //   await timeTraveler.setNextBlockTimestamp(beginTimeStamp);
+      //   await smartpool.setAnnualFee(feePercentage);
+      //   await timeTraveler.setNextBlockTimestamp(endTimeStamp);
+      //   await smartpool.setAnnualFee(parseEther("0.05"));
 
-//         expect(totalSupplyAfter).to.eq(totalSupplyBefore.add(expectedMint));
-//         expect(feeRecipientPoolBalanceAfter).to.eq(expectedMint);
-//       });
+      //   const feeRecipientPoolBalanceAfter = await smartpool.balanceOf(constants.AddressZero);
+      //   const totalSupplyAfter = await smartpool.totalSupply();
+
+      //   expect(totalSupplyAfter).to.eq(totalSupplyBefore.add(expectedMint));
+      //   expect(feeRecipientPoolBalanceAfter).to.eq(expectedMint);
+      // });
     });
   });
 });
