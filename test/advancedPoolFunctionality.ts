@@ -608,46 +608,53 @@ describe("Advanced Pool Functionality", function () {
       //   expect(newTokenStruct.commitBlock).to.eq(blockNumber);
       // });
 
-//       it("commitAddToken from a non controller should fail", async () => {
-//         await smartpool.setController(account2);
-//         await expect(
-//           smartpool.commitAddToken(newToken.address, new BigNumber(1), constants.WeiPerEther.mul(2))
-//         ).to.be.revertedWith("PV2SmartPool.onlyController: not controller");
-//       });
+    //   it("commitAddToken from a non controller should fail", async () => {
+    //     await smartpool.setController(account2);
+    //     await expect(
+    //       smartpool.commitAddToken(newToken.address, new BigNumber(1), constants.WeiPerEther.mul(2))
+    //     ).to.be.revertedWith("PV2SmartPool.onlyController: not controller");
+    //   });
 
-//       it("Apply add token should work", async () => {
-//         const balance = constants.WeiPerEther.mul(100);
-//         const weight = constants.WeiPerEther.mul(2);
-//         await smartpool.commitAddToken(newToken.address, balance, weight);
-//         const blockNumber = await ethers.provider.getBlockNumber();
+    //   it("Apply add token should work", async () => {
+    //     const balance = constants.WeiPerEther.mul(100);
+    //     const weight = constants.WeiPerEther.mul(7);
+    //     await smartpool.commitAddToken(newToken.address, balance, weight);
+    //     const blockNumber = await ethers.provider.getBlockNumber();
 
-//         const tokensBefore = await smartpool.getTokens();
-//         const totalWeightBefore = await pool.getTotalDenormalizedWeight();
-//         const totalSupplyBefore = await smartpool.totalSupply();
-//         const expectedMint = await totalSupplyBefore.mul(weight).div(totalWeightBefore);
-//         const userPoolBalanceBefore = await smartpool.balanceOf(account);
+    //     const tokensBefore = await smartpool.getTokens();
+    //     const totalWeightBefore = await pool.getTotalDenormalizedWeight();
+    //     const totalSupplyBefore = await smartpool.totalSupply();
+    //     const expectedMint = await totalSupplyBefore.mul(weight).div(totalWeightBefore);
+    //     const userPoolBalanceBefore = await smartpool.balanceOf(account);
 
-//         await smartpool.applyAddToken();
-//         const newTokenStruct = await smartpool.getNewToken();
+    //     await smartpool.applyAddToken();
+    //     const newTokenStruct = await smartpool.getNewToken();
 
-//         const tokensAfter = await smartpool.getTokens();
-//         const poolNewTokenBalance = await newToken.balanceOf(pool.address);
-//         const totalWeightAfter = await pool.getTotalDenormalizedWeight();
-//         const totalSupplyAfter = await smartpool.totalSupply();
-//         const userPoolBalanceAfter = await smartpool.balanceOf(account);
+    //     const tokensAfter = await smartpool.getTokens();
+    //     const poolNewTokenBalance = await newToken.balanceOf(pool.address);
+    //     const totalWeightAfter = await pool.getTotalDenormalizedWeight();
+    //     const totalSupplyAfter = await smartpool.totalSupply();
+    //     const userPoolBalanceAfter = await smartpool.balanceOf(account);
 
-//         expect(newTokenStruct.addr).to.eq(newToken.address);
-//         expect(newTokenStruct.isCommitted).to.eq(false);
-//         expect(newTokenStruct.balance).to.eq(balance);
-//         expect(newTokenStruct.denorm).to.eq(weight);
-//         expect(newTokenStruct.commitBlock).to.eq(blockNumber);
-//         expect(tokensAfter.length).to.eq(tokensBefore.length + 1);
-//         expect(poolNewTokenBalance).to.eq(balance);
-//         expect(totalWeightAfter).to.eq(totalWeightBefore.add(weight));
-//         expect(totalSupplyAfter).to.eq(totalSupplyBefore.add(expectedMint));
-//         expect(userPoolBalanceAfter).to.eq(userPoolBalanceBefore.add(expectedMint));
-//       });
-    });
+    //     console.log("newTokeStruct: ",newTokenStruct.addr.toString());
+    //     console.log("newTokeStruct: ",newTokenStruct.balance.toString());
+    //     console.log("newTokeStruct: ",newTokenStruct.commitBlock.toString());
+    //     console.log("newTokeStruct: ",newTokenStruct.denorm.toString());
+    //     console.log("newTokeStruct: ",newTokenStruct.isCommitted.toString());
+
+    //     expect(newTokenStruct.addr).to.eq(newToken.address);
+    //     expect(newTokenStruct.isCommitted).to.eq(false);
+    //     expect(newTokenStruct.balance).to.eq(balance);
+    //     expect(newTokenStruct.denorm).to.eq(weight);
+    //     expect(newTokenStruct.commitBlock).to.eq(blockNumber);
+
+    //     expect(tokensAfter.length).to.eq(tokensBefore.length + 1);
+    //     expect(poolNewTokenBalance).to.eq(balance);
+    //     expect(totalWeightAfter).to.eq(totalWeightBefore.add(weight));
+    //     expect(totalSupplyAfter).to.eq(totalSupplyBefore.add(expectedMint));
+    //     expect(userPoolBalanceAfter).to.eq(userPoolBalanceBefore.add(expectedMint));
+    //   });
+    // });
 
 //     describe("removeToken", async () => {
 //       it("removeToken should work", async () => {
