@@ -654,38 +654,54 @@ describe("Advanced Pool Functionality", function () {
     //     expect(totalSupplyAfter).to.eq(totalSupplyBefore.add(expectedMint));
     //     expect(userPoolBalanceAfter).to.eq(userPoolBalanceBefore.add(expectedMint));
     //   });
-    // });
+    });
 
-//     describe("removeToken", async () => {
-//       it("removeToken should work", async () => {
-//         const removedToken = tokens[0];
-//         const tokenWeight = await smartpool.getDenormalizedWeight(removedToken.address);
+    describe("removeToken", async () => {
+      // it("removeToken should work", async () => {
+      //   const removedToken = tokens[0];
+      //   const tokenWeight = await smartpool.getDenormalizedWeight(removedToken.address);
 
-//         const totalWeightBefore = await pool.getTotalDenormalizedWeight();
-//         const totalSupplyBefore = await smartpool.totalSupply();
-//         const userPoolBalanceBefore = await smartpool.balanceOf(account);
-//         const userTokenBalanceBefore = await removedToken.balanceOf(account);
-//         const poolTokenBalanceBefore = await removedToken.balanceOf(pool.address);
-//         const tokensBefore = await smartpool.getTokens();
+      //   const totalWeightBefore = await pool.getTotalDenormalizedWeight();
+      //   const totalSupplyBefore = await smartpool.totalSupply();
+      //   const userPoolBalanceBefore = await smartpool.balanceOf(account);
+      //   const userTokenBalanceBefore = await removedToken.balanceOf(account);
+      //   const poolTokenBalanceBefore = await removedToken.balanceOf(pool.address);
+      //   const tokensBefore = await smartpool.getTokens();
 
-//         const expectedPoolBurn = totalSupplyBefore.mul(tokenWeight).div(totalWeightBefore);
+      //   console.log("totalWeightBefore is: ",totalWeightBefore.toString());
+      //   console.log("totalSupplyBefore is: ",totalSupplyBefore.toString());
+      //   console.log("userPoolBalanceBefore is: ",userPoolBalanceBefore.toString());
+      //   console.log("userTokenBalanceBefore is: ",userTokenBalanceBefore.toString());
+      //   console.log("poolTokenBalanceBefore is: ",poolTokenBalanceBefore.toString());
+      //   console.log("tokensBefore is: ",tokensBefore.toString());
 
-//         await smartpool.removeToken(removedToken.address);
+      //   const expectedPoolBurn = totalSupplyBefore.mul(tokenWeight).div(totalWeightBefore);
 
-//         const totalWeightAfter = await pool.getTotalDenormalizedWeight();
-//         const totalSupplyAfter = await smartpool.totalSupply();
-//         const userPoolBalanceAfter = await smartpool.balanceOf(account);
-//         const userTokenBalanceAfter = await removedToken.balanceOf(account);
-//         const poolTokenBalanceAfter = await removedToken.balanceOf(pool.address);
-//         const tokensAfter = await smartpool.getTokens();
+      //   await smartpool.removeToken(removedToken.address);
 
-//         expect(totalWeightAfter).to.eq(totalWeightBefore.sub(tokenWeight));
-//         expect(totalSupplyAfter).to.eq(totalSupplyBefore.sub(expectedPoolBurn));
-//         expect(userPoolBalanceAfter).to.eq(userPoolBalanceBefore.sub(expectedPoolBurn));
-//         expect(userTokenBalanceAfter).to.eq(userTokenBalanceBefore.add(poolTokenBalanceBefore));
-//         expect(poolTokenBalanceAfter).to.eq(0);
-//         expect(tokensAfter.length).to.eq(tokensBefore.length - 1);
-//       });
+      //   const totalWeightAfter = await pool.getTotalDenormalizedWeight();
+      //   const totalSupplyAfter = await smartpool.totalSupply();
+      //   const userPoolBalanceAfter = await smartpool.balanceOf(account);
+      //   const userTokenBalanceAfter = await removedToken.balanceOf(account);
+      //   const poolTokenBalanceAfter = await removedToken.balanceOf(pool.address);
+      //   const tokensAfter = await smartpool.getTokens();
+
+      //   console.log("totalWeightAfter is: ",totalWeightAfter.toString());
+      //   console.log("totalSupplyAfter is: ",totalSupplyAfter.toString());
+      //   console.log("userPoolBalanceAfter is: ",userPoolBalanceAfter.toString());
+      //   console.log("userTokenBalanceAfter is: ",userTokenBalanceAfter.toString());
+      //   console.log("poolTokenBalanceAfter is: ",poolTokenBalanceAfter.toString());
+      //   console.log("tokensAfter is: ",tokensAfter.toString());
+
+        
+
+      //   expect(totalWeightAfter).to.eq(totalWeightBefore.sub(tokenWeight));
+      //   expect(totalSupplyAfter).to.eq(totalSupplyBefore.sub(expectedPoolBurn));
+      //   expect(userPoolBalanceAfter).to.eq(userPoolBalanceBefore.sub(expectedPoolBurn));
+      //   expect(userTokenBalanceAfter).to.eq(userTokenBalanceBefore.add(poolTokenBalanceBefore));
+      //   expect(poolTokenBalanceAfter).to.eq(0);
+      //   expect(tokensAfter.length).to.eq(tokensBefore.length - 1);
+      // });
 
 //       it("removeToken should fail when controller does not have enough pool tokens", async () => {
 //         const removedToken = tokens[0];
@@ -704,21 +720,21 @@ describe("Advanced Pool Functionality", function () {
 //           "ERR_ERC20_FALSE"
 //         );
 //       });
-//     });
+    });
 
-//     describe("Setting joining and exiting enabled", async () => {
-//       it("setJoinExitEnabled should work", async () => {
-//         await smartpool.setJoinExitEnabled(true);
-//         const joinExitEnabled = await smartpool.getJoinExitEnabled();
-//         expect(joinExitEnabled).to.eq(true);
-//       });
-//       it("setJoinExitEnabled from a non controller address should fail", async () => {
-//         await smartpool.setController(account2);
-//         await expect(smartpool.setJoinExitEnabled(true)).to.be.revertedWith(
-//           "PV2SmartPool.onlyController: not controller"
-//         );
-//       });
-//     });
+    describe("Setting joining and exiting enabled", async () => {
+      it("setJoinExitEnabled should work", async () => {
+        await smartpool.setJoinExitEnabled(true);
+        const joinExitEnabled = await smartpool.getJoinExitEnabled();
+        expect(joinExitEnabled).to.eq(true);
+      });
+      it("setJoinExitEnabled from a non controller address should fail", async () => {
+        await smartpool.setController(account2);
+        await expect(smartpool.setJoinExitEnabled(true)).to.be.revertedWith(
+          "PV2SmartPool.onlyController: not controller"
+        );
+      });
+    });
 
 //     describe("Circuit Breaker", async () => {
 //       it("setCircuitBreaker should work", async () => {
