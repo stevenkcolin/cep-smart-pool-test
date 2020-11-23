@@ -258,6 +258,9 @@ task("deploy-smart-pool-complete")
     await run("deploy-pool-from-factory", { factory: smartPoolFactoryAddress, allocation: taskArgs.allocation });
 });
 
+
+
+
 task("set-cap", "Sets the cap on a capped pool")
   .addParam("pool")
   .addParam("cap")
@@ -268,6 +271,21 @@ task("set-cap", "Sets the cap on a capped pool")
 
     console.log(`Cap set tx: ${tx.hash}`);
 });
+
+
+task("get-cap", "get the cap on a capped pool")
+  .addParam("smartPool")
+  .setAction(async(taskArgs, { ethers }) => {
+    const signers = await ethers.getSigners();
+    const smartpool = Pv2SmartPoolFactory.connect(taskArgs.smartPool, signers[0]);
+
+    const cap = await smartpool.getCap();
+    console.log("cap is: ",cap.toString());
+});
+
+
+
+
 
 
 task("join-smart-pool")
