@@ -333,12 +333,12 @@ describe("Basic Pool Functionality", function () {
 
 
     it("Setting the token binder should work", async () => {
-      await smartpool.setTokenBinder(account);
+      await smartpool.setTokenBinder(PLACE_HOLDER_ADDRESS);
       
       const tokenBinder = await smartpool.getTokenBinder();
       console.log("tokenBinder address is : ",tokenBinder);
 
-      expect(tokenBinder).to.eq(account);
+      expect(tokenBinder).to.eq(PLACE_HOLDER_ADDRESS);
     });
 
 
