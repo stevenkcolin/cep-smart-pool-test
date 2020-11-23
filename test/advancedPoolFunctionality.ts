@@ -723,17 +723,17 @@ describe("Advanced Pool Functionality", function () {
     });
 
     describe("Setting joining and exiting enabled", async () => {
-      it("setJoinExitEnabled should work", async () => {
-        await smartpool.setJoinExitEnabled(true);
-        const joinExitEnabled = await smartpool.getJoinExitEnabled();
-        expect(joinExitEnabled).to.eq(true);
-      });
-      it("setJoinExitEnabled from a non controller address should fail", async () => {
-        await smartpool.setController(account2);
-        await expect(smartpool.setJoinExitEnabled(true)).to.be.revertedWith(
-          "PV2SmartPool.onlyController: not controller"
-        );
-      });
+      // it("setJoinExitEnabled should work", async () => {
+      //   await smartpool.setJoinExitEnabled(true);
+      //   const joinExitEnabled = await smartpool.getJoinExitEnabled();
+      //   expect(joinExitEnabled).to.eq(true);
+      // });
+      // it("setJoinExitEnabled from a non controller address should fail", async () => {
+      //   await smartpool.setController(account2);
+      //   await expect(smartpool.setJoinExitEnabled(true)).to.be.revertedWith(
+      //     "PV2SmartPool.onlyController: not controller"
+      //   );
+      // });
     });
 
 //     describe("Circuit Breaker", async () => {
