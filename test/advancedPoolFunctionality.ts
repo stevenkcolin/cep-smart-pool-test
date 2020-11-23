@@ -736,38 +736,38 @@ describe("Advanced Pool Functionality", function () {
       // });
     });
 
-//     describe("Circuit Breaker", async () => {
-//       it("setCircuitBreaker should work", async () => {
-//         await smartpool.setCircuitBreaker(account2);
-//         const circuitBreaker = await smartpool.getCircuitBreaker();
-//         expect(circuitBreaker).to.eq(account2);
-//       });
+    describe("Circuit Breaker", async () => {
+      // it("setCircuitBreaker should work", async () => {
+      //   await smartpool.setCircuitBreaker(account2);
+      //   const circuitBreaker = await smartpool.getCircuitBreaker();
+      //   expect(circuitBreaker).to.eq(account2);
+      // });
 
-//       it("setCircuitBreaker from a non controller should fail", async () => {
-//         await smartpool.setController(account2);
-//         await expect(smartpool.setCircuitBreaker(account2)).to.be.revertedWith(
-//           "PV2SmartPool.onlyController: not controller"
-//         );
-//       });
-//       it("tripCircuitBreaker should work", async () => {
-//         await smartpool.setCircuitBreaker(account);
-//         await smartpool.setPublicSwap(true);
-//         await smartpool.setJoinExitEnabled(true);
-//         await smartpool.tripCircuitBreaker();
+      // it("setCircuitBreaker from a non controller should fail", async () => {
+      //   await smartpool.setController(account2);
+      //   await expect(smartpool.setCircuitBreaker(account2)).to.be.revertedWith(
+      //     "PV2SmartPool.onlyController: not controller"
+      //   );
+      // });
+      // it("tripCircuitBreaker should work", async () => {
+      //   await smartpool.setCircuitBreaker(account);
+      //   await smartpool.setPublicSwap(true);
+      //   await smartpool.setJoinExitEnabled(true);
+      //   await smartpool.tripCircuitBreaker();
 
-//         const publicSwapEnabled = await smartpool.isPublicSwap();
-//         const joinExitEnabled = await smartpool.getJoinExitEnabled();
+      //   const publicSwapEnabled = await smartpool.isPublicSwap();
+      //   const joinExitEnabled = await smartpool.getJoinExitEnabled();
 
-//         expect(publicSwapEnabled).to.eq(false);
-//         expect(joinExitEnabled).to.eq(false);
-//       });
+      //   expect(publicSwapEnabled).to.eq(false);
+      //   expect(joinExitEnabled).to.eq(false);
+      // });
 
-//       it("tripCircuitBreaker from a non circuitbreaker address should fail", async () => {
-//         await expect(smartpool.tripCircuitBreaker()).to.be.revertedWith(
-//           "PV2SmartPool.onlyCircuitBreaker: not circuit breaker"
-//         );
-//       });
-//     });
+      // it("tripCircuitBreaker from a non circuitbreaker address should fail", async () => {
+      //   await expect(smartpool.tripCircuitBreaker()).to.be.revertedWith(
+      //     "PV2SmartPool.onlyCircuitBreaker: not circuit breaker"
+      //   );
+      // });
+    });
 
 //     describe("Join exit disabled enforcement", async () => {
 //       beforeEach(async () => {
