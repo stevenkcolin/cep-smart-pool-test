@@ -33,12 +33,12 @@ describe("LibSafeApproval", function () {
     )) as TestLibSafeApprove;
   });
 
-  it("Doing double approvals which are not \"safe\" should fail", async () => {
-    // no reason
-    await expect(testContract.doubleApprovalUnsafe(mockToken.address)).to.be.reverted;
-  });
+  // it("Doing double approvals which are not \"safe\" should fail", async () => {
+  //   // no reason
+  //   await expect(testContract.doubleApprovalUnsafe(mockToken.address)).to.be.reverted;
+  // });
 
-  it("Doing double approvals which are \"safe\" should work", async() => {
-    await testContract.doubleApprovalSafe(mockToken.address);
-  });
+  // it("Doing double approvals which are \"safe\" should work", async() => {
+  //   await testContract.doubleApprovalSafe(mockToken.address);
+  // });
 });

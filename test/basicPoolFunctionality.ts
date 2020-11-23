@@ -332,14 +332,14 @@ describe("Basic Pool Functionality", function () {
 
 
 
-    it("Setting the token binder should work", async () => {
-      await smartpool.setTokenBinder(PLACE_HOLDER_ADDRESS);
+    // it("Setting the token binder should work", async () => {
+    //   await smartpool.setTokenBinder(PLACE_HOLDER_ADDRESS);
       
-      const tokenBinder = await smartpool.getTokenBinder();
-      console.log("tokenBinder address is : ",tokenBinder);
+    //   const tokenBinder = await smartpool.getTokenBinder();
+    //   console.log("tokenBinder address is : ",tokenBinder);
 
-      expect(tokenBinder).to.eq(PLACE_HOLDER_ADDRESS);
-    });
+    //   expect(tokenBinder).to.eq(PLACE_HOLDER_ADDRESS);
+    // });
 
 
     // it("Setting the token binder from a non controller address should fail", async () => {

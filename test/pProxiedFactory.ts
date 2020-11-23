@@ -59,15 +59,15 @@ describe("PProxiedFactory", () => {
     }
   });
 
-  it("Creating a new proxied pool should work", async () => {
-    await factory.newProxiedSmartPool(
-      "TEST",
-      "TST",
-      constants.WeiPerEther,
-      tokenAddresses,
-      amounts,
-      weights,
-      INITIAL_SUPPLY
-    );
-  });
+  // it("Creating a new proxied pool should work", async () => {
+  //   await factory.newProxiedSmartPool(
+  //     "TEST",
+  //     "TST",
+  //     constants.WeiPerEther,
+  //     tokenAddresses,
+  //     amounts,
+  //     weights,
+  //     INITIAL_SUPPLY
+  //   );
+  // });
 });
