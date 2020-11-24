@@ -5,9 +5,9 @@
 
 
 # 20.11.13
-# Pie Smart Pools
+# CEP Smart Pools
 
-**Pie Smart Pools** are asset management agnostic(currently Balancer only) **D**ecentralised **T**raded **F**unds. They share a common interface to make them easy to integrate in other products.
+**CEP Smart Pools** are asset management agnostic(currently Balancer only) **D**ecentralised **T**raded **F**unds. They share a common interface to make them easy to integrate in other products.
 
 All Smart Pools are fully upgradeable to make it easy to add features and optimise gas usage at later stages.
 
