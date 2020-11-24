@@ -787,14 +787,14 @@ contract PV2SmartPool is IPV2SmartPool, PCToken, ReentryProtection {
   // UNSUPORTED METHODS ---------------------------------------
 
   /**
-    @notice Not Supported in PieDAO implementation of Balancer Smart Pools
+    @notice Not Supported in implementation of Balancer Smart Pools
   */
   function finalizeSmartPool() external override view {
     revert("PV2SmartPool.finalizeSmartPool: unsupported function");
   }
 
   /**
-    @notice Not Supported in PieDAO implementation of Balancer Smart Pools
+    @notice Not Supported in implementation of Balancer Smart Pools
   */
   function createPool(uint256 initialSupply) external override view {
     revert("PV2SmartPool.createPool: unsupported function");

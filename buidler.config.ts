@@ -119,7 +119,7 @@ task(TASK_COMPILE_GET_COMPILER_INPUT).setAction(async (_, __, runSuper) => {
   return input;
 });
 
-task("deploy-pie-smart-pool-factory", "deploys a pie smart pool factory")
+task("deploy-cep-smart-pool-factory", "deploys a cep smart pool factory")
   .addParam("balancerFactory", "Address of the balancer factory")
   .setAction(async(taskArgs, { ethers, run }) => {
     const signers = await ethers.getSigners();
@@ -133,7 +133,7 @@ task("deploy-pie-smart-pool-factory", "deploys a pie smart pool factory")
     return factory.address;
 });
 
-task("deploy-pool-from-factory", "deploys a pie smart pool from the factory")
+task("deploy-pool-from-factory", "deploys a cep smart pool from the factory")
   .addParam("factory")
   .addParam("allocation", "path to allocation configuration")
   .setAction(async(taskArgs, { ethers }) => {
@@ -178,7 +178,7 @@ task("deploy-pool-from-factory", "deploys a pie smart pool from the factory")
     return event.address;
 });
 
-task("deploy-pie-smart-pool", "deploys a pie smart pool")
+task("deploy-cep-smart-pool", "deploys a cep smart pool")
   .setAction(async(taskArgs, { ethers, run }) => {
     const signers = await ethers.getSigners();
 
@@ -218,7 +218,7 @@ task("deploy-smart-pool-implementation-complete")
     const signers = await ethers.getSigners();
 
     // Deploy capped pool
-    const implementation = await run("deploy-pie-smart-pool");
+    const implementation = await run("deploy-cep-smart-pool");
 
     console.log(`Implementation deployed at: ${implementation.address}`);
     // Init capped smart pool
@@ -252,7 +252,7 @@ task("deploy-smart-pool-complete")
   .addParam("allocation", "path to allocation")
   .setAction(async(taskArgs, { ethers, run }) => {
     // run deploy factory task
-    const smartPoolFactoryAddress = await run("deploy-pie-smart-pool-factory", {balancerFactory: taskArgs.balancerFactory});
+    const smartPoolFactoryAddress = await run("deploy-cep-smart-pool-factory", {balancerFactory: taskArgs.balancerFactory});
 
     // run deploy pool from factory task
     await run("deploy-pool-from-factory", { factory: smartPoolFactoryAddress, allocation: taskArgs.allocation });
@@ -350,30 +350,13 @@ task("get-join-smart-pool-parameters")
 
     
 
-    for(const tokenAddress of tokens) {
-      const token = Ierc20Factory.connect(tokenAddress, signers[0]);
-      
-      await (await token.approve(smartpool.address, constants.MaxUint256)).wait(1);
-      await (await token.approve(bpool, constants.MaxUint256)).wait(1);
-      
+    // for(const tokenAddress of tokens) {
+    //   const token = Ierc20Factory.connect(tokenAddress, signers[0]);
+    //   await (await token.approve(smartpool.address, constants.MaxUint256)).wait(1);
+    //   await (await token.approve(bpool, constants.MaxUint256)).wait(1);
+    // }
 
-      const n = await token.allowance(token.address, smartpool.address);
-      console.log("allowance of ",token.address, "      ",smartpool.address, "     is: ",n.toString());
-
-
-      const n2 = await token.allowance(await signers[0].getAddress(), smartpool.address);
-      console.log("allowance of ",await signers[0].getAddress(), "      ",smartpool.address, "     is: ",n2.toString());
-      
-      const n3 = await token.allowance(await signers[0].getAddress(), bpool);
-      console.log("allowance of ",await signers[0].getAddress(), "      ",bpool, "     is: ",n3.toString());
-
-    }
-
-    const spAll = await smartpool.allowance(bpool,await signers[0].getAddress());
-    console.log("allowance of ",bpool, "      ",await signers[0].getAddress(), "     is: ",spAll.toString());
-
-    smartpool.approveTokens();
-  
+    await smartpool.approveTokens();
 
     await (await smartpool.approve(bpool, constants.MaxUint256)).wait(1);
     await (await smartpool.approve(await signers[0].getAddress(), constants.MaxUint256)).wait(1);
@@ -384,8 +367,6 @@ task("get-join-smart-pool-parameters")
 
     console.log(`Pool joined tx: ${receipt.transactionHash}`)
 
-
-    const SPBalance = await smartpool.balanceOf[await signers[0].getAddress()];
     const spTotal = await smartpool.totalSupply();
     console.log("spbalance is: ",spTotal.toString());
 });
