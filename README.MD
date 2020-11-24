@@ -39,7 +39,7 @@ yarn coverage
 To test a new implementation in testnet conditions. Set the implementation of a test pool to the new version and run the following script.
 
 ```
-npx buidler deploy-smart-pool-implementation-complete --impl-name PieDAO --network ropsten
+npx buidler deploy-smart-pool-implementation-complete --impl-name DAO --network ropsten
 ```
 
 deploy on localhost
@@ -50,7 +50,7 @@ npx buidler node
 ### Step2: run the deploy scripts on the localhost ndoe
 
 ```
-npx buidler deploy-smart-pool-implementation-complete --impl-name PieDAO --network localhost
+npx buidler deploy-smart-pool-implementation-complete --impl-name DAO --network localhost
 ```
 
 # Test Single File
@@ -151,5 +151,5 @@ function getCap() external view returns(uint256);
 
 | Name         | Symbol | Address                                                                                                                       | Type            |
 |--------------|--------|-------------------------------------------------------------------------------------------------------------------------------|-----------------|
-| PieDAO BTC++ | BTC++  | [0x0327112423f3a68efdf1fcf402f6c5cb9f7c33fd](https://etherscan.io/address/0x0327112423f3a68efdf1fcf402f6c5cb9f7c33fd) | Balancer Capped |
-| PieDAO USD++ | USD++  | [0x9a48bd0ec040ea4f1d3147c025cd4076a2e71e3e](https://etherscan.io/address/0x9a48bd0ec040ea4f1d3147c025cd4076a2e71e3e) | Balancer Capped |
+| BTC++ | BTC++  | [0x0327112423f3a68efdf1fcf402f6c5cb9f7c33fd](https://etherscan.io/address/0x0327112423f3a68efdf1fcf402f6c5cb9f7c33fd) | Balancer Capped |
+| USD++ | USD++  | [0x9a48bd0ec040ea4f1d3147c025cd4076a2e71e3e](https://etherscan.io/address/0x9a48bd0ec040ea4f1d3147c025cd4076a2e71e3e) | Balancer Capped |
