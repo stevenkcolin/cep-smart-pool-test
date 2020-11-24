@@ -273,6 +273,17 @@ task("set-cap", "Sets the cap on a capped pool")
 });
 
 
+task("set-cap-max", "Sets the cap on a capped pool")
+  .addParam("pool")
+  .setAction(async(taskArgs, { ethers }) => {
+    const signers = await ethers.getSigners();
+    const smartpool = Pv2SmartPoolFactory.connect(taskArgs.pool, signers[0]);
+    const tx = await smartpool.setCap(ethers.constants.MaxUint256, {gasLimit: 2000000});
+
+    console.log(`Cap set tx: ${tx.hash}`);
+});
+
+
 task("get-cap", "get the cap on a capped pool")
   .addParam("smartPool")
   .setAction(async(taskArgs, { ethers }) => {
@@ -284,7 +295,100 @@ task("get-cap", "get the cap on a capped pool")
 });
 
 
+task("get-bpool-tokens","getBPool")
+  .addParam("smartPool")
+  .setAction(async(taskArgs, { ethers }) => {
+  const signers = await ethers.getSigners();
+  const smartpool = Pv2SmartPoolFactory.connect(taskArgs.smartPool, signers[0]);
+  
+  const tokens = await IbPoolFactory.connect(await smartpool.getBPool(), signers[0]).getCurrentTokens();
 
+  const bPool = await smartpool.getBPool();
+  console.log("bPool is: ",bPool);
+  console.log("bpool tokens is : ",tokens.toString());
+});
+
+task("set-join-exit-enabled", "Sets join exit enabled")
+  .addParam("pool")
+  .setAction(async(taskArgs, { ethers }) => {
+    const signers = await ethers.getSigners();
+    const smartpool = Pv2SmartPoolFactory.connect(taskArgs.pool, signers[0]);
+    // const tx = await smartpool.setCap(parseEther(taskArgs.cap), {gasLimit: 2000000});
+
+    const tx = await smartpool.setJoinExitEnabled(true);
+
+    console.log(`set join-exit-enabled tx: ${tx.hash}`);
+});
+
+task("set-controller", "Set Controller")
+  .addParam("pool")
+  .addParam("smartpool")
+  .setAction(async(taskArgs, { ethers }) => {
+    const signers = await ethers.getSigners();
+    const smartpool = Pv2SmartPoolFactory.connect(taskArgs.smartpool, signers[0]);
+
+    const pool = IbPoolFactory.connect(taskArgs.pool, signers[0]);
+
+
+    const tx = await pool.setController(smartpool.address);
+
+    console.log(`set controller tx: ${tx.hash}`);
+});
+
+
+task("get-join-smart-pool-parameters")
+  .addParam("pool")
+  .setAction(async(taskArgs, { ethers }) => {
+    const signers = await ethers.getSigners();
+    const smartpool = Pv2SmartPoolFactory.connect(taskArgs.pool, signers[0]);
+
+    const tokens = await IbPoolFactory.connect(await smartpool.getBPool(), signers[0]).getCurrentTokens();
+    console.log("tokens is: ",tokens.toString());
+
+    const bpool = await smartpool.getBPool();
+    console.log("bpool is: ",bpool);
+
+    
+
+    for(const tokenAddress of tokens) {
+      const token = Ierc20Factory.connect(tokenAddress, signers[0]);
+      
+      await (await token.approve(smartpool.address, constants.MaxUint256)).wait(1);
+      await (await token.approve(bpool, constants.MaxUint256)).wait(1);
+      
+
+      const n = await token.allowance(token.address, smartpool.address);
+      console.log("allowance of ",token.address, "      ",smartpool.address, "     is: ",n.toString());
+
+
+      const n2 = await token.allowance(await signers[0].getAddress(), smartpool.address);
+      console.log("allowance of ",await signers[0].getAddress(), "      ",smartpool.address, "     is: ",n2.toString());
+      
+      const n3 = await token.allowance(await signers[0].getAddress(), bpool);
+      console.log("allowance of ",await signers[0].getAddress(), "      ",bpool, "     is: ",n3.toString());
+
+    }
+
+    const spAll = await smartpool.allowance(bpool,await signers[0].getAddress());
+    console.log("allowance of ",bpool, "      ",await signers[0].getAddress(), "     is: ",spAll.toString());
+
+    smartpool.approveTokens();
+  
+
+    await (await smartpool.approve(bpool, constants.MaxUint256)).wait(1);
+    await (await smartpool.approve(await signers[0].getAddress(), constants.MaxUint256)).wait(1);
+    
+  
+    const tx = await smartpool.joinPool(parseEther("1"), {gasLimit: 7000000});
+    const receipt = await tx.wait(1);
+
+    console.log(`Pool joined tx: ${receipt.transactionHash}`)
+
+
+    const SPBalance = await smartpool.balanceOf[await signers[0].getAddress()];
+    const spTotal = await smartpool.totalSupply();
+    console.log("spbalance is: ",spTotal.toString());
+});
 
 
 
@@ -297,17 +401,28 @@ task("join-smart-pool")
 
     // TODO fix this confusing line
     const tokens = await IbPoolFactory.connect(await smartpool.getBPool(), signers[0]).getCurrentTokens();
+    console.log("tokens is: ",tokens.toString());
 
     for(const tokenAddress of tokens) {
       const token = Ierc20Factory.connect(tokenAddress, signers[0]);
       // TODO make below more readable
       console.log("approving tokens");
       await (await token.approve(smartpool.address, constants.MaxUint256)).wait(1);
+      await token.approve(smartpool.address, constants.MaxUint256);
     }
-    const tx = await smartpool.joinPool(parseEther(taskArgs.amount), {gasLimit: 2000000});
+
+
+
+
+
+    const tx = await smartpool.joinPool(parseEther(taskArgs.amount), {gasLimit: 7000000});
     const receipt = await tx.wait(1);
 
+    const spTotal = await smartpool.totalSupply();
+    console.log("spbalance is: ",spTotal.toString());
+
     console.log(`Pool joined tx: ${receipt.transactionHash}`)
+
 });
 
 task("approve-smart-pool")
@@ -317,7 +432,7 @@ task("approve-smart-pool")
     const smartpool = Pv2SmartPoolFactory.connect(taskArgs.pool, signers[0]);
 
     // TODO fix this confusing line
-    const tokens = await IbPoolFactory.connect(await smartpool.bPool(), signers[0]).getCurrentTokens();
+    const tokens = await IbPoolFactory.connect(await smartpool.getBPool(), signers[0]).getCurrentTokens();
 
     for(const tokenAddress of tokens) {
       const token = Ierc20Factory.connect(tokenAddress, signers[0]);
@@ -325,6 +440,31 @@ task("approve-smart-pool")
       const receipt = await (await token.approve(smartpool.address, constants.MaxUint256)).wait(1);
       console.log(`${tokenAddress} approved tx: ${receipt.transactionHash}`);
     }
+
+    const bpool = await smartpool.getBPool();
+    await (await smartpool.approve(bpool, constants.MaxUint256)).wait(1);
+    await (await smartpool.approve(await signers[0].getAddress(), constants.MaxUint256)).wait(1);
+});
+
+task("approve-smart-pool-plus")
+  .addParam("pool")
+  .setAction(async(taskArgs, { ethers }) => {
+    const signers = await ethers.getSigners();
+    const smartpool = Pv2SmartPoolFactory.connect(taskArgs.pool, signers[0]);
+
+    // TODO fix this confusing line
+    const tokens = await IbPoolFactory.connect(await smartpool.getBPool(), signers[0]).getCurrentTokens();
+
+    for(const tokenAddress of tokens) {
+      const token = Ierc20Factory.connect(tokenAddress, signers[0]);
+      // TODO make below more readable
+      const receipt = await (await token.approve(smartpool.address, constants.MaxUint256)).wait(1);
+      console.log(`${tokenAddress} approved tx: ${receipt.transactionHash}`);
+    }
+    const tx = await smartpool.joinPool(parseEther("1"), {gasLimit: 2000000});
+    const receipt = await tx.wait(1);
+
+    console.log(`Pool joined tx: ${receipt.transactionHash}`)
 });
 
 task("deploy-mock-token", "deploys a mock token")
@@ -335,7 +475,7 @@ task("deploy-mock-token", "deploys a mock token")
     const signers = await ethers.getSigners();
     const factory = await new MockTokenFactory(signers[0]);
     const token = await factory.deploy(taskArgs.name, taskArgs.symbol, taskArgs.decimals);
-    await token.mint(await signers[0].getAddress(), constants.WeiPerEther.mul(10000000000000));
+    await token.mint(await signers[0].getAddress(), constants.WeiPerEther.mul(1000000));
     console.log(`Deployed token at: ${token.address}`);
 });
 

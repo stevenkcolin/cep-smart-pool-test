@@ -20,7 +20,7 @@ const {expect} = chai;
 const PLACE_HOLDER_ADDRESS = "0x0000000000000000000000000000000000000001";
 const NAME = "TEST POOL";
 const SYMBOL = "TPL";
-const INITIAL_SUPPLY = constants.WeiPerEther;
+const INITIAL_SUPPLY = constants.WeiPerEther.mul(1);
 // const INITIAL_TOKEN_SUPPLY = constants.WeiPerEther.mul(constants.WeiPerEther.mul(100));
 const INITIAL_TOKEN_SUPPLY = constants.WeiPerEther.mul(100);
 let tokenFactory: MockTokenFactory;
@@ -44,15 +44,23 @@ describe("Basic Pool Functionality", function () {
     pool = IbPoolFactory.connect(await deployBalancerPool(signers[0]), signers[0]);
     tokenFactory = new MockTokenFactory(signers[0]);
     tokens = [];
-    for (let i = 0; i < 7; i++) {
+    for (let i = 0; i < 1; i++) {
       const token: MockToken = await tokenFactory.deploy(`Mock ${i}`, `M${i}`, 18);
 
       // console.log("hahaha token addresss is: ", token.address.toString());
 
       await token.mint(account, INITIAL_TOKEN_SUPPLY);
-      await token.mint(await signers[1].getAddress(), constants.WeiPerEther.mul(100));
+      // await token.mint(await signers[1].getAddress(), constants.WeiPerEther.mul(100));
+
+      const userBalance = await token.balanceOf(account)
+      console.log("Token ",token.address.toString()," balance of account is: ",userBalance.toString());
+
+      const userBalance2 = await token.balanceOf(account2)
+      console.log("Token ",token.address.toString()," balance of account is: ",userBalance2.toString());
+
+
       await token.approve(pool.address, constants.MaxUint256);
-      pool.bind(token.address, constants.WeiPerEther.div(10), constants.WeiPerEther);
+      pool.bind(token.address, constants.WeiPerEther, constants.WeiPerEther.mul(2));
       tokens.push(token);
     }
 
@@ -70,17 +78,31 @@ describe("Basic Pool Functionality", function () {
     await smartpool.approveTokens();
 
     await pool.setController(smartpool.address);
+    console.log("----------------------------------------------------------------------")
+    console.log("----------------------------------------------------------------------")
+    console.log("----------------------------------------------------------------------")
 
     for (const token of tokens) {
       await token.approve(smartpool.address, constants.MaxUint256);
       
-      console.log("token ",(await token.name()).toString()," address is: ",token.address.toString());
+      // console.log("token ",(await token.name()).toString()," address is: ",token.address.toString());
       // Attach alt signer to token and approve pool
       await MockTokenFactory.connect(token.address, signers[1]).approve(
         smartpool.address,
         constants.MaxUint256
       );
+
+      const n = await token.allowance(token.address, smartpool.address);
+      console.log("allowance of ",token.address, "      ",smartpool.address, "     is: ",n.toString());
+
+      const n2 = await token.allowance(account, smartpool.address);
+      console.log("allowance of ",account, "      ",smartpool.address, "     is: ",n2.toString());
+
+      const n3 = await token.allowance(account, pool.address);
+      console.log("allowance of ",account, "      ",pool.address, "     is: ",n3.toString());
     }
+
+    
 
     // Set cap to max to pass tests
     await smartpool.setCap(ethers.constants.MaxUint256);
@@ -90,7 +112,39 @@ describe("Basic Pool Functionality", function () {
     console.log("Before Each case, the initial Pv2SmartPool address is :",smartpool.address);
     console.log("account address is: ",account);
     console.log("account2 address is: ",account2);
+    const balance = await smartpool.balanceOf(account);
+    console.log("SmartPool ",smartpool.address, " balance of ",account," is: ",balance.toString());
+
+    const balance2 = await smartpool.balanceOf(account2);
+    console.log("SmartPool ",smartpool.address, "balance of ",account2," is: ",balance2.toString());
     console.log("----------------------------------------------------------------------")
+
+
+    console.log("at the begining the token balance is: ")
+    for (let entry of tokens) {
+      const userBalance = await entry.balanceOf(account);
+      console.log("token ",entry.address, " account ",account," is ", userBalance.toString());
+
+      const userBalance2 = await entry.balanceOf(account2);
+      console.log("token ",entry.address, " account2 ",account2," is ", userBalance2.toString());
+
+      const userBalance3 = await entry.balanceOf(smartpool.address)
+      console.log("token ",entry.address, " smartpool ",smartpool.address," is ", userBalance3.toString());
+
+      const userBalance4 = await entry.balanceOf(pool.address)
+      console.log("token ",entry.address, " pool ",pool.address," is ", userBalance4.toString());
+      
+    }
+
+    
+    const spAll = await smartpool.allowance(pool.address,account);
+    console.log("smartPool allowance of ",pool.address, "      ",account, "     is: ",spAll.toString());
+
+
+    console.log("----------------------------- Initialized Finished -----------------------------------------")
+
+
+
   });
 
   // beforeEach(async() => {
@@ -435,27 +489,62 @@ describe("Basic Pool Functionality", function () {
 
 
 
-    // it("Adding liquidity should work", async () => {
-    //   const mintAmount = constants.WeiPerEther.mul(8);
-    //   await smartpool.joinPool(mintAmount);
+    it("Adding liquidity should work", async () => {
+      console.log("smartpool.joinPool(2)");
+      const mintAmount = constants.WeiPerEther.mul(2);
+      await smartpool.joinPool(mintAmount);
 
-    //   const balance = await smartpool.balanceOf(account);
-    //   console.log ("balance is: ",balance.toString());
-    //   console.log("mint amount.add is: ", mintAmount.add(INITIAL_SUPPLY).toString());
+      const balance = await smartpool.balanceOf(account);
+      console.log ("SmartPool ", smartpool.address, " balance of account is: ",balance.toString());
 
-    //   expect(balance).to.eq(mintAmount.add(INITIAL_SUPPLY));
+      const balance2 = await smartpool.balanceOf(account2);
+      console.log ("SmartPool ", smartpool.address, "balance of account2 is: ",balance2.toString());
 
-    //   for (let entry of tokens) {
-    //     const userBalance = await entry.balanceOf(account)
-    //     // console.log("token is : ",entry.address);
-    //     console.log("token ",entry.address, " account ",account," is ", userBalance.toString());
-    //     // expect(userBalance).to.eq(INITIAL_TOKEN_SUPPLY.sub(mintAmount));
+      // console.log("mint amount.add is: ", mintAmount.add(INITIAL_SUPPLY).toString());
 
-    //     const userBalance2 = await entry.balanceOf(account2)
-    //     // console.log("token is : ",entry.address);
-    //     console.log("token ",entry.address, " account2 ",account2," is ", userBalance2.toString());
-    //   }
-    // });
+      for (let entry of tokens) {
+        const userBalance = await entry.balanceOf(account);
+        console.log("token ",entry.address, " account ",account," is ", userBalance.toString());
+
+        const userBalance2 = await entry.balanceOf(account2);
+        console.log("token ",entry.address, " account2 ",account2," is ", userBalance2.toString());
+
+        const userBalance3 = await entry.balanceOf(smartpool.address)
+        console.log("token ",entry.address, " smartpool ",smartpool.address," is ", userBalance3.toString());
+        
+        const userBalance4 = await entry.balanceOf(pool.address)
+        console.log("token ",entry.address, " pool ",pool.address," is ", userBalance4.toString());
+      };
+
+      console.log("smartpool.joinPool(2) again");
+      const mintAmount2 = constants.WeiPerEther.mul(2);
+      await smartpool.joinPool(mintAmount2);
+
+      const balance3 = await smartpool.balanceOf(account);
+      console.log ("SmartPool ", smartpool.address, " balance of account is: ",balance3.toString());
+
+      const balance4 = await smartpool.balanceOf(account2);
+      console.log ("SmartPool ", smartpool.address, "balance of account2 is: ",balance4.toString());
+
+      // console.log("mint amount.add is: ", mintAmount.add(INITIAL_SUPPLY).toString());
+
+      for (let entry of tokens) {
+        const userBalance = await entry.balanceOf(account);
+        console.log("token ",entry.address, " account ",account," is ", userBalance.toString());
+
+        const userBalance2 = await entry.balanceOf(account2);
+        console.log("token ",entry.address, " account2 ",account2," is ", userBalance2.toString());
+
+        const userBalance3 = await entry.balanceOf(smartpool.address)
+        console.log("token ",entry.address, " smartpool ",smartpool.address," is ", userBalance3.toString());
+        
+        const userBalance4 = await entry.balanceOf(pool.address)
+        console.log("token ",entry.address, " pool ",pool.address," is ", userBalance4.toString());
+      }
+
+
+
+    });
 
 
     // it("Adding liquidity when a transfer fails should fail", async () => {
