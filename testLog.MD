@@ -20,12 +20,18 @@ npx buidler testAccount --network localhost
 npx buidler testAccount --network ropsten
 ```
 
+### 在localhost部署balancer-factory，并获得相应的balancer factory地址
+
+```
 npx buidler deploy-balancer-factory --network localhost
 factory address: 0x8858eeB3DfffA017D4BCE9801D340D36Cf895CCf
+```
 
-
+### 使用自己开发的test001，在balancer-factory的地址上，部署balancer-pool
+```
 npx buidler test001 --balancer-factory 0x8858eeB3DfffA017D4BCE9801D340D36Cf895CCf --network localhost
 balancerPool: 0x95b12A0c659fF8D3049c9bb3A7B5587C88E08111
+```
 
 
 
