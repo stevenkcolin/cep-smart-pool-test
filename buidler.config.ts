@@ -534,6 +534,21 @@ task("test001", "test001")
     console.log(`Deployed balancer pool at : ${event.address}`);
 });
 
+task("testAccountBalance","testBalance")
+  .addParam("token","token addresss")
+  .setAction(async(taskArgs,{ ethers }) => {
+    const signers = await ethers.getSigners();
+    const account = await signers[0].getAddress();
+    const token = await Ierc20Factory.connect(taskArgs.token, signers[0]);
+
+    const balance = await (await token.balanceOf(account)).toString();
+    console.log("Account: ", account, " balance of token ",token.address, " is ", balance);
+
+    const account2 = await signers[1].getAddress();
+    const balance2 = await (await token.balanceOf(account)).toString();
+    console.log("Account2 : ", account2, " balance of token ",token.address, " is ", balance2);
+  });
+
 
 
 
