@@ -1,5 +1,5 @@
 {
-    "name": "PieDAO Test USD Pool",
+    "name": "Test USD Pool",
     "symbol": "TU",
     "initialValue": "1",
     "initialSupply": "100",

@@ -3,11 +3,22 @@
 测试单一测试文件
 `npx buidler test ./test/poolToken.ts`
 
+跑一些测试脚本
+`npx buidler test001 --network localhost`
+
+或者
+`npx buidler test001 --network ropsten`
+
+### 修改了test001的代码，实现了deploy BalancerPool 的功能
+```
+npx buidler test001 --balancer-factory 0x8858eeB3DfffA017D4BCE9801D340D36Cf895CCf --network localhost
+```
+
 
 # 20.11.13
-# Pie Smart Pools
+# CEP Smart Pools
 
-**Pie Smart Pools** are asset management agnostic(currently Balancer only) **D**ecentralised **T**raded **F**unds. They share a common interface to make them easy to integrate in other products.
+**CEP Smart Pools** are asset management agnostic(currently Balancer only) **D**ecentralised **T**raded **F**unds. They share a common interface to make them easy to integrate in other products.
 
 All Smart Pools are fully upgradeable to make it easy to add features and optimise gas usage at later stages.
 
@@ -39,7 +50,7 @@ yarn coverage
 To test a new implementation in testnet conditions. Set the implementation of a test pool to the new version and run the following script.
 
 ```
-npx buidler deploy-smart-pool-implementation-complete --impl-name PieDAO --network ropsten
+npx buidler deploy-smart-pool-implementation-complete --impl-name DAO --network ropsten
 ```
 
 deploy on localhost
@@ -50,7 +61,7 @@ npx buidler node
 ### Step2: run the deploy scripts on the localhost ndoe
 
 ```
-npx buidler deploy-smart-pool-implementation-complete --impl-name PieDAO --network localhost
+npx buidler deploy-smart-pool-implementation-complete --impl-name DAO --network localhost
 ```
 
 # Test Single File
@@ -151,5 +162,5 @@ function getCap() external view returns(uint256);
 
 | Name         | Symbol | Address                                                                                                                       | Type            |
 |--------------|--------|-------------------------------------------------------------------------------------------------------------------------------|-----------------|
-| PieDAO BTC++ | BTC++  | [0x0327112423f3a68efdf1fcf402f6c5cb9f7c33fd](https://etherscan.io/address/0x0327112423f3a68efdf1fcf402f6c5cb9f7c33fd) | Balancer Capped |
-| PieDAO USD++ | USD++  | [0x9a48bd0ec040ea4f1d3147c025cd4076a2e71e3e](https://etherscan.io/address/0x9a48bd0ec040ea4f1d3147c025cd4076a2e71e3e) | Balancer Capped |
+| BTC++ | BTC++  | [0x0327112423f3a68efdf1fcf402f6c5cb9f7c33fd](https://etherscan.io/address/0x0327112423f3a68efdf1fcf402f6c5cb9f7c33fd) | Balancer Capped |
+| USD++ | USD++  | [0x9a48bd0ec040ea4f1d3147c025cd4076a2e71e3e](https://etherscan.io/address/0x9a48bd0ec040ea4f1d3147c025cd4076a2e71e3e) | Balancer Capped |

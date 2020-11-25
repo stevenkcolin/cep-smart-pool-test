@@ -38,6 +38,7 @@ const MAINNET_PRIVATE_KEY_SECONDARY = process.env.MAINNET_PRIVATE_KEY_SECONDARY 
 const ETHERSCAN_API_KEY = process.env.ETHERSCAN_API_KEY || "";
 const INFURA_PROJECT_ID = process.env.INFURA_PROJECT_ID || "";
 const ROPSTEN_PRIVATE_KEY = process.env.ROPSTEN_PRIVATE_KEY || "";
+const ROPSTEN_PRIVATE_KEY_SECONDARY = process.env.ROPSTEN_PRIVATE_KEY_SECONDARY || "";
 
 const PLACE_HOLDER_ADDRESS = "0x1000000000000000000000000000000000000001";
 
@@ -85,7 +86,11 @@ const config: ExtendedBuidlerConfig = {
       blockGasLimit: 7612388,
       gas: 7612388,
       gasPrice: 20000000000,
-      accounts: [`0x${ROPSTEN_PRIVATE_KEY}`]
+      // accounts: [`0x${ROPSTEN_PRIVATE_KEY}`]
+      accounts: [
+        ROPSTEN_PRIVATE_KEY,
+        ROPSTEN_PRIVATE_KEY_SECONDARY
+      ].filter((item) => item !== "")
     },
     rinkeby: {
       url: `https://rinkeby.infura.io/v3/${INFURA_API_KEY}`,
@@ -119,7 +124,7 @@ task(TASK_COMPILE_GET_COMPILER_INPUT).setAction(async (_, __, runSuper) => {
   return input;
 });
 
-task("deploy-pie-smart-pool-factory", "deploys a pie smart pool factory")
+task("deploy-cep-smart-pool-factory", "deploys a cep smart pool factory")
   .addParam("balancerFactory", "Address of the balancer factory")
   .setAction(async(taskArgs, { ethers, run }) => {
     const signers = await ethers.getSigners();
@@ -133,7 +138,7 @@ task("deploy-pie-smart-pool-factory", "deploys a pie smart pool factory")
     return factory.address;
 });
 
-task("deploy-pool-from-factory", "deploys a pie smart pool from the factory")
+task("deploy-pool-from-factory", "deploys a cep smart pool from the factory")
   .addParam("factory")
   .addParam("allocation", "path to allocation configuration")
   .setAction(async(taskArgs, { ethers }) => {
@@ -178,7 +183,7 @@ task("deploy-pool-from-factory", "deploys a pie smart pool from the factory")
     return event.address;
 });
 
-task("deploy-pie-smart-pool", "deploys a pie smart pool")
+task("deploy-cep-smart-pool", "deploys a cep smart pool")
   .setAction(async(taskArgs, { ethers, run }) => {
     const signers = await ethers.getSigners();
 
@@ -218,7 +223,7 @@ task("deploy-smart-pool-implementation-complete")
     const signers = await ethers.getSigners();
 
     // Deploy capped pool
-    const implementation = await run("deploy-pie-smart-pool");
+    const implementation = await run("deploy-cep-smart-pool");
 
     console.log(`Implementation deployed at: ${implementation.address}`);
     // Init capped smart pool
@@ -252,7 +257,7 @@ task("deploy-smart-pool-complete")
   .addParam("allocation", "path to allocation")
   .setAction(async(taskArgs, { ethers, run }) => {
     // run deploy factory task
-    const smartPoolFactoryAddress = await run("deploy-pie-smart-pool-factory", {balancerFactory: taskArgs.balancerFactory});
+    const smartPoolFactoryAddress = await run("deploy-cep-smart-pool-factory", {balancerFactory: taskArgs.balancerFactory});
 
     // run deploy pool from factory task
     await run("deploy-pool-from-factory", { factory: smartPoolFactoryAddress, allocation: taskArgs.allocation });
@@ -350,42 +355,23 @@ task("get-join-smart-pool-parameters")
 
     
 
-    for(const tokenAddress of tokens) {
-      const token = Ierc20Factory.connect(tokenAddress, signers[0]);
-      
-      await (await token.approve(smartpool.address, constants.MaxUint256)).wait(1);
-      await (await token.approve(bpool, constants.MaxUint256)).wait(1);
-      
+    // for(const tokenAddress of tokens) {
+    //   const token = Ierc20Factory.connect(tokenAddress, signers[0]);
+    //   await (await token.approve(smartpool.address, constants.MaxUint256)).wait(1);
+    //   await (await token.approve(bpool, constants.MaxUint256)).wait(1);
+    // }
 
-      const n = await token.allowance(token.address, smartpool.address);
-      console.log("allowance of ",token.address, "      ",smartpool.address, "     is: ",n.toString());
-
-
-      const n2 = await token.allowance(await signers[0].getAddress(), smartpool.address);
-      console.log("allowance of ",await signers[0].getAddress(), "      ",smartpool.address, "     is: ",n2.toString());
-      
-      const n3 = await token.allowance(await signers[0].getAddress(), bpool);
-      console.log("allowance of ",await signers[0].getAddress(), "      ",bpool, "     is: ",n3.toString());
-
-    }
-
-    const spAll = await smartpool.allowance(bpool,await signers[0].getAddress());
-    console.log("allowance of ",bpool, "      ",await signers[0].getAddress(), "     is: ",spAll.toString());
-
-    smartpool.approveTokens();
-  
+    await smartpool.approveTokens();
 
     await (await smartpool.approve(bpool, constants.MaxUint256)).wait(1);
-    await (await smartpool.approve(await signers[0].getAddress(), constants.MaxUint256)).wait(1);
+    await (await smartpool.approve(await signers[0].getAddress(), constants.MaxUint256)).wait(0);
     
   
     const tx = await smartpool.joinPool(parseEther("1"), {gasLimit: 7000000});
-    const receipt = await tx.wait(1);
+    const receipt = await tx.wait(0);
 
     console.log(`Pool joined tx: ${receipt.transactionHash}`)
 
-
-    const SPBalance = await smartpool.balanceOf[await signers[0].getAddress()];
     const spTotal = await smartpool.totalSupply();
     console.log("spbalance is: ",spTotal.toString());
 });
@@ -479,6 +465,25 @@ task("deploy-mock-token", "deploys a mock token")
     console.log(`Deployed token at: ${token.address}`);
 });
 
+task ("test002","deploys a test token")
+  .addParam("name", "Name of the token")
+  .addParam("symbol", "Symbol of the token")
+  .addParam("decimals", "Amount of decimals", "18")
+  .setAction(async(taskArgs, { ethers }) => {
+    const signers = await ethers.getSigners();
+    const factory = await new MockTokenFactory(signers[0]);
+    const token = await factory.deploy(taskArgs.name,taskArgs.symbol, taskArgs.decimals);
+
+    await token.mint(await signers[0].getAddress(), constants.WeiPerEther.mul(100000));
+    await token.mint(await signers[1].getAddress(), constants.WeiPerEther.mul(50000));
+
+    console.log(`Deployed token at: ${token.address}`);
+
+    console.log("test for deploys a test token")
+});
+
+
+
 task("deploy-balancer-factory", "deploys a balancer factory")
   .setAction(async(taskArgs, { ethers }) => {
     const signers = await ethers.getSigners();
@@ -497,6 +502,69 @@ task("deploy-balancer-pool", "deploys a balancer pool from a factory")
     const event = receipt.events.pop();
     console.log(`Deployed balancer pool at : ${event.address}`);
 });
+
+task("testAccount", "log Account")
+  .setAction(async(taskArgs, { ethers }) => {
+    const signers = await ethers.getSigners();
+
+    const account = await signers[0].getAddress();
+    console.log(`account is : `,account.toString());
+
+    const account2 = await signers[1].getAddress();
+    console.log(`account2 is : `,account2.toString());
+
+
+});
+
+task("test001", "test001")
+  .addParam("balancerFactory", "address of balancer pool address")
+  .setAction(async(taskArgs, { ethers }) => {
+    const signers = await ethers.getSigners();
+
+    const account = await signers[0].getAddress();
+    console.log(`account is : `,account.toString());
+
+    const account2 = await signers[1].getAddress();
+    console.log(`account2 is : `,account2.toString());
+
+    const factory = await IbFactoryFactory.connect(taskArgs.balancerFactory,signers[0]);
+    const tx = await factory.newBPool();
+    const receipt = await tx.wait(0);
+    const event = receipt.events.pop();
+    console.log(`Deployed balancer pool at : ${event.address}`);
+});
+
+task("testAccountBalance","testBalance")
+  .addParam("token","token addresss")
+  .setAction(async(taskArgs,{ ethers }) => {
+    const signers = await ethers.getSigners();
+    const account = await signers[0].getAddress();
+    const token = await Ierc20Factory.connect(taskArgs.token, signers[0]);
+
+    const balance = await (await token.balanceOf(account)).toString();
+    console.log("Account: ", account, " balance of token ",token.address, " is ", balance);
+
+    const account2 = await signers[1].getAddress();
+    const balance2 = await (await token.balanceOf(account2)).toString();
+    console.log("Account2 : ", account2, " balance of token ",token.address, " is ", balance2);
+  });
+
+task("testBPBalance","testBalance")
+  .addParam("token","token addresss")
+  .addParam("balancerPool","balancer Pool Address")
+  .setAction(async(taskArgs,{ ethers }) => {
+    const signers = await ethers.getSigners();
+    const bpaccount = taskArgs.balancerPool;
+    const token = await Ierc20Factory.connect(taskArgs.token, signers[0]);
+
+    const balance = await (await token.balanceOf(bpaccount)).toString();
+    console.log("bpaccount: ", bpaccount, " balance of token ",token.address, " is ", balance);
+  });
+
+
+
+
+
 
 task("balancer-bind-token", "binds a token to a balancer pool")
   .addParam("pool", "the address of the Balancer pool")

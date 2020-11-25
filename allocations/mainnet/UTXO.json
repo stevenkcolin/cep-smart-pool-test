@@ -1,5 +1,5 @@
 {   
-    "name": "PieDAO UTXO",
+    "name": "UTXO",
     "symbol": "UTXO",
     "initialValue": "1",
     "initialSupply": "1",

@@ -22,7 +22,7 @@
     "type": "git",
     "url": "git+https://github.com/pie-dao/proxied-balancer-factory.git"
   },
-  "author": "Pie DAO",
+  "author": "CEProject",
   "license": "GPL-3.0-only",
   "bugs": {
     "url": "https://github.com/pie-dao/proxied-balancer-factory/issues"
