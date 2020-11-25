@@ -55,11 +55,12 @@
     "test": "test"
   },
   "dependencies": {
-    "@nomiclabs/buidler-etherscan": "^2.1.0",
     "@nomiclabs/buidler": "^1.4.7",
+    "@nomiclabs/buidler-etherscan": "^2.1.0",
     "@pie-dao/mock-contracts": "0.0.9",
     "@pie-dao/proxy": "0.0.6",
     "dotenv": "^8.2.0",
+    "hardhat": "^2.0.3",
     "keccak": "^3.0.1",
     "yarn": "^1.22.10"
   }
