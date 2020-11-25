@@ -364,11 +364,11 @@ task("get-join-smart-pool-parameters")
     await smartpool.approveTokens();
 
     await (await smartpool.approve(bpool, constants.MaxUint256)).wait(1);
-    await (await smartpool.approve(await signers[0].getAddress(), constants.MaxUint256)).wait(1);
+    await (await smartpool.approve(await signers[0].getAddress(), constants.MaxUint256)).wait(0);
     
   
     const tx = await smartpool.joinPool(parseEther("1"), {gasLimit: 7000000});
-    const receipt = await tx.wait(1);
+    const receipt = await tx.wait(0);
 
     console.log(`Pool joined tx: ${receipt.transactionHash}`)
 
