@@ -465,6 +465,25 @@ task("deploy-mock-token", "deploys a mock token")
     console.log(`Deployed token at: ${token.address}`);
 });
 
+task ("test002","deploys a test token")
+  .addParam("name", "Name of the token")
+  .addParam("symbol", "Symbol of the token")
+  .addParam("decimals", "Amount of decimals", "18")
+  .setAction(async(taskArgs, { ethers }) => {
+    const signers = await ethers.getSigners();
+    const factory = await new MockTokenFactory(signers[0]);
+    const token = await factory.deploy(taskArgs.name,taskArgs.symbol, taskArgs.decimals);
+
+    await token.mint(await signers[0].getAddress(), constants.WeiPerEther.mul(100000));
+    await token.mint(await signers[1].getAddress(), constants.WeiPerEther.mul(50000));
+
+    console.log(`Deployed token at: ${token.address}`);
+
+    console.log("test for deploys a test token")
+});
+
+
+
 task("deploy-balancer-factory", "deploys a balancer factory")
   .setAction(async(taskArgs, { ethers }) => {
     const signers = await ethers.getSigners();
@@ -482,6 +501,19 @@ task("deploy-balancer-pool", "deploys a balancer pool from a factory")
     const receipt = await tx.wait(2); // wait for 2 confirmations
     const event = receipt.events.pop();
     console.log(`Deployed balancer pool at : ${event.address}`);
+});
+
+task("testAccount", "log Account")
+  .setAction(async(taskArgs, { ethers }) => {
+    const signers = await ethers.getSigners();
+
+    const account = await signers[0].getAddress();
+    console.log(`account is : `,account.toString());
+
+    const account2 = await signers[1].getAddress();
+    console.log(`account2 is : `,account2.toString());
+
+
 });
 
 task("test001", "test001")
