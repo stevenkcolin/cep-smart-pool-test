@@ -38,6 +38,7 @@ const MAINNET_PRIVATE_KEY_SECONDARY = process.env.MAINNET_PRIVATE_KEY_SECONDARY 
 const ETHERSCAN_API_KEY = process.env.ETHERSCAN_API_KEY || "";
 const INFURA_PROJECT_ID = process.env.INFURA_PROJECT_ID || "";
 const ROPSTEN_PRIVATE_KEY = process.env.ROPSTEN_PRIVATE_KEY || "";
+const ROPSTEN_PRIVATE_KEY_SECONDARY = process.env.ROPSTEN_PRIVATE_KEY_SECONDARY || "";
 
 const PLACE_HOLDER_ADDRESS = "0x1000000000000000000000000000000000000001";
 
@@ -85,7 +86,11 @@ const config: ExtendedBuidlerConfig = {
       blockGasLimit: 7612388,
       gas: 7612388,
       gasPrice: 20000000000,
-      accounts: [`0x${ROPSTEN_PRIVATE_KEY}`]
+      // accounts: [`0x${ROPSTEN_PRIVATE_KEY}`]
+      accounts: [
+        ROPSTEN_PRIVATE_KEY,
+        ROPSTEN_PRIVATE_KEY_SECONDARY
+      ].filter((item) => item !== "")
     },
     rinkeby: {
       url: `https://rinkeby.infura.io/v3/${INFURA_API_KEY}`,
@@ -480,6 +485,7 @@ task("deploy-balancer-pool", "deploys a balancer pool from a factory")
 });
 
 task("test001", "test001")
+  .addParam("balancerFactory", "address of balancer pool address")
   .setAction(async(taskArgs, { ethers }) => {
     const signers = await ethers.getSigners();
 
@@ -488,6 +494,12 @@ task("test001", "test001")
 
     const account2 = await signers[1].getAddress();
     console.log(`account2 is : `,account2.toString());
+
+    const factory = await IbFactoryFactory.connect(taskArgs.balancerFactory,signers[0]);
+    const tx = await factory.newBPool();
+    const receipt = await tx.wait(0);
+    const event = receipt.events.pop();
+    console.log(`Deployed balancer pool at : ${event.address}`);
 });
 
 

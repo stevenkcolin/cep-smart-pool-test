@@ -9,6 +9,11 @@
 或者
 `npx buidler test001 --network ropsten`
 
+### 修改了test001的代码，实现了deploy BalancerPool 的功能
+```
+npx buidler test001 --balancer-factory 0x8858eeB3DfffA017D4BCE9801D340D36Cf895CCf --network localhost
+```
+
 
 # 20.11.13
 # CEP Smart Pools
