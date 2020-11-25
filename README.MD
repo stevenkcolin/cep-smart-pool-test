@@ -30,6 +30,11 @@ Clone this repo. And copy the contents of ``env.example`` to a new file called `
 
 Install all dependencies: 
 ```
+npm i hardhat
+```
+
+
+```
 yarn
 ```
 Build the project:
