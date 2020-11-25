@@ -24,10 +24,15 @@ balancerPool: 0x95b12A0c659fF8D3049c9bb3A7B5587C88E08111
 
 STEP 2 Deploy token and bind token to balancer-pool
 
-
+```
 npx buidler test002 --network localhost --name test02 --symbol test02 --decimals 18
-//在ropsten测试，给test002也加上相应的内容
+```
+
+##### 在ropsten测试，给test002也加上相应的内容
+
+```
 npx buidler test002 --network ropsten --name test02 --symbol test02 --decimals 18
+```
 
 npx buidler deploy-mock-token --name MOC112404 --symbol MOC112404 --decimals 18 --network localhost
 MOC112404 address: 0xdeDa5f86FD98cC2d68054a6CEA86840456C08d38
