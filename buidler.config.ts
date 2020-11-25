@@ -545,9 +545,23 @@ task("testAccountBalance","testBalance")
     console.log("Account: ", account, " balance of token ",token.address, " is ", balance);
 
     const account2 = await signers[1].getAddress();
-    const balance2 = await (await token.balanceOf(account)).toString();
+    const balance2 = await (await token.balanceOf(account2)).toString();
     console.log("Account2 : ", account2, " balance of token ",token.address, " is ", balance2);
   });
+
+task("testBPBalance","testBalance")
+  .addParam("token","token addresss")
+  .addParam("balancerPool","balancer Pool Address")
+  .setAction(async(taskArgs,{ ethers }) => {
+    const signers = await ethers.getSigners();
+    const bpaccount = taskArgs.balancerPool;
+    const token = await Ierc20Factory.connect(taskArgs.token, signers[0]);
+
+    const balance = await (await token.balanceOf(bpaccount)).toString();
+    console.log("bpaccount: ", bpaccount, " balance of token ",token.address, " is ", balance);
+  });
+
+
 
 
 
