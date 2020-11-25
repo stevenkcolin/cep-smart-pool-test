@@ -3,6 +3,12 @@
 测试单一测试文件
 `npx buidler test ./test/poolToken.ts`
 
+跑一些测试脚本
+`npx buidler test001 --network localhost`
+
+或者
+`npx buidler test001 --network ropsten`
+
 
 # 20.11.13
 # CEP Smart Pools

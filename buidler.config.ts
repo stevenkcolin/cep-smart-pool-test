@@ -479,6 +479,20 @@ task("deploy-balancer-pool", "deploys a balancer pool from a factory")
     console.log(`Deployed balancer pool at : ${event.address}`);
 });
 
+task("test001", "test001")
+  .setAction(async(taskArgs, { ethers }) => {
+    const signers = await ethers.getSigners();
+
+    const account = await signers[0].getAddress();
+    console.log(`account is : `,account.toString());
+
+    const account2 = await signers[1].getAddress();
+    console.log(`account2 is : `,account2.toString());
+});
+
+
+
+
 task("balancer-bind-token", "binds a token to a balancer pool")
   .addParam("pool", "the address of the Balancer pool")
   .addParam("token", "address of the token to bind")
